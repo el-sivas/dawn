@@ -1,4 +1,4 @@
-package de.elsivas.odd.webapp;
+package de.elsivas.webapp.moreodd;
 
 import java.io.Serializable;
 

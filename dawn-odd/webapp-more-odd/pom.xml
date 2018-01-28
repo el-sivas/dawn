@@ -6,9 +6,9 @@
 		<artifactId>dawn-odd</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-
-	<artifactId>webapp-odd</artifactId>
+	<artifactId>webapp-more-odd</artifactId>
 	<packaging>war</packaging>
+
 
 	<dependencies>
 		<dependency>
@@ -46,4 +46,7 @@
 			<artifactId>dawn-central-basic</artifactId>
 		</dependency>
 	</dependencies>
+
+
+
 </project>

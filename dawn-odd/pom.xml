@@ -24,6 +24,7 @@
 		<module>dawn-odd-view</module>
 		<module>dawn-odd-standalone</module>
 		<module>webapp-odd</module>
+		<module>webapp-more-odd</module>
 	</modules>
 	<build>
 		<plugins>
