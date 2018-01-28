@@ -22,6 +22,7 @@
 		<module>dawn-odd-logic</module>
 		<module>dawn-odd-model</module>
 		<module>dawn-odd-view</module>
+		<module>dawn-odd-standalone</module>
 	</modules>
 	<build>
 		<plugins>
