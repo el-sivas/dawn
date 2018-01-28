@@ -4,4 +4,10 @@
   <artifactId>dawn-odd</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
+  <modules>
+  	<module>dawn-odd-data</module>
+  	<module>dawn-odd-logic</module>
+  	<module>dawn-odd-model</module>
+  	<module>dawn-odd-view</module>
+  </modules>
 </project>
