@@ -1,5 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<parent>
+		<groupId>de.elsivas.root</groupId>
+		<artifactId>dawn-root</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.elsivas.central</groupId>
 	<artifactId>dawn-central</artifactId>
@@ -7,75 +14,15 @@
 	<packaging>pom</packaging>
 	<description>central fuctions</description>
 
-	<properties>
-		<apache.commons.version>3.7</apache.commons.version>
-		<eclipse.link.version>2.6.5</eclipse.link.version>
-		<spring.version>5.0.3.RELEASE</spring.version>
-		<mysql.version>6.0.6</mysql.version>
-		<log4j.version>2.10.0</log4j.version>
-	</properties>
-	
 	<modules>
 		<module>dawn-central-logic</module>
 		<module>dawn-central-odd</module>
 		<module>dawn-central-persist</module>
 		<module>dawn-central-model</module>
 		<module>dawn-central-basic</module>
-
 		<module>dawn-central-data</module>
 	</modules>
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.apache.logging.log4j</groupId>
-				<artifactId>log4j-api</artifactId>
-				<version>${log4j.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.logging.log4j</groupId>
-				<artifactId>log4j-core</artifactId>
-				<version>${log4j.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.logging.log4j</groupId>
-				<artifactId>log4j-core</artifactId>
-				<version>${log4j.version}</version>
-			</dependency>
 
-			<dependency>
-				<groupId>mysql</groupId>
-				<artifactId>mysql-connector-java</artifactId>
-				<version>${mysql.version}</version>
-				<scope>runtime</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-context</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-jdbc</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-lang3</artifactId>
-				<version>${apache.commons.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.eclipse.persistence</groupId>
-				<artifactId>eclipselink</artifactId>
-				<version>${eclipse.link.version}</version>
-				<scope>compile</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-	
 	<build>
 		<plugins>
 			<plugin>
@@ -89,5 +36,6 @@
 			</plugin>
 		</plugins>
 	</build>
+
 
 </project>

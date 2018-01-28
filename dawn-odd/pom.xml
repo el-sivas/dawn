@@ -1,10 +1,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<parent>
+		<groupId>de.elsivas.central</groupId>
+		<artifactId>dawn-central</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.elsivas.odd</groupId>
 	<artifactId>dawn-odd</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
+
+	<properties>
+		<dawn.central.version>0.0.1-SNAPSHOT</dawn.central.version>
+	</properties>
+
 	<modules>
 		<module>dawn-odd-data</module>
 		<module>dawn-odd-logic</module>
@@ -24,4 +36,18 @@
 			</plugin>
 		</plugins>
 	</build>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>de.elsivas.central</groupId>
+				<artifactId>dawn-central-basic</artifactId>
+				<version>${dawn.central.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>de.elsivas.central</groupId>
+				<artifactId>dawn-central-logic</artifactId>
+				<version>${dawn.central.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 </project>

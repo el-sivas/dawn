@@ -1,4 +1,4 @@
-package de.elsivas.odd.calendar.sun;
+package de.elsivas.odd.logic.calendar.sun;
 
 import java.time.LocalDate;
 

@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import org.junit.Assert;
 import org.junit.Test;
 
-import de.elsivas.odd.calendar.balanced.BalancedMonth;
+import de.elsivas.odd.logic.calendar.balanced.BalancedMonth;
 
 public class BalancedMonthTest extends Assert {
 	

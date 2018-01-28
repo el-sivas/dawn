@@ -1,4 +1,4 @@
-package de.elsivas.odd.calendar.balanced;
+package de.elsivas.odd.logic.calendar.balanced;
 
 public enum BalancedMonth {
 	

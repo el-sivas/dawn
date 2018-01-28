@@ -5,8 +5,8 @@ import java.util.logging.Logger;
 import org.junit.Assert;
 import org.junit.Test;
 
-import de.elsivas.odd.calendar.sun.SunDate;
-import de.elsivas.odd.calendar.sun.SunDateUtils;
+import de.elsivas.odd.logic.calendar.sun.SunDate;
+import de.elsivas.odd.logic.calendar.sun.SunDateUtils;
 
 public class SunDateTest extends Assert {
 
