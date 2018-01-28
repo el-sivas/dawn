@@ -16,8 +16,6 @@
 
 	<modules>
 		<module>dawn-central-logic</module>
-		<module>dawn-central-odd</module>
-		<module>dawn-central-persist</module>
 		<module>dawn-central-model</module>
 		<module>dawn-central-basic</module>
 		<module>dawn-central-data</module>
