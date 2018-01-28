@@ -23,6 +23,7 @@
 		<module>dawn-odd-model</module>
 		<module>dawn-odd-view</module>
 		<module>dawn-odd-standalone</module>
+		<module>webapp-odd</module>
 	</modules>
 	<build>
 		<plugins>
