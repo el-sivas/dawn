@@ -1,6 +1,6 @@
-package de.elsivas.persist.common.info;
+package de.elsivas.data.info;
 
-import de.elsivas.persist.EntityBean;
+import de.elsivas.data.EntityBean;
 
 public class InfoBean extends EntityBean{
 

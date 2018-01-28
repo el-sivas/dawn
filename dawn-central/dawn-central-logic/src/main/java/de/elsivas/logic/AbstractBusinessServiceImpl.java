@@ -1,8 +1,8 @@
 package de.elsivas.logic;
 
+import de.elsivas.data.Dao;
+import de.elsivas.data.EntityBean;
 import de.elsivas.model.BusinessBean;
-import de.elsivas.persist.Dao;
-import de.elsivas.persist.EntityBean;
 
 public abstract class AbstractBusinessServiceImpl<B extends BusinessBean, E extends EntityBean> {
 

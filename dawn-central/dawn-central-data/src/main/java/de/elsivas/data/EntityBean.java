@@ -1,4 +1,4 @@
-package de.elsivas.persist;
+package de.elsivas.data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.builder.ReflectionDiffBuilder;
 
 /**
  * Persistable Bean

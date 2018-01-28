@@ -1,4 +1,4 @@
-package de.elsivas.odd.info;
+package de.elsivas.data.test;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,10 +8,10 @@ import org.springframework.beans.factory.BeanFactory;
 
 import de.elsivas.basic.ioc.DawnContextInitializer;
 import de.elsivas.basic.ioc.DawnContextProperties;
-import de.elsivas.persist.common.info.InfoBean;
-import de.elsivas.persist.common.info.InfoDaoImpl;
+import de.elsivas.data.info.InfoBean;
+import de.elsivas.data.info.InfoDaoImpl;
 
-public class SimpleInfoHandler {
+public class SimpleInfoTestHandler {
 
 	public static void main(String[] args) {
 

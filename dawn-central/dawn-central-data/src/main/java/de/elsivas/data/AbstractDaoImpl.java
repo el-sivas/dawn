@@ -1,4 +1,4 @@
-package de.elsivas.persist;
+package de.elsivas.data;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

@@ -1,7 +1,7 @@
 package de.elsivas.logic;
 
+import de.elsivas.data.EntityBean;
 import de.elsivas.model.BusinessBean;
-import de.elsivas.persist.EntityBean;
 
 public abstract class AbstractLogicBean<E extends EntityBean> implements BusinessBean {
 	

@@ -10,7 +10,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>de.elsivas.central</groupId>
-			<artifactId>dawn-central-persist</artifactId>
+			<artifactId>dawn-central-data</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

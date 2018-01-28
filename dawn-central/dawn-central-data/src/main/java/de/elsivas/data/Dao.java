@@ -1,4 +1,4 @@
-package de.elsivas.persist;
+package de.elsivas.data;
 
 public interface Dao<E extends EntityBean> {
 

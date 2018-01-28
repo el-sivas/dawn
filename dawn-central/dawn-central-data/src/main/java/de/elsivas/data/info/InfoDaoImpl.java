@@ -1,9 +1,9 @@
-package de.elsivas.persist.common.info;
+package de.elsivas.data.info;
 
 import org.springframework.stereotype.Repository;
 
-import de.elsivas.persist.AbstractDaoImpl;
-import de.elsivas.persist.Dao;
+import de.elsivas.data.AbstractDaoImpl;
+import de.elsivas.data.Dao;
 
 @Repository
 public class InfoDaoImpl extends AbstractDaoImpl<InfoBean> implements Dao<InfoBean> {
