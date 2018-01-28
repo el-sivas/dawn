@@ -1,4 +1,4 @@
-See "Raw"
+Please see "Raw" :)
 
 # dawn
 main repo
@@ -31,4 +31,4 @@ primary-data  < secondary-data  < tertiary-data   < ...
 
 -Specials-
 dawn-root:            manages all external dependencies
-dawn-central-basic:   
+dawn-central-basic:   basic logic to use on all layers and modules
