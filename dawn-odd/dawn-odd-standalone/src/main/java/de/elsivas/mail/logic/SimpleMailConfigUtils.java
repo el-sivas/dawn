@@ -15,7 +15,7 @@ public class SimpleMailConfigUtils {
 	public static void init(String filename) {
 		final SimpleMailConfig config = new SimpleMailConfig();
 		config.setConfigFile(filename);
-		setDefaults(config);
+		config.addReciepient(REPLACE_ME);
 
 		config.setImapHost(REPLACE_ME);
 		config.setUser(REPLACE_ME);
@@ -23,11 +23,6 @@ public class SimpleMailConfigUtils {
 		config.setSmtpHost(REPLACE_ME);
 
 		SimpleMailConfigDaoUtils.save(config);
-	}
-
-	public static void setDefaults(SimpleMailConfig config) {
-		config.addReciepient("mail@sebastianlipp.de");
-		config.addReciepient("wehrfuehrer-oberweidbach@bischoffen.de");
 	}
 
 	public static void print(SimpleMailConfig config) {

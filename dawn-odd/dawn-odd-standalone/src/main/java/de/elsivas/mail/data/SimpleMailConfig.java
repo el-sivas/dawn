@@ -25,6 +25,8 @@ public class SimpleMailConfig {
 
 	private String password;
 	
+	private String primarylistMailAddress;
+	
 	public Collection<String> getAllReciepients() {
 		return getReciepients();
 	}
@@ -96,5 +98,13 @@ public class SimpleMailConfig {
 	public String toString() {
 		return "SimpleMailConfig [reciepients=" + reciepients + ", configFile=" + configFile + ", smtpHost=" + smtpHost
 				+ ", imapHost=" + imapHost + ", user=" + user + "]";
+	}
+
+	public String getPrimarylistMailAddress() {
+		return primarylistMailAddress;
+	}
+
+	public void setPrimarylistMailAddress(String primarylistMailAddress) {
+		this.primarylistMailAddress = primarylistMailAddress;
 	}
 }

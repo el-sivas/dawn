@@ -151,16 +151,17 @@ public class SMForwardUtils {
 
 	}
 
-	public static Collection<Message> extractSelfSendedMessages(Collection<Message> messages) throws SMLogicException {
+	public static Collection<Message> extractSelfSendedMessages(Collection<Message> messages,
+			String primarylistMailAddress) throws SMLogicException {
 		try {
-			return extractSelfSendedMessagesInternal(messages);
+			return extractSelfSendedMessagesInternal(messages, primarylistMailAddress);
 		} catch (MessagingException e) {
 			throw new SMLogicException(e);
 		}
 	}
 
-	private static Collection<Message> extractSelfSendedMessagesInternal(Collection<Message> messages)
-			throws MessagingException {
+	private static Collection<Message> extractSelfSendedMessagesInternal(Collection<Message> messages,
+			String primarylistMailAddress) throws MessagingException {
 		final Collection<Message> selfSendedMessages = new ArrayList<>();
 		for (Message message : messages) {
 
@@ -171,7 +172,7 @@ public class SMForwardUtils {
 					.collect(Collectors.toList());
 
 			if (recipientsTO.size() == 1 && recipientsTO.contains(SECONDARY_LIST_ADDRESS)) {
-				if (replysTo.size() == 1 && replysTo.contains(PRIMARY_LIST_ADDRESS)) {
+				if (replysTo.size() == 1 && replysTo.contains(primarylistMailAddress)) {
 					if (message.getSubject().startsWith(FFO_PREFIX)) {
 						selfSendedMessages.add(message);
 					}

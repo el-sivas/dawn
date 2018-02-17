@@ -56,6 +56,7 @@ public class SimpleMailForwarder {
 			LOG.error("an error has occured", e);
 			System.exit(1);
 		}
+		SimpleMailConfigDaoUtils.save(config);
 		LOG.info("all done. finish. took (ms): " + (System.currentTimeMillis() - start));
 	}
 
@@ -97,7 +98,8 @@ public class SimpleMailForwarder {
 		final Collection<Message> ctrlMessages = messages.stream().filter(e -> CTRL_SUBJECTS.contains(subject(e)))
 				.collect(Collectors.toList());
 
-		final Collection<Message> selfSendedMails = SMForwardUtils.extractSelfSendedMessages(messages);
+		final Collection<Message> selfSendedMails = SMForwardUtils.extractSelfSendedMessages(messages,
+				config.getPrimarylistMailAddress());
 
 		final Collection<Message> forwardMessages = new ArrayList<>(messages);
 		forwardMessages.removeAll(ctrlMessages);
