@@ -2,7 +2,6 @@ package de.elsivas.odd.standalone.taskmanager;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -59,7 +58,7 @@ public class TaskManager {
 
 		final TMTask rootTask = loadOrInit(filename);
 		reset(rootTask);
-		
+
 		LOG.info("Minutes: " + minutes);
 
 		addBuffers(rootTask);
@@ -71,8 +70,7 @@ public class TaskManager {
 		while (LocalDateTime.now().isBefore(end)) {
 			executeTask(rootTask, config, level);
 		}
-		LOG.info("Value Root: " + value(rootTask));
-
+		showDialog("Punkte: " + value(rootTask));
 		dao.save(rootTask, filename);
 
 	}
@@ -116,23 +114,23 @@ public class TaskManager {
 			if (!haveToCheck || haveToCheck && nochLuft) {
 				double d = Math.random() / level;
 
-				BigDecimal setScale = BigDecimal.valueOf(d).setScale(2, RoundingMode.HALF_UP);
-				BigDecimal p = BigDecimal.valueOf(probability);
+				final BigDecimal setScale = BigDecimal.valueOf(d).setScale(2, RoundingMode.HALF_UP);
+				final BigDecimal p = BigDecimal.valueOf(probability);
 
-				LOG.info(setScale + " : " + p);
 				if (d < probability) {
-					LOG.info("Task: " + task);
 					final Double duration = task.getDuration();
 					task.setLastOccurance(new Date());
 					task.setOccurences(task.getOccurences() + 1);
 					config.setImage(getRandom(task.getResource()));
 					if (duration != null) {
+						LOG.info("Task: " + task + " for (s): " + (int) (duration * 60));
 						executeTaskInternal(task, config, duration);
 					} else {
+						LOG.info("Task: " + task + " dialog");
 						executeDialog(task, config);
 					}
 				} else {
-					LOG.info("Not Probable: " + task);
+					LOG.info("Not Probable: " + task + "; " + setScale + " : " + p);
 				}
 			} else {
 				LOG.info(task + " occurences max: " + task.getOccurences());
@@ -149,14 +147,16 @@ public class TaskManager {
 
 	private void executeDialog(TMTask task, TMGuiConfig config) {
 		config.setText(StringUtils.EMPTY);
-		JOptionPane.showMessageDialog(null, task.getTask(), "InfoBox: " + "", JOptionPane.INFORMATION_MESSAGE);
+		showDialog(task.getTask());
+	}
+
+	private void showDialog(String message) {
+		JOptionPane.showMessageDialog(null, message, null, JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	private void executeTaskInternal(TMTask task, TMGuiConfig config, final Double durationInMinutes) {
-		int durationInSeconds = (int) (durationInMinutes * 60);
-		LOG.info("...for (s): " + durationInSeconds);
 		config.setText(task.getTask());
-		SleepUtils.sleepFor((int) (durationInSeconds * 1000));
+		SleepUtils.sleepFor((int) (durationInMinutes * 60 * 1000));
 	}
 
 	private String getRandom(String bufferKey) {

@@ -82,7 +82,7 @@ public class TMGuiConfig implements BasicGuiConfig {
 	}
 
 	public void setText(String text) {
-		label.setText("<html><font size=\"6\"color='red'>" + text + "</font></html>");
+		label.setText("<html><font size=\"8\"color='red'>" + text + "</font></html>");
 	}
 
 }

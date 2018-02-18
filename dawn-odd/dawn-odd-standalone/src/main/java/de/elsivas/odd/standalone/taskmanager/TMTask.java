@@ -14,10 +14,17 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.logging.Log;
+
+import com.mysql.cj.core.log.LogFactory;
+
+import de.elsivas.basic.SimpleLogFactory;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TMTask {
+
+	private static final Log LOG = SimpleLogFactory.getLog(TMTask.class);
 
 	private String task;
 
@@ -61,7 +68,7 @@ public class TMTask {
 
 	@Override
 	public String toString() {
-		return task;
+		return "'" + task + "'";
 	}
 
 	public void setSubTasks(Collection<TMTask> subTasks) {
@@ -170,8 +177,12 @@ public class TMTask {
 
 	public int value() {
 		int value = 0;
-		value += getOccurences() == 0 ? 0 : getOccurences();
-		System.out.println(getTask() + value);
+		if (getMaxOccurences() > 0) {
+			value += getOccurences();
+		} else {
+			value += getMaxOccurences() / 10;
+		}
+		LOG.info("value '" + toString() + "': " + value);
 		return value;
 	}
 }
