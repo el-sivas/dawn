@@ -17,6 +17,7 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 
+import de.elsivas.basic.DateUtils;
 import de.elsivas.basic.SimpleLogFactory;
 import de.elsivas.basic.SleepUtils;
 import de.elsivas.basic.gui.BasicGui;
@@ -54,7 +55,7 @@ public class TaskManager {
 	private void doIt(String[] args) {
 		final String filename = filename(args);
 		final double level = level(args);
-		final int minutes = minutes(args);
+		final double minutes = minutes(args);
 
 		final TMTask rootTask = loadOrInit(filename);
 		reset(rootTask);
@@ -62,34 +63,65 @@ public class TaskManager {
 		LOG.info("Minutes: " + minutes);
 
 		addBuffers(rootTask);
-
+		showDialog(rootTask + "\n" + TaskConditionUtils.toStringCondition(rootTask));
 		final TMGuiConfig config = TMGuiConfig.getConfig();
 		BasicGui.create(config);
 
-		final LocalDateTime end = LocalDateTime.now().plusMinutes(minutes);
+		final LocalDateTime end = LocalDateTime.now().plusSeconds((long) (minutes * 60));
 		while (LocalDateTime.now().isBefore(end)) {
 			executeTask(rootTask, config, level);
 		}
-		showDialog("Punkte: " + value(rootTask));
+		final int value = value(rootTask);
+		LOG.info("Value (root): " + value);
+
+		if (TaskConditionUtils.hasCondition(rootTask)) {
+			setNewCondition(rootTask, value);
+		}
 		dao.save(rootTask, filename);
 
+	}
+
+	private void setNewCondition(final TMTask rootTask, final int value) {
+		final Date to = TaskConditionUtils.getDate(rootTask);
+		final Date refDate;
+		if (LocalDateTime.now().isAfter(DateUtils.toLocalDateTime(to))) {
+			refDate = new Date();
+		} else {
+			refDate = to;
+		}
+
+		final LocalDateTime plusMinutes = DateUtils.toLocalDateTime(refDate).plusHours(value * 4);
+		final Date date = DateUtils.toDate(plusMinutes);
+
+		TaskConditionUtils.setDate(rootTask, ConditionType.NOT_BEFORE_DATE, date);
+		showDialog(rootTask + "\n" + TaskConditionUtils.toStringCondition(rootTask));
 	}
 
 	private int value(TMTask task) {
 		int i = task.value();
 		Collection<TMTask> subTasks = task.getSubTasks();
 		for (TMTask subtask : subTasks) {
-			i += subtask.value();
+			i += value(subtask);
 		}
 		return i;
 	}
 
-	private int minutes(String[] args) {
-		return Integer.valueOf(args[2]);
+	private double minutes(String[] args) {
+		try {
+			return Double.valueOf(args[2]);
+		} catch (Throwable t) {
+			LOG.error("error getting minutes", t);
+		}
+		return 10;
 	}
 
 	private double level(String[] args) {
-		return Double.valueOf(args[1]);
+		try {
+			return Double.valueOf(args[1]);
+		} catch (Throwable t) {
+			LOG.error("error getting minutes", t);
+		}
+		return 1;
 	}
 
 	private void addBuffers(TMTask task) {
@@ -107,36 +139,41 @@ public class TaskManager {
 
 	private void executeTask(TMTask task, TMGuiConfig config, double level) {
 		final Double probability = task.getProbability();
-		if (probability != null) {
-			int maxOccurences = task.getMaxOccurences();
-			final boolean haveToCheck = maxOccurences > 0;
-			final boolean nochLuft = task.getOccurences() < maxOccurences;
-			if (!haveToCheck || haveToCheck && nochLuft) {
-				double d = Math.random() / level;
+		if (!TaskConditionUtils.isExecutable(task)) {
+			LOG.info("not executalbe: " + task);
+		} else {
 
-				final BigDecimal setScale = BigDecimal.valueOf(d).setScale(2, RoundingMode.HALF_UP);
-				final BigDecimal p = BigDecimal.valueOf(probability);
+			if (probability != null) {
+				int maxOccurences = task.getMaxOccurences();
+				final boolean haveToCheck = maxOccurences > 0;
+				final boolean nochLuft = task.getOccurences() < maxOccurences;
+				if (!haveToCheck || haveToCheck && nochLuft) {
+					double d = Math.random() / level;
 
-				if (d < probability) {
-					final Double duration = task.getDuration();
-					task.setLastOccurance(new Date());
-					task.setOccurences(task.getOccurences() + 1);
-					config.setImage(getRandom(task.getResource()));
-					if (duration != null) {
-						LOG.info("Task: " + task + " for (s): " + (int) (duration * 60));
-						executeTaskInternal(task, config, duration);
+					final BigDecimal setScale = BigDecimal.valueOf(d).setScale(2, RoundingMode.HALF_UP);
+					final BigDecimal p = BigDecimal.valueOf(probability);
+
+					if (d < probability) {
+						final Double duration = task.getDuration();
+						task.setLastOccurance(new Date());
+						task.setOccurences(task.getOccurences() + 1);
+						config.setImage(getRandom(task.getResource()));
+						if (duration != null) {
+							LOG.info("Task: " + task + " for (s): " + (int) (duration * 60));
+							executeTaskInternal(task, config, duration);
+						} else {
+							LOG.info("Task: " + task + " dialog");
+							executeDialog(task, config);
+						}
 					} else {
-						LOG.info("Task: " + task + " dialog");
-						executeDialog(task, config);
+						LOG.info("Not Probable: " + task + "; " + setScale + " : " + p);
 					}
 				} else {
-					LOG.info("Not Probable: " + task + "; " + setScale + " : " + p);
+					LOG.info(task + " occurences max: " + task.getOccurences());
 				}
-			} else {
-				LOG.info(task + " occurences max: " + task.getOccurences());
 			}
 		}
-		boolean haveToCheck = !task.isSubtasksBeforeExecution();
+		boolean haveToCheck = !task.isSubtaskBeforeExecutionAllowed();
 		boolean occured = task.getLastOccurance() != null;
 		if (haveToCheck && occured || !haveToCheck) {
 			for (TMTask subtasks : task.getSubTasks()) {
@@ -146,11 +183,21 @@ public class TaskManager {
 	}
 
 	private void executeDialog(TMTask task, TMGuiConfig config) {
-		config.setText(StringUtils.EMPTY);
-		showDialog(task.getTask());
+		SleepUtils.sleepFor(500);
+		config.setImage(getRandom(task.getResource()));
+
+		final String task2 = task.getTask();
+		if(task2.contains("\n")) {
+			config.setText("");
+			showDialog(task2);
+		} else {
+			config.setText(task2);
+			showDialog("Fertig?");			
+		}
 	}
 
 	private void showDialog(String message) {
+		LOG.info("Dialog: " + message);
 		JOptionPane.showMessageDialog(null, message, null, JOptionPane.INFORMATION_MESSAGE);
 	}
 

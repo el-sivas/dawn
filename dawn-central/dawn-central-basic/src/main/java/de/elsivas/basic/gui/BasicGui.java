@@ -20,7 +20,7 @@ public class BasicGui extends JFrame {
 
 	private static void setSize(BasicGuiConfig config, final BasicGui basicGui) {
 		if (config.isFullscreen()) {
-			basicGui.setExtendedState(JFrame.MAXIMIZED_BOTH);
+			basicGui.setSize(basicGui.getToolkit().getScreenSize());
 			return;
 		}
 		basicGui.setSize(dimension(config));

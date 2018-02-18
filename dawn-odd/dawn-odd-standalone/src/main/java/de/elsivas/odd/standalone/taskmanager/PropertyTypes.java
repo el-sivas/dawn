@@ -5,6 +5,7 @@ public enum PropertyTypes {
 	HASHED_DATE,
 	STRING,
 	INTEGER,
-	DOUBLE;
+	DOUBLE,
+	BOOLEAN;
 
 }

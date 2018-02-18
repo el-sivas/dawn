@@ -1,10 +1,12 @@
 package de.elsivas.odd.standalone.taskmanager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -68,7 +70,7 @@ public class TMTask {
 
 	@Override
 	public String toString() {
-		return "'" + task + "'";
+		return "'" + getTask().split("\n")[0] + "'";
 	}
 
 	public void setSubTasks(Collection<TMTask> subTasks) {
@@ -76,7 +78,12 @@ public class TMTask {
 	}
 
 	public String getTask() {
-		return task.replaceAll("<br>", "\n");
+		final String replaceAll2 = task.replaceAll("\n", " ");
+		final String replaceAll = replaceAll2.replaceAll("<br>", "\n");
+		final String[] split = replaceAll.split(";");
+		final List<String> asList = Arrays.asList(split);
+		return asList.get((int) (Math.random() * asList.size()));
+
 	}
 
 	public void setTask(String task) {
@@ -117,6 +124,10 @@ public class TMTask {
 
 	public void setDuration(Double duration) {
 		this.duration = duration;
+	}
+
+	public boolean isSubtaskBeforeExecutionAllowed() {
+		return isSubtasksBeforeExecution();
 	}
 
 	public boolean isSubtasksBeforeExecution() {
@@ -164,6 +175,7 @@ public class TMTask {
 	}
 
 	public void setProperty(String key, String value) {
+		properties.remove(TMTaskProperties.create(key, ""));
 		properties.add(TMTaskProperties.create(key, value));
 	}
 
