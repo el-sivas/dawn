@@ -48,7 +48,7 @@ public class SimpleMailForwarder {
 			SimpleMailConfigUtils.init(pathname);
 			System.exit(0);
 		}
-		final SimpleMailConfig config = SimpleMailConfigDaoUtils.load(pathname);
+		final SimpleMailConfig config = SimpleMailConfigDaoUtils.loadBy(pathname);
 
 		try {
 			handleMessage(config);
