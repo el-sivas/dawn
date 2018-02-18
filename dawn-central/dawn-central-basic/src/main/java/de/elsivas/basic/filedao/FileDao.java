@@ -19,22 +19,16 @@ public abstract class FileDao<T> {
 
 	private static final Log LOG = SimpleLogFactory.getLog(FileDao.class);
 
-	protected abstract Class<T> getPersistClass();
+	public abstract void save(final T t, String filename);
 
-	public void save(final T t, String filename) {
-		LOG.info("save to file: '" + t + "'");
-		final Marshaller marshaller = createMarshaller(getPersistClass().getClass());
-		final File file = new File(filename);
-//		if(!file.exists()) {
-//			try {
-//				file.createNewFile();
-//			} catch (IOException e) {
-//				throw new RuntimeException(e);
-//			}
-//		}
-		try (OutputStream os = new FileOutputStream(file)) {
+	public abstract T load(String filename);
+
+	public void save(final T config, String filename, Class c) {
+		LOG.info("save config to file: '" + filename + "'");
+		Marshaller marshaller = createMarshaller(c);
+		try (OutputStream os = new FileOutputStream(new File(filename))) {
 			try (OutputStreamWriter osw = new OutputStreamWriter(os)) {
-				marshaller.marshal(t, osw);
+				marshaller.marshal(config, osw);
 			} catch (JAXBException e) {
 				throw new RuntimeException(e);
 			}
@@ -43,16 +37,17 @@ public abstract class FileDao<T> {
 		}
 	}
 
-	public T load(String filename) {
-		LOG.info("load from file: '" + filename + "'");
-		final Unmarshaller unmarshaller = createUnmarshaller(getPersistClass().getClass());
-		final T t;
+	public T load(String filename, Class c) {
+		LOG.info("load config from file: '" + filename + "'");
+		final Unmarshaller unmarshaller = createUnmarshaller(c);
+		T config;
 		try {
-			t = (T) unmarshaller.unmarshal(new File(filename));
+			config = (T) unmarshaller.unmarshal(new File(filename));
+
 		} catch (JAXBException e) {
 			throw new RuntimeException(e);
 		}
-		return t;
+		return config;
 	}
 
 	protected Marshaller createMarshaller(Class c) {

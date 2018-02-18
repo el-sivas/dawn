@@ -5,7 +5,14 @@ import de.elsivas.basic.filedao.FileDao;
 public class TaskFileDao extends FileDao<TMTask> {
 
 	@Override
-	protected Class<TMTask> getPersistClass() {
-		return TMTask.class;
+	public void save(TMTask t, String filename) {
+		super.save(t, filename, TMTask.class);
+		
 	}
+
+	@Override
+	public TMTask load(String filename) {
+		return super.load(filename, TMTask.class);
+	}
+
 }
