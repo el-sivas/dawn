@@ -6,13 +6,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import de.elsivas.basic.SleepUtils;
+import de.elsivas.gol.AbstractRandomContentGenerator;
 
-public class GolRandomContentGenerator {
+public class GolRandomContentGenerator extends AbstractRandomContentGenerator<CellObject> {
 
 	public static void main(String[] args) throws IOException {
 		int i = 0;
 		while (i++ < 100) {
-			CellContent[][] generate = generate();
+			CellContent[][] generate = generateContent();
 			StringBuilder sb = new StringBuilder();
 			for (CellContent[] cellContents : generate) {
 				for (CellContent cellContent : cellContents) {
@@ -28,50 +29,20 @@ public class GolRandomContentGenerator {
 			SleepUtils.sleepFor(2000);
 		}
 	}
-
-	public static CellContent[][] generate() {
-		GolRandomContentGenerator instance = getInstance();
-		final CellContent[][] objects = new CellContent[50][50];
-		instance.fillRandom(objects);
-		return objects;
+	
+	public static CellContent[][] generateContent() {
+		return new GolRandomContentGenerator().generate();
 	}
 
-	private static GolRandomContentGenerator getInstance() {
-		return new GolRandomContentGenerator();
+	@Override
+	protected CellObject create() {
+		return new CellObject(Math.random() > 0.5);
 	}
 
-	private void fillRandom(CellContent[][] a) {
-		for (int i = 0; i < a.length; i++) {
-			for (int j = 0; j < a.length; j++) {
-				boolean b = Math.random() > 0.5;
 
-				a[j][i] = new CellObject(b);
-			}
-		}
+
+	@Override
+	protected CellObject[][] createArray(int size) {
+		return new CellObject[size][size];
 	}
-
-	private class CellObject implements CellContent {
-
-		private boolean b;
-
-		CellObject(boolean b) {
-			this.b = b;
-		}
-
-		@Override
-		public String toString() {
-			return b ? "1" : null;
-		}
-
-		@Override
-		public int getContentSize() {
-			return 1;
-		}
-
-		@Override
-		public boolean isContented() {
-			return b;
-		}
-	}
-
 }

@@ -1,15 +1,10 @@
 package de.elsivas.gol.multi;
 
 public enum Rich {
-	PLANT(0b00000000), HERBIVORE(0b00100000), CARNIVORE(0b01000000);
+	PLANT,
 
-	private int binary;
+	HERBIVORE,
 
-	private Rich(int binary) {
-		this.binary = binary;
-	}
+	CARNIVORE;
 
-	public int binary() {
-		return binary;
-	}
 }

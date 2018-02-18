@@ -1,7 +1,5 @@
 package de.elsivas.gol.gui;
 
-import java.awt.Color;
-import java.awt.Component;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -15,11 +13,7 @@ import java.util.List;
 
 public class GolFileContentReader {
 
-	public static CellContent[][] content(String path) {
-		return content(path, 1);
-	}
-
-	public static CellContent[][] content(String path, int chars) {
+	public static CellContent[][] content(String path, int chars, CellContentFactory cellContentFactory) {
 		File f = new File(path);
 		FilenameFilter filter = new FilenameFilter() {
 
@@ -41,7 +35,7 @@ public class GolFileContentReader {
 		Collections.reverse(asList);
 
 		try {
-			return content(asList.get(0), chars);
+			return content(asList.get(0), chars, cellContentFactory);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -50,7 +44,7 @@ public class GolFileContentReader {
 	private static String[] split(String line, int chars) {
 		int length = line.length();
 		if (length % chars != 0) {
-			throw new RuntimeException("not conclude");
+			throw new RuntimeException("not conclude: " + length % chars + ";" + line);
 		}
 
 		List<String> splitted = new ArrayList<>();
@@ -63,20 +57,22 @@ public class GolFileContentReader {
 
 	}
 
-	private static CellContent[][] content(File file, int chars) throws IOException {
-		BufferedReader br = new BufferedReader(new FileReader(file));
-		List<List<CellContent>> l = new ArrayList<>();
-		while (true) {
-			String readLine = br.readLine();
-			if (readLine == null) {
-				break;
+	private static CellContent[][] content(File file, int chars, CellContentFactory cellContentFactory)
+			throws IOException {
+		final List<List<CellContent>> l = new ArrayList<>();
+		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+			while (true) {
+				String readLine = br.readLine();
+				if (readLine == null) {
+					break;
+				}
+				List<CellContent> cl = new ArrayList<>();
+				String[] strings = split(readLine, chars);
+				for (String c : strings) {
+					cl.add(cellContentFactory.create(c));
+				}
+				l.add(cl);
 			}
-			List<CellContent> cl = new ArrayList<>();
-			String[] strings = split(readLine, chars);
-			for (String c : strings) {
-				cl.add(createContent(c));
-			}
-			l.add(cl);
 		}
 
 		int size = l.size();
@@ -86,38 +82,14 @@ public class GolFileContentReader {
 			CellContent[] c = new CellContent[size];
 			int j = 0;
 			for (CellContent cellContent : list) {
-				c[j++] = cellContent;
+				c[j] = cellContent;
+				j++;
 			}
-			cc[i++] = c;
+			cc[i] = c;
+			i++;
 		}
 
 		return cc;
-	}
-
-	private static CellContent createContent(String s) {
-		CellContent e = new CellContent() {
-
-			@Override
-			public boolean isContented() {
-				return "1".equals(s);
-			}
-
-			@Override
-			public int getContentSize() {
-				return 1;
-			}
-
-			@Override
-			public String toString() {
-				return isContented() ? "1" : "0";
-			}
-
-			@Override
-			public void format(Component c) {
-				c.setBackground(isContented() ? Color.green : Color.WHITE);
-			}
-		};
-		return e;
 	}
 
 }

@@ -8,14 +8,14 @@ public class GolContentValidator {
 	private static final Log LOG = LogFactory.getLog(GolContentValidator.class);
 
 	public static void validate(CellContent[][] a) {
-		LOG.info("validate...");
+		LOG.debug("validate...");
 		int size = a.length;
 		int contentSize = -1;
 		for (CellContent[] cellObjects : a) {
 			if (cellObjects.length != size) {
 				throw new RuntimeException("size invalid");
 			}
-			LOG.info("...cells...");
+			LOG.debug("...cells...");
 			for (CellContent cellContent : cellObjects) {
 				if (contentSize < 0) {
 					contentSize = cellContent.getContentSize();

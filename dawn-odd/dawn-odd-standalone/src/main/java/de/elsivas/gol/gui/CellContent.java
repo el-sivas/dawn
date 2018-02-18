@@ -8,6 +8,8 @@ public interface CellContent {
 	
 	boolean isContented();
 	
+	String value();
+	
 	default void format(Component c) {
 		// implement if needed
 	}
