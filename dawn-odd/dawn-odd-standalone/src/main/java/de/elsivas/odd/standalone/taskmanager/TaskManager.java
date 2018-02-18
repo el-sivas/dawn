@@ -30,6 +30,8 @@ public class TaskManager {
 
 	private Map<String, List<String>> resourceBuffers = new HashMap<>();
 
+	private static int pauseSeconds = 0;
+
 	public static void main(String[] args) throws ParseException {
 		TaskManager tm = new TaskManager();
 		try {
@@ -68,7 +70,7 @@ public class TaskManager {
 		BasicGui.create(config);
 
 		final LocalDateTime end = LocalDateTime.now().plusSeconds((long) (minutes * 60));
-		while (LocalDateTime.now().isBefore(end)) {
+		while (LocalDateTime.now().minusSeconds(pauseSeconds).isBefore(end)) {
 			executeTask(rootTask, config, level);
 		}
 		final int value = value(rootTask);
@@ -186,14 +188,20 @@ public class TaskManager {
 		SleepUtils.sleepFor(500);
 		config.setImage(getRandom(task.getResource()));
 
+		long start = System.currentTimeMillis();
 		final String task2 = task.getTask();
-		if(task2.contains("\n")) {
+		if (task2.contains("\n")) {
 			config.setText("");
 			showDialog(task2);
 		} else {
 			config.setText(task2);
-			showDialog("Fertig?");			
+			showDialog("Fertig?");
 		}
+		long durationInMs = System.currentTimeMillis() - start;
+		int pauseVorher = pauseSeconds;
+		pauseSeconds += durationInMs / 1000;
+		LOG.info("pause (seconds): " + pauseVorher + " -> " + pauseSeconds);
+
 	}
 
 	private void showDialog(String message) {
