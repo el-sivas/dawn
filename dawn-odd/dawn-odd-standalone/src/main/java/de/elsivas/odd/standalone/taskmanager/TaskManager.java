@@ -212,7 +212,6 @@ public class TaskManager {
 
 	private void executeDialog(TMTask task, TMGuiConfig config) {
 		SleepUtils.sleepFor(500);
-		config.setImage(getRandom(task.getResource()));
 
 		long start = System.currentTimeMillis();
 		final String task2 = task.getTask();
