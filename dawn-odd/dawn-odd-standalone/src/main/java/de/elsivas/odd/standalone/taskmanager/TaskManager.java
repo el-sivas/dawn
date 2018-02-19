@@ -25,6 +25,8 @@ import de.elsivas.basic.gui.BasicGui;
 public class TaskManager {
 
 	private static final Log LOG = SimpleLogFactory.getLog(TaskManager.class);
+	
+	private static final String VERSION = "0.3-SN";
 
 	private TaskFileDao dao = new TaskFileDao();
 
@@ -33,6 +35,7 @@ public class TaskManager {
 	private static int pauseSeconds = 0;
 
 	public static void main(String[] args) throws ParseException {
+		LOG.info("Version: " + VERSION);
 		TaskManager tm = new TaskManager();
 		try {
 			tm.doIt(args);
@@ -55,6 +58,7 @@ public class TaskManager {
 	}
 
 	private void doIt(String[] args) {
+
 		final String filename = filename(args);
 		final double level = level(args);
 		final double minutes = minutes(args);
@@ -63,12 +67,13 @@ public class TaskManager {
 		reset(rootTask);
 
 		LOG.info("Minutes: " + minutes);
-
+		final boolean fullscreen = fullscreen(args);
 		addBuffers(rootTask);
 		showDialog(rootTask + "\n" + TaskConditionUtils.toStringCondition(rootTask));
-		final TMGuiConfig config = TMGuiConfig.getConfig();
+		final TMGuiConfig config = TMGuiConfig.getConfig(fullscreen);
 		BasicGui.create(config);
 
+		final LocalDateTime start = LocalDateTime.now();
 		final LocalDateTime end = LocalDateTime.now().plusSeconds((long) (minutes * 60));
 		while (LocalDateTime.now().minusSeconds(pauseSeconds).isBefore(end)) {
 			executeTask(rootTask, config, level);
@@ -76,14 +81,16 @@ public class TaskManager {
 		final int value = value(rootTask);
 		LOG.info("Value (root): " + value);
 
+		final double durationInMinutes = DateUtils.minus(LocalDateTime.now(), start) / 60.0;
 		if (TaskConditionUtils.hasCondition(rootTask)) {
-			setNewCondition(rootTask, value);
+			setNewCondition(rootTask, value, durationInMinutes);
 		}
+		showDialog("Took (min): " + durationInMinutes);
 		dao.save(rootTask, filename);
 
 	}
 
-	private void setNewCondition(final TMTask rootTask, final int value) {
+	private void setNewCondition(final TMTask rootTask, final int value, final double duration) {
 		final Date to = TaskConditionUtils.getDate(rootTask);
 		final Date refDate;
 		if (LocalDateTime.now().isAfter(DateUtils.toLocalDateTime(to))) {
@@ -91,8 +98,17 @@ public class TaskManager {
 		} else {
 			refDate = to;
 		}
+		
+		double valuePerMinute = value / duration;
+		
+		int add;
+		if(valuePerMinute > 1) {
+			add = -value;
+		} else {
+			add = value;
+		}
 
-		final LocalDateTime plusMinutes = DateUtils.toLocalDateTime(refDate).plusHours(value * 4);
+		final LocalDateTime plusMinutes = DateUtils.toLocalDateTime(refDate).plusHours((long) (add ));
 		final Date date = DateUtils.toDate(plusMinutes);
 
 		TaskConditionUtils.setDate(rootTask, ConditionType.NOT_BEFORE_DATE, date);
@@ -114,7 +130,16 @@ public class TaskManager {
 		} catch (Throwable t) {
 			LOG.error("error getting minutes", t);
 		}
-		return 10;
+		return 15;
+	}
+	
+	private boolean fullscreen(String[] args) {
+		try {
+			return Boolean.valueOf(args[3]);			
+		} catch (Throwable t) {
+			LOG.error("error getting fullscreen", t);
+		}
+		return true;
 	}
 
 	private double level(String[] args) {
@@ -123,7 +148,7 @@ public class TaskManager {
 		} catch (Throwable t) {
 			LOG.error("error getting minutes", t);
 		}
-		return 1;
+		return 1.5;
 	}
 
 	private void addBuffers(TMTask task) {
@@ -160,6 +185,7 @@ public class TaskManager {
 						task.setLastOccurance(new Date());
 						task.setOccurences(task.getOccurences() + 1);
 						config.setImage(getRandom(task.getResource()));
+
 						if (duration != null) {
 							LOG.info("Task: " + task + " for (s): " + (int) (duration * 60));
 							executeTaskInternal(task, config, duration);
@@ -199,7 +225,7 @@ public class TaskManager {
 		}
 		long durationInMs = System.currentTimeMillis() - start;
 		int pauseVorher = pauseSeconds;
-		pauseSeconds += durationInMs / 1000;
+		pauseSeconds += durationInMs * 2 / 1000;
 		LOG.info("pause (seconds): " + pauseVorher + " -> " + pauseSeconds);
 
 	}

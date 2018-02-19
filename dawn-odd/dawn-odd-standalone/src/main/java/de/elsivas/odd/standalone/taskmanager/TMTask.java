@@ -45,6 +45,8 @@ public class TMTask {
 	private Integer maxOccurences;
 
 	private Integer occurences;
+	
+	private String resourceAudio;
 
 	private Collection<TMTask> subTasks = new ArrayList<>();
 
@@ -55,7 +57,7 @@ public class TMTask {
 			return o1.getKey().compareTo(o2.getKey());
 		}
 	});
-
+	
 	public static TMTask create(String task) {
 		final TMTask tmTask = create();
 		tmTask.setTask(task);
@@ -76,7 +78,7 @@ public class TMTask {
 	public void setSubTasks(Collection<TMTask> subTasks) {
 		this.subTasks = subTasks;
 	}
-
+	
 	public String getTask() {
 		final String replaceAll2 = task.replaceAll("\n", " ");
 		final String replaceAll = replaceAll2.replaceAll("<br>", "\n");
@@ -196,5 +198,13 @@ public class TMTask {
 		}
 		LOG.info("value '" + toString() + "': " + value);
 		return value;
+	}
+
+	public String getResourceAudio() {
+		return resourceAudio;
+	}
+
+	public void setResourceAudio(String resourceAudio) {
+		this.resourceAudio = resourceAudio;
 	}
 }

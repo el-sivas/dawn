@@ -33,8 +33,10 @@ public class TMGuiConfig implements BasicGuiConfig {
 	private JLabel label = new JLabel("", SwingConstants.CENTER);
 
 	private JLabel imageLabel = new JLabel();
+	
+	private boolean fullscreen;
 
-	public static TMGuiConfig getConfig() {
+	public static TMGuiConfig getConfig(boolean fullscreen) {
 		TMGuiConfig config = new TMGuiConfig();
 		BoxLayout box = new BoxLayout(config.inner, BoxLayout.PAGE_AXIS);
 		FlowLayout flow = new FlowLayout(FlowLayout.CENTER);
@@ -50,17 +52,19 @@ public class TMGuiConfig implements BasicGuiConfig {
 		config.inner.add(config.imageLabel);
 		config.inner.setBackground(Color.BLACK);
 		config.root.setBackground(Color.BLACK);
+		
+		config.fullscreen = fullscreen;
 		return config;
 	}
 
 	@Override
 	public boolean isFullscreen() {
-		return true;
+		return fullscreen;
 	}
 
 	@Override
 	public boolean isWithDecoration() {
-		return false;
+		return !fullscreen;
 	}
 
 	@Override
