@@ -26,7 +26,7 @@ public class TaskManager {
 
 	private static final Log LOG = SimpleLogFactory.getLog(TaskManager.class);
 
-	private static final String VERSION = "0.3-SN";
+	private static final String VERSION = "0.3";
 
 	private final TaskFileDao dao = new TaskFileDao();
 
