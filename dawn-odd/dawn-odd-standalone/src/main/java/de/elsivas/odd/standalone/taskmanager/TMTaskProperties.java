@@ -6,8 +6,8 @@ public class TMTaskProperties {
 	
 	private String value;
 	
-	public static TMTaskProperties create(String key, String value) {
-		TMTaskProperties t = new TMTaskProperties();
+	public static TMTaskProperties create(final String key, final String value) {
+		final TMTaskProperties t = new TMTaskProperties();
 		t.setKey(key);
 		t.setValue(value);
 		return t;
@@ -17,7 +17,7 @@ public class TMTaskProperties {
 		return key;
 	}
 
-	public void setKey(String key) {
+	public void setKey(final String key) {
 		this.key = key;
 	}
 
@@ -25,7 +25,7 @@ public class TMTaskProperties {
 		return value;
 	}
 
-	public void setValue(String value) {
+	public void setValue(final String value) {
 		this.value = value;
 	}
 

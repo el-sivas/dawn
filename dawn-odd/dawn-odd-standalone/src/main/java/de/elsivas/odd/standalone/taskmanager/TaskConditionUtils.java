@@ -13,21 +13,21 @@ public class TaskConditionUtils {
 
 	private static String cd = "contition-date";
 
-	public static boolean hasCondition(TMTask task) {
+	public static boolean hasCondition(final TMTask task) {
 		return PropertyUtils.isTrue(task, c);
 	}
 	
-	public static Date getDate(TMTask task) {
+	public static Date getDate(final TMTask task) {
 		return PropertyUtils.getDate(task, cd);
 	}
 
-	public static void setDate(TMTask task, ConditionType type, Date date) {
+	public static void setDate(final TMTask task, final ConditionType type, final Date date) {
 		PropertyUtils.setProperty(task, ct, type);
 		PropertyUtils.setProperty(task, cd, date);
 		PropertyUtils.setProperty(task, c, true);
 	}
 
-	public static boolean isExecutable(TMTask task) {
+	public static boolean isExecutable(final TMTask task) {
 		if (!hasCondition(task)) {
 			return true;
 		}
@@ -45,7 +45,7 @@ public class TaskConditionUtils {
 		return false;
 	}
 
-	public static String toStringCondition(TMTask task) {
+	public static String toStringCondition(final TMTask task) {
 		if (!hasCondition(task)) {
 			return "no condition";
 		}

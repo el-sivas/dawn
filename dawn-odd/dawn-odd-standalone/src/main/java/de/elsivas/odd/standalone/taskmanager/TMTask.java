@@ -45,7 +45,7 @@ public class TMTask {
 	private Integer maxOccurences;
 
 	private Integer occurences;
-	
+
 	private String resourceAudio;
 
 	private Collection<TMTask> subTasks = new ArrayList<>();
@@ -57,7 +57,7 @@ public class TMTask {
 			return o1.getKey().compareTo(o2.getKey());
 		}
 	});
-	
+
 	public static TMTask create(String task) {
 		final TMTask tmTask = create();
 		tmTask.setTask(task);
@@ -78,7 +78,7 @@ public class TMTask {
 	public void setSubTasks(Collection<TMTask> subTasks) {
 		this.subTasks = subTasks;
 	}
-	
+
 	public String getTask() {
 		final String replaceAll2 = task.replaceAll("\n", " ");
 		final String replaceAll = replaceAll2.replaceAll("<br>", "\n");
@@ -96,8 +96,8 @@ public class TMTask {
 		return subTasks;
 	}
 
-	public Double getProbability() {
-		return probability;
+	public double getProbability() {
+		return probability != null ? probability : 0;
 	}
 
 	public void setProbability(Double probability) {
@@ -120,8 +120,8 @@ public class TMTask {
 		this.resource = resource;
 	}
 
-	public Double getDuration() {
-		return duration;
+	public double getDuration() {
+		return duration != null ? duration : 0;
 	}
 
 	public void setDuration(Double duration) {

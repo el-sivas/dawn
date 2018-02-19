@@ -24,22 +24,22 @@ public class TMGuiConfig implements BasicGuiConfig {
 
 	private static final Log LOG = SimpleLogFactory.getLog(TMGuiConfig.class);
 
-	private JPanel root = new JPanel();
+	private final JPanel root = new JPanel();
 
-	private JPanel inner = new JPanel();
+	private final JPanel inner = new JPanel();
 
-	private JButton button = new JButton("");
+	private final JButton button = new JButton("");
 
-	private JLabel label = new JLabel("", SwingConstants.CENTER);
+	private final JLabel label = new JLabel("", SwingConstants.CENTER);
 
-	private JLabel imageLabel = new JLabel();
-	
+	private final JLabel imageLabel = new JLabel();
+
 	private boolean fullscreen;
 
-	public static TMGuiConfig getConfig(boolean fullscreen) {
-		TMGuiConfig config = new TMGuiConfig();
-		BoxLayout box = new BoxLayout(config.inner, BoxLayout.PAGE_AXIS);
-		FlowLayout flow = new FlowLayout(FlowLayout.CENTER);
+	public static TMGuiConfig getConfig(final boolean fullscreen) {
+		final TMGuiConfig config = new TMGuiConfig();
+		final BoxLayout box = new BoxLayout(config.inner, BoxLayout.PAGE_AXIS);
+		final FlowLayout flow = new FlowLayout(FlowLayout.CENTER);
 
 		config.root.setLayout(flow);
 
@@ -52,7 +52,7 @@ public class TMGuiConfig implements BasicGuiConfig {
 		config.inner.add(config.imageLabel);
 		config.inner.setBackground(Color.BLACK);
 		config.root.setBackground(Color.BLACK);
-		
+
 		config.fullscreen = fullscreen;
 		return config;
 	}
@@ -72,7 +72,7 @@ public class TMGuiConfig implements BasicGuiConfig {
 		return root;
 	}
 
-	public void setImage(String file) {
+	public void setImage(final String file) {
 		if (StringUtils.isEmpty(file)) {
 			imageLabel.setIcon(null);
 			return;
@@ -80,12 +80,12 @@ public class TMGuiConfig implements BasicGuiConfig {
 		LOG.debug("set image: " + file);
 		try {
 			imageLabel.setIcon(new ImageIcon(ImageIO.read(new File(file))));
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	public void setText(String text) {
+	public void setText(final String text) {
 		label.setText("<html><font size=\"8\"color='red'>" + text + "</font></html>");
 	}
 

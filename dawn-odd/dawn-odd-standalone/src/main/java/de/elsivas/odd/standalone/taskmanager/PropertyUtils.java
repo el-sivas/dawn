@@ -12,7 +12,7 @@ public class PropertyUtils {
 
 	public static String sdfPattern = "yyyy-MM-dd_HH:mm:ss";
 
-	public static void setProperty(TMTask task, String key, Object value) {
+	public static void setProperty(final TMTask task, final String key, final Object value) {
 		if (value instanceof String) {
 			task.setProperty(key, (String) value);
 			return;
@@ -34,23 +34,23 @@ public class PropertyUtils {
 		throw new RuntimeException(new OperationNotSupportedException(value.getClass().getName()));
 	}
 
-	public static ConditionType getConditionType(TMTask task, String key) {
+	public static ConditionType getConditionType(final TMTask task, final String key) {
 		return ConditionType.valueOf(task.getPropertiy(key));
 	}
 
-	public static Date getDate(TMTask task, String key) {
+	public static Date getDate(final TMTask task, final String key) {
 		try {
 			return new SimpleDateFormat(sdfPattern).parse(task.getPropertiy(key));
-		} catch (ParseException e) {
+		} catch (final ParseException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	public static boolean isTrue(TMTask task, String key) {
+	public static boolean isTrue(final TMTask task, final String key) {
 		return BooleanUtils.isTrue(Boolean.valueOf(task.getPropertiy(key)));
 	}
 
-	public static String getString(TMTask task, String key) {
+	public static String getString(final TMTask task, final String key) {
 		return task.getPropertiy(key);
 	}
 

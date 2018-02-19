@@ -25,39 +25,39 @@ import de.elsivas.basic.gui.BasicGui;
 public class TaskManager {
 
 	private static final Log LOG = SimpleLogFactory.getLog(TaskManager.class);
-	
+
 	private static final String VERSION = "0.3-SN";
 
-	private TaskFileDao dao = new TaskFileDao();
+	private final TaskFileDao dao = new TaskFileDao();
 
-	private Map<String, List<String>> resourceBuffers = new HashMap<>();
+	private final Map<String, List<String>> resourceBuffers = new HashMap<>();
 
 	private static int pauseSeconds = 0;
 
-	public static void main(String[] args) throws ParseException {
+	public static void main(final String[] args) throws ParseException {
 		LOG.info("Version: " + VERSION);
-		TaskManager tm = new TaskManager();
+		final TaskManager tm = new TaskManager();
 		try {
 			tm.doIt(args);
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error(t.getMessage(), t);
 			System.exit(1);
 		}
 		System.exit(0);
 	}
 
-	private void reset(TMTask task) {
+	private void reset(final TMTask task) {
 		if (task.isReset()) {
 			task.setLastOccurance(null);
 			task.setOccurences(0);
 		}
-		for (TMTask tmTask : task.getSubTasks()) {
+		for (final TMTask tmTask : task.getSubTasks()) {
 			reset(tmTask);
 		}
 
 	}
 
-	private void doIt(String[] args) {
+	private void doIt(final String[] args) {
 
 		final String filename = filename(args);
 		final double level = level(args);
@@ -98,60 +98,60 @@ public class TaskManager {
 		} else {
 			refDate = to;
 		}
-		
-		double valuePerMinute = value / duration;
-		
+
+		final double valuePerMinute = value / duration;
+
 		int add;
-		if(valuePerMinute > 1) {
+		if (valuePerMinute > 1) {
 			add = -value;
 		} else {
 			add = value;
 		}
 
-		final LocalDateTime plusMinutes = DateUtils.toLocalDateTime(refDate).plusHours((long) (add ));
+		final LocalDateTime plusMinutes = DateUtils.toLocalDateTime(refDate).plusHours((add));
 		final Date date = DateUtils.toDate(plusMinutes);
 
 		TaskConditionUtils.setDate(rootTask, ConditionType.NOT_BEFORE_DATE, date);
 		showDialog(rootTask + "\n" + TaskConditionUtils.toStringCondition(rootTask));
 	}
 
-	private int value(TMTask task) {
+	private int value(final TMTask task) {
 		int i = task.value();
-		Collection<TMTask> subTasks = task.getSubTasks();
-		for (TMTask subtask : subTasks) {
+		final Collection<TMTask> subTasks = task.getSubTasks();
+		for (final TMTask subtask : subTasks) {
 			i += value(subtask);
 		}
 		return i;
 	}
 
-	private double minutes(String[] args) {
+	private double minutes(final String[] args) {
 		try {
 			return Double.valueOf(args[2]);
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error("error getting minutes", t);
 		}
 		return 15;
 	}
-	
-	private boolean fullscreen(String[] args) {
+
+	private boolean fullscreen(final String[] args) {
 		try {
-			return Boolean.valueOf(args[3]);			
-		} catch (Throwable t) {
+			return Boolean.valueOf(args[3]);
+		} catch (final Throwable t) {
 			LOG.error("error getting fullscreen", t);
 		}
 		return true;
 	}
 
-	private double level(String[] args) {
+	private double level(final String[] args) {
 		try {
 			return Double.valueOf(args[1]);
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error("error getting minutes", t);
 		}
 		return 1.5;
 	}
 
-	private void addBuffers(TMTask task) {
+	private void addBuffers(final TMTask task) {
 		final String resource = task.getResource();
 		if (!StringUtils.isEmpty(resource)) {
 			if (!resourceBuffers.containsKey(resource)) {
@@ -159,61 +159,64 @@ public class TaskManager {
 			}
 		}
 		final Collection<TMTask> subTasks = task.getSubTasks();
-		for (TMTask tmTask : subTasks) {
+		for (final TMTask tmTask : subTasks) {
 			addBuffers(tmTask);
 		}
 	}
 
-	private void executeTask(TMTask task, TMGuiConfig config, double level) {
-		final Double probability = task.getProbability();
+	private void executeTask(final TMTask task, final TMGuiConfig config, final double level) {
+		final double probability = task.getProbability();
 		if (!TaskConditionUtils.isExecutable(task)) {
 			LOG.info("not executalbe: " + task);
 		} else {
-
-			if (probability != null) {
-				int maxOccurences = task.getMaxOccurences();
-				final boolean haveToCheck = maxOccurences > 0;
-				final boolean nochLuft = task.getOccurences() < maxOccurences;
-				if (!haveToCheck || haveToCheck && nochLuft) {
-					double d = Math.random() / level;
-
-					final BigDecimal setScale = BigDecimal.valueOf(d).setScale(2, RoundingMode.HALF_UP);
-					final BigDecimal p = BigDecimal.valueOf(probability);
-
-					if (d < probability) {
-						final Double duration = task.getDuration();
-						task.setLastOccurance(new Date());
-						task.setOccurences(task.getOccurences() + 1);
-						config.setImage(getRandom(task.getResource()));
-
-						if (duration != null) {
-							LOG.info("Task: " + task + " for (s): " + (int) (duration * 60));
-							executeTaskInternal(task, config, duration);
-						} else {
-							LOG.info("Task: " + task + " dialog");
-							executeDialog(task, config);
-						}
-					} else {
-						LOG.info("Not Probable: " + task + "; " + setScale + " : " + p);
-					}
-				} else {
-					LOG.info(task + " occurences max: " + task.getOccurences());
-				}
+			final int maxOccurences = task.getMaxOccurences();
+			final boolean haveToCheck = maxOccurences > 0;
+			final boolean nochLuft = task.getOccurences() < maxOccurences;
+			if (!haveToCheck || nochLuft) {
+				executePropably(task, config, level, probability);
+			} else {
+				LOG.info(task + " occurences max: " + task.getOccurences());
 			}
 		}
-		boolean haveToCheck = !task.isSubtaskBeforeExecutionAllowed();
-		boolean occured = task.getLastOccurance() != null;
-		if (haveToCheck && occured || !haveToCheck) {
-			for (TMTask subtasks : task.getSubTasks()) {
-				executeTask(subtasks, config, level);
-			}
+		final boolean haveToCheck = !task.isSubtaskBeforeExecutionAllowed();
+		final boolean occured = task.getLastOccurance() != null;
+		if (!haveToCheck || occured) {
+			task.getSubTasks().forEach(e -> executeTask(e, config, level));
 		}
 	}
 
-	private void executeDialog(TMTask task, TMGuiConfig config) {
+	private void executePropably(final TMTask task, final TMGuiConfig config, final double level, final Double probability) {
+		final double d = Math.random() / level;
+
+		final BigDecimal setScale = BigDecimal.valueOf(d).setScale(2, RoundingMode.HALF_UP);
+		final BigDecimal p = BigDecimal.valueOf(probability);
+
+		if (d < probability) {
+			execute(task, config);
+		} else {
+			LOG.info("Not Probable: " + task + "; " + setScale + " : " + p);
+		}
+	}
+
+	private void execute(final TMTask task, final TMGuiConfig config) {
+		final double duration = task.getDuration();
+		task.setLastOccurance(new Date());
+		task.setOccurences(task.getOccurences() + 1);
+		config.setImage(getRandom(task.getResource()));
+
+		if (duration != 0) {
+			LOG.info("Task: " + task + " for (s): " + (int) (duration * 60));
+			executeTaskInternal(task, config, duration);
+		} else {
+			LOG.info("Task: " + task + " dialog");
+			executeDialog(task, config);
+		}
+	}
+
+	private void executeDialog(final TMTask task, final TMGuiConfig config) {
 		SleepUtils.sleepFor(500);
 
-		long start = System.currentTimeMillis();
+		final long start = System.currentTimeMillis();
 		final String task2 = task.getTask();
 		if (task2.contains("\n")) {
 			config.setText("");
@@ -222,24 +225,24 @@ public class TaskManager {
 			config.setText(task2);
 			showDialog("Fertig?");
 		}
-		long durationInMs = System.currentTimeMillis() - start;
-		int pauseVorher = pauseSeconds;
+		final long durationInMs = System.currentTimeMillis() - start;
+		final int pauseVorher = pauseSeconds;
 		pauseSeconds += durationInMs * 2 / 1000;
 		LOG.info("pause (seconds): " + pauseVorher + " -> " + pauseSeconds);
 
 	}
 
-	private void showDialog(String message) {
+	private void showDialog(final String message) {
 		LOG.info("Dialog: " + message);
 		JOptionPane.showMessageDialog(null, message, null, JOptionPane.INFORMATION_MESSAGE);
 	}
 
-	private void executeTaskInternal(TMTask task, TMGuiConfig config, final Double durationInMinutes) {
+	private void executeTaskInternal(final TMTask task, final TMGuiConfig config, final Double durationInMinutes) {
 		config.setText(task.getTask());
 		SleepUtils.sleepFor((int) (durationInMinutes * 60 * 1000));
 	}
 
-	private String getRandom(String bufferKey) {
+	private String getRandom(final String bufferKey) {
 		if (StringUtils.isEmpty(bufferKey)) {
 			return null;
 		}
@@ -249,23 +252,23 @@ public class TaskManager {
 		return resource;
 	}
 
-	private String filename(String[] args) {
+	private String filename(final String[] args) {
 		return args[0];
 	}
 
-	private TMTask loadOrInit(String filename) {
+	private TMTask loadOrInit(final String filename) {
 		if (!new File(filename).exists()) {
-			TMTask t = TMTask.create();
+			final TMTask t = TMTask.create();
 			dao.save(t, filename);
 		}
 		return dao.load(filename);
 	}
 
-	private List<String> buffer(String pathname) {
+	private List<String> buffer(final String pathname) {
 		final File file = new File(pathname);
-		String[] list = file.list();
+		final String[] list = file.list();
 		final List<String> buffer = new ArrayList<>();
-		for (String filename : list) {
+		for (final String filename : list) {
 			if (!filename.endsWith(".jpg")) {
 				continue;
 			}
