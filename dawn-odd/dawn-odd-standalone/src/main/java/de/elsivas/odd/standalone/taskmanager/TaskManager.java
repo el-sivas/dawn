@@ -247,7 +247,6 @@ public class TaskManager {
 		final String resource = bufferList.get((int) (Math.random() * bufferList.size()));
 		LOG.debug("buffer: " + bufferKey + ", resource: " + resource);
 		return resource;
-
 	}
 
 	private String filename(String[] args) {
