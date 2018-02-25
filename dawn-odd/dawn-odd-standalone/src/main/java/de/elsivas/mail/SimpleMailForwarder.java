@@ -27,7 +27,7 @@ public class SimpleMailForwarder {
 
 	private static final Log LOG = SimpleLogFactory.getLog(SimpleMailForwarder.class);
 
-	private static final String VERSION = "0.2";
+	private static final String VERSION = "0.3-SN";
 
 	private static final String SUB_SUCCESS = "Subscription succesful. Send a mail with subject: 'UNSUBSCRIBE' to unsubscribe.";
 
@@ -39,7 +39,7 @@ public class SimpleMailForwarder {
 
 	private static Collection<String> CTRL_SUBJECTS = Arrays.asList(SUBJECT_SUBSCRIBE, SUBJECT_UNSUBSCRIBE);
 
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		final long start = System.currentTimeMillis();
 		LOG.info("SMF Version " + VERSION);
 		final String pathname = args[0];
@@ -52,7 +52,7 @@ public class SimpleMailForwarder {
 
 		try {
 			handleMessage(config);
-		} catch (SMLogicException e) {
+		} catch (final SMLogicException e) {
 			LOG.error("an error has occured", e);
 			System.exit(1);
 		}
@@ -73,7 +73,7 @@ public class SimpleMailForwarder {
 		}
 	}
 
-	private static void handleMessages(final SimpleMailSession session, SimpleMailConfig config)
+	private static void handleMessages(final SimpleMailSession session, final SimpleMailConfig config)
 			throws MessagingException, SMLogicException {
 
 		LOG.info("handle messages");
@@ -85,12 +85,12 @@ public class SimpleMailForwarder {
 		}
 	}
 
-	private static void handleMessages(final SimpleMailSession session, SimpleMailConfig config,
-			SimpleMailFolder rootFolder) throws SMLogicException {
+	private static void handleMessages(final SimpleMailSession session, final SimpleMailConfig config,
+			final SimpleMailFolder rootFolder) throws SMLogicException {
 		final Collection<Message> messages = new ArrayList<>();
 		try {
 			messages.addAll(rootFolder.getMessages());
-		} catch (MessagingException e) {
+		} catch (final MessagingException e) {
 			throw new SMLogicException(e);
 		}
 		LOG.info(messages.size() + " messages found");
@@ -135,25 +135,25 @@ public class SimpleMailForwarder {
 		deleteMessages(messages);
 	}
 
-	private static void handleCtrlMessages(Collection<Message> ctrlMessages, SimpleMailConfig config,
-			SimpleMailSession session) throws SMLogicException {
+	private static void handleCtrlMessages(final Collection<Message> ctrlMessages, final SimpleMailConfig config,
+			final SimpleMailSession session) throws SMLogicException {
 
 		if (ctrlMessages.isEmpty()) {
 			LOG.info("no ctrl messages to process");
 			return;
 		}
 
-		for (Message ctrlMessage : ctrlMessages) {
+		for (final Message ctrlMessage : ctrlMessages) {
 			try {
 				handleCtrlMessage(config, session, ctrlMessage);
-			} catch (MessagingException e) {
+			} catch (final MessagingException e) {
 				throw new SMLogicException(e);
 			}
 		}
 		SimpleMailConfigDaoUtils.save(config);
 	}
 
-	private static void handleCtrlMessage(SimpleMailConfig config, SimpleMailSession session, Message ctrlMessage)
+	private static void handleCtrlMessage(final SimpleMailConfig config, final SimpleMailSession session, final Message ctrlMessage)
 			throws MessagingException, SMLogicException {
 		final String subject = ctrlMessage.getSubject();
 		final String from = SMUtils.extractMail(ctrlMessage.getFrom()[0].toString());
@@ -173,10 +173,10 @@ public class SimpleMailForwarder {
 		}
 	}
 
-	private static String subject(Message m) {
+	private static String subject(final Message m) {
 		try {
 			return m.getSubject();
-		} catch (MessagingException e) {
+		} catch (final MessagingException e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -184,34 +184,34 @@ public class SimpleMailForwarder {
 	private static void deleteMessages(final Collection<Message> processedMessages) throws SMLogicException {
 		LOG.info("cleanup messages: " + processedMessages.size());
 
-		for (Message message : processedMessages) {
+		for (final Message message : processedMessages) {
 			try {
 				message.setFlag(Flag.DELETED, true);
-			} catch (MessagingException e) {
+			} catch (final MessagingException e) {
 				throw new SMLogicException(e);
 			}
 		}
 	}
 
-	private static void copyMessages(final Collection<Message> processedMessages, SimpleMailFolder rootFolder,
-			SimpleMailFolder subfolder) throws SMLogicException {
+	private static void copyMessages(final Collection<Message> processedMessages, final SimpleMailFolder rootFolder,
+			final SimpleMailFolder subfolder) throws SMLogicException {
 
 		LOG.info("copy messages: " + processedMessages.size());
 
 		try {
 			subfolder.open(Folder.READ_WRITE);
-		} catch (MessagingException e) {
+		} catch (final MessagingException e) {
 			throw new SMLogicException(e);
 		}
 		try {
 			rootFolder.copy(processedMessages, subfolder);
-		} catch (MessagingException e) {
+		} catch (final MessagingException e) {
 			throw new SMLogicException(e);
 		}
 	}
 
-	private static void forwardMessages(Collection<Message> messages, SimpleMailSession session,
-			SimpleMailConfig config) throws SMLogicException {
+	private static void forwardMessages(final Collection<Message> messages, final SimpleMailSession session,
+			final SimpleMailConfig config) throws SMLogicException {
 
 		if (messages.isEmpty()) {
 			LOG.info("no messages to forward");
@@ -224,12 +224,12 @@ public class SimpleMailForwarder {
 			return;
 		}
 
-		for (Message originalMessage : messages) {
+		for (final Message originalMessage : messages) {
 			SMForwardUtils.forwardMessage(session, config, originalMessage);
 		}
 	}
 
-	private static boolean fistStart(String[] args) {
+	private static boolean fistStart(final String[] args) {
 		if (args.length < 2) {
 			return false;
 		}
