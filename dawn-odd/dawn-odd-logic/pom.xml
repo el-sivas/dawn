@@ -9,6 +9,11 @@
 	<artifactId>dawn-odd-logic</artifactId>
 	<dependencies>
 		<dependency>
+			<groupId>de.elsivas.odd</groupId>
+			<artifactId>dawn-odd-data</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>de.elsivas.central</groupId>
 			<artifactId>dawn-central-basic</artifactId>
 		</dependency>
