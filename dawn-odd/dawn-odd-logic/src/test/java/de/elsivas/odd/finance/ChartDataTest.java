@@ -12,8 +12,8 @@ import org.junit.Test;
 import de.elsivas.basic.DateUtils;
 import de.elsivas.basic.file.csv.Csv;
 import de.elsivas.basic.filedao.FileCsvDao;
-import finance.io2.ChartData;
-import finance.io2.ChartDataType;
+import finance.io.ChartData;
+import finance.io.ChartDataType;
 
 public class ChartDataTest {
 

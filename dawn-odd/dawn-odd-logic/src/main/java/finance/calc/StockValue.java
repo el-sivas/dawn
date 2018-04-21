@@ -1,4 +1,4 @@
-package finance.calc2;
+package finance.calc;
 
 public interface StockValue {
 	

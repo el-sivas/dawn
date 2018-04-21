@@ -1,4 +1,4 @@
-package finance.calc2.fundamental;
+package finance.calc.fundamental;
 
 import java.math.BigDecimal;
 import java.math.MathContext;

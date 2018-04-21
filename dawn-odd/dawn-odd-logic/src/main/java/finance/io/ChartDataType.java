@@ -1,4 +1,4 @@
-package finance.io2;
+package finance.io;
 
 public enum ChartDataType {
 	

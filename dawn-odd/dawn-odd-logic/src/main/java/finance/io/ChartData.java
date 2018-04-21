@@ -1,4 +1,4 @@
-package finance.io2;
+package finance.io;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -16,7 +16,7 @@ import de.elsivas.basic.EsRuntimeException;
 import de.elsivas.basic.file.csv.Csv;
 import de.elsivas.basic.file.csv.CsvLine;
 import finance.EsFinanceRuntimeException;
-import finance.calc2.Chart;
+import finance.calc.Chart;
 
 public class ChartData implements Chart {
 

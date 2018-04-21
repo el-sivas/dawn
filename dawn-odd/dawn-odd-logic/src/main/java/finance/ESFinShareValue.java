@@ -2,7 +2,7 @@ package finance;
 
 import java.math.BigDecimal;
 
-import finance.io2.ChartData;
+import finance.io.ChartData;
 
 public interface ESFinShareValue {
 	

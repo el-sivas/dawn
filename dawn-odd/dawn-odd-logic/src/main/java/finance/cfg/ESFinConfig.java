@@ -1,4 +1,4 @@
-package finance.cfg2;
+package finance.cfg;
 
 import java.util.HashMap;
 import java.util.Map;
