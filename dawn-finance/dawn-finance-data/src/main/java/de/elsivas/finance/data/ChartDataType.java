@@ -1,4 +1,4 @@
-package finance.io;
+package de.elsivas.finance.data;
 
 public enum ChartDataType {
 	

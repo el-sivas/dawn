@@ -1,4 +1,4 @@
-package finance;
+package finance.deprecated;
 
 import java.util.Date;
 import java.util.Map;

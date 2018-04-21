@@ -1,4 +1,4 @@
-package finance;
+package finance.deprecated;
 
 import de.elsivas.odd.data.finance.EsFinanceDao;
 

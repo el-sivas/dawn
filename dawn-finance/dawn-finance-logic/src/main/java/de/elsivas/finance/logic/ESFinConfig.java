@@ -1,4 +1,4 @@
-package finance.cfg;
+package de.elsivas.finance.logic;
 
 import java.util.HashMap;
 import java.util.Map;

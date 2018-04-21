@@ -1,4 +1,4 @@
-package finance;
+package finance.deprecated;
 
 import java.io.IOException;
 import java.net.URISyntaxException;

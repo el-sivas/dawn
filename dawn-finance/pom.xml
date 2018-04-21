@@ -15,4 +15,23 @@
 		<module>dawn-finance-logic</module>
 		<module>dawn-finance-data</module>
 	</modules>
+
+	<properties>
+		<dawn.central.version>0.0.1-SNAPSHOT</dawn.central.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>de.elsivas.central</groupId>
+				<artifactId>dawn-central-basic</artifactId>
+				<version>${dawn.central.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>de.elsivas.central</groupId>
+				<artifactId>dawn-central-logic</artifactId>
+				<version>${dawn.central.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 </project>

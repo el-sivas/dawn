@@ -1,4 +1,4 @@
-package finance;
+package finance.deprecated;
 
 public class EsFinanceUtils {
 

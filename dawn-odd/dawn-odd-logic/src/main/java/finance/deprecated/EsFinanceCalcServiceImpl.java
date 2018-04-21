@@ -13,8 +13,6 @@ import java.util.TreeSet;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import finance.EsFinanceRuntimeException;
-
 public class EsFinanceCalcServiceImpl implements EsFinanceCalcService {
 	
 	private static final Log LOG = LogFactory.getLog(EsFinanceCalcServiceImpl.class);

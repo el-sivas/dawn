@@ -1,4 +1,4 @@
-package de.elsivas.odd.finance;
+package de.elsivas.finance.logic.test;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -12,8 +12,8 @@ import org.junit.Test;
 import de.elsivas.basic.DateUtils;
 import de.elsivas.basic.file.csv.Csv;
 import de.elsivas.basic.filedao.FileCsvDao;
-import finance.io.ChartData;
-import finance.io.ChartDataType;
+import de.elsivas.finance.data.ChartData;
+import de.elsivas.finance.data.ChartDataType;
 
 public class ChartDataTest {
 

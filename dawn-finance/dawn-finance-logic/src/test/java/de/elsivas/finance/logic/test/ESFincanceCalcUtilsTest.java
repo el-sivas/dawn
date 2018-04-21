@@ -1,4 +1,4 @@
-package de.elsivas.odd.finance;
+package de.elsivas.finance.logic.test;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -11,9 +11,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.elsivas.basic.DateUtils;
-import finance.calc.Chart;
-import finance.calc.ESFinanceCalcUtils;
-import finance.cfg.ESFinConfig;
+import de.elsivas.finance.data.Chart;
+import de.elsivas.finance.logic.ESFinConfig;
+import de.elsivas.finance.logic.ESFinanceCalcUtils;
 
 public class ESFincanceCalcUtilsTest {
 

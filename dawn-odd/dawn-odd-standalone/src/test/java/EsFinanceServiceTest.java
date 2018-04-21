@@ -6,10 +6,10 @@ import org.junit.Test;
 
 import de.elsivas.odd.data.finance.EsFinanceDao;
 import de.elsivas.odd.data.finance.EsFinanceDaoFileImpl;
-import finance.EsFinanceDownloader;
-import finance.EsFinanceDownloaderAlphaVantageImpl;
-import finance.EsFinanceService;
-import finance.EsFinanceServiceImpl;
+import finance.deprecated.EsFinanceDownloader;
+import finance.deprecated.EsFinanceDownloaderAlphaVantageImpl;
+import finance.deprecated.EsFinanceService;
+import finance.deprecated.EsFinanceServiceImpl;
 
 public class EsFinanceServiceTest {
 	

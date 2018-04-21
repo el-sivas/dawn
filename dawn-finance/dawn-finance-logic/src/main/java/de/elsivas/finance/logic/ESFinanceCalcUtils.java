@@ -1,4 +1,4 @@
-package finance.calc;
+package de.elsivas.finance.logic;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -8,7 +8,7 @@ import java.util.Date;
 
 import de.elsivas.basic.DateUtils;
 import de.elsivas.basic.EsRuntimeException;
-import finance.cfg.ESFinConfig;
+import de.elsivas.finance.data.Chart;
 
 public class ESFinanceCalcUtils {
 

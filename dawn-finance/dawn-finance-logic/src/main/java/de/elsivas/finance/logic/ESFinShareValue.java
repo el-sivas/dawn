@@ -1,8 +1,8 @@
-package finance;
+package de.elsivas.finance.logic;
 
 import java.math.BigDecimal;
 
-import finance.io.ChartData;
+import de.elsivas.finance.data.ChartData;
 
 public interface ESFinShareValue {
 	

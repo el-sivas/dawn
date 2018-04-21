@@ -1,10 +1,9 @@
-package finance.calc.fundamental;
+package de.elsivas.finance.logic;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
-import finance.ESFinShareValue;
 
 public class ESFinanceFundamentalCalcUtils {
 

@@ -6,4 +6,19 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>dawn-finance-logic</artifactId>
+  	<dependencies>
+		<dependency>
+			<groupId>de.elsivas.central</groupId>
+			<artifactId>dawn-central-basic</artifactId>
+		</dependency>
+			<dependency>
+			<groupId>de.elsivas.finance</groupId>
+			<artifactId>dawn-finance-data</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>de.elsivas.central</groupId>
+			<artifactId>dawn-central-logic</artifactId>
+		</dependency>
+	</dependencies>
 </project>

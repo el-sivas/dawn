@@ -1,4 +1,4 @@
-package finance.io;
+package de.elsivas.finance.data;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -15,8 +15,6 @@ import java.util.stream.Collectors;
 import de.elsivas.basic.EsRuntimeException;
 import de.elsivas.basic.file.csv.Csv;
 import de.elsivas.basic.file.csv.CsvLine;
-import finance.EsFinanceRuntimeException;
-import finance.calc.Chart;
 
 public class ChartData implements Chart {
 
@@ -61,7 +59,7 @@ public class ChartData implements Chart {
 		final List<String> csvColTitles = csv.getTitle();
 		for (String title : csvColTitles) {
 			if (!colTitles.contains(title)) {
-				throw new EsFinanceRuntimeException("no valid col tilte: " + title);
+				throw new EsRuntimeException("no valid col tilte: " + title);
 			}
 		}
 		return new ChartData(csv);
