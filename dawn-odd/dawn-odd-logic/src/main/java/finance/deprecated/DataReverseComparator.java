@@ -1,4 +1,4 @@
-package finance.calc;
+package finance.deprecated;
 
 import java.util.Comparator;
 

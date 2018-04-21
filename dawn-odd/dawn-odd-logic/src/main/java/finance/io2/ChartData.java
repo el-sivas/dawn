@@ -16,9 +16,9 @@ import de.elsivas.basic.EsRuntimeException;
 import de.elsivas.basic.file.csv.Csv;
 import de.elsivas.basic.file.csv.CsvLine;
 import finance.EsFinanceRuntimeException;
-import finance.calc2.ChartDatable;
+import finance.calc2.Chart;
 
-public class ChartData implements ChartDatable {
+public class ChartData implements Chart {
 
 	private static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
 

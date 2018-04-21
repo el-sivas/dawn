@@ -2,20 +2,16 @@ package de.elsivas.odd.finance;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import de.elsivas.basic.DateUtils;
-import finance.calc2.ChartDatable;
+import finance.calc2.Chart;
 import finance.calc2.ESFinanceCalcUtils;
 import finance.cfg2.ESFinConfig;
 
@@ -33,7 +29,7 @@ public class ESFincanceCalcUtilsTest {
 		Map<String, Object> config = new HashMap<>();
 		config.put(ESFinConfig.WMA_MIN, BigDecimal.valueOf(0.5));
 		ESFinConfig.init(config);
-		final ChartDatable dataset = dataset(map2);
+		final Chart dataset = dataset(map2);
 
 		final BigDecimal sma = ESFinanceCalcUtils.calcSMA(dataset, 3);
 		Assert.assertTrue(BigDecimal.valueOf(900).equals(sma));
@@ -48,17 +44,17 @@ public class ESFincanceCalcUtilsTest {
 		Map<String, Object> config = new HashMap<>();
 		config.put(ESFinConfig.WMA_MIN, BigDecimal.valueOf(0.5));
 		ESFinConfig.init(config);
-		final ChartDatable cd = dataset(map);
-		
+		final Chart cd = dataset(map);
+
 		final BigDecimal sma = ESFinanceCalcUtils.calcSMA(cd, 38);
 		Assert.assertTrue(BigDecimal.valueOf(1008.315).equals(sma));
-		
+
 		final BigDecimal wma = ESFinanceCalcUtils.calcWMA(cd, 38);
 		Assert.assertTrue(BigDecimal.valueOf(1006.629).equals(wma));
 	}
 
-	private ChartDatable dataset(Map<Date, BigDecimal> cdMap) {
-		return new ChartDatable() {
+	private Chart dataset(Map<Date, BigDecimal> cdMap) {
+		return new Chart() {
 
 			@Override
 			public BigDecimal getData(Date date) {
@@ -121,10 +117,13 @@ public class ESFincanceCalcUtilsTest {
 		add(1014.68525596, 49);
 		add(923.6471103523, 50);
 
-		final Set<Date> keySet = map.keySet();
-		List<Date> dates = new ArrayList<>(keySet);
-		Collections.sort(dates);
-		//dates.forEach(e -> System.out.println(e + ":" + map.get(e)));
+		/*
+		 * 
+		 * final Set<Date> keySet = map.keySet(); List<Date> dates = new
+		 * ArrayList<>(keySet); Collections.sort(dates); dates.forEach(e ->
+		 * System.out.println(e + ":" + map.get(e)));
+		 * 
+		 */
 
 	}
 

@@ -1,4 +1,4 @@
-package finance.io;
+package finance.deprecated;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import de.elsivas.basic.EsIOUtils;
-import finance.calc.Data;
 
 public class EsFinanceReaderUtils {
 

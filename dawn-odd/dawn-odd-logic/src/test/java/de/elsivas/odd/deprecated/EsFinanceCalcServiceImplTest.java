@@ -1,6 +1,5 @@
-package de.elsivas.odd;
+package de.elsivas.odd.deprecated;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,13 +7,15 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
-import de.elsivas.basic.DateUtils;
-import finance.calc.EsFinanceCalcService;
-import finance.calc.EsFinanceCalcServiceImpl;
-import finance.io.EsFinanceReaderUtils;
+import finance.deprecated.EsFinanceCalcService;
+import finance.deprecated.EsFinanceCalcServiceImpl;
+import finance.deprecated.EsFinanceReaderUtils;
 
+
+@Ignore // deprecated Classes
 public class EsFinanceCalcServiceImplTest {
 
 	private static final Log LOG = LogFactory.getLog(EsFinanceCalcServiceImplTest.class);

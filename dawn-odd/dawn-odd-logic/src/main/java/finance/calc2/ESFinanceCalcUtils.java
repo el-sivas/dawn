@@ -14,7 +14,7 @@ public class ESFinanceCalcUtils {
 
 	private static final MathContext DEFAULT_MC = new MathContext(7, RoundingMode.HALF_UP);
 
-	public static BigDecimal calcSMA(ChartDatable cd, int days) {
+	public static BigDecimal calcSMA(Chart cd, int days) {
 		BigDecimal sum = BigDecimal.ZERO;
 		for (int i = 0; i < days; i++) {
 			final Date date = DateUtils.toDate(LocalDate.now().minusDays(i));
@@ -27,7 +27,7 @@ public class ESFinanceCalcUtils {
 		return sum.divide(BigDecimal.valueOf(days), DEFAULT_MC);
 	}
 
-	public static BigDecimal calcWMA(final ChartDatable cd, int days) {
+	public static BigDecimal calcWMA(final Chart cd, int days) {
 		final BigDecimal wmaMin = ESFinConfig.get(ESFinConfig.WMA_MIN, BigDecimal.class);
 		final BigDecimal diff = BigDecimal.ONE.subtract(wmaMin);
 		final BigDecimal weightLossPerDay = diff.divide(BigDecimal.valueOf(days), DEFAULT_MC);
