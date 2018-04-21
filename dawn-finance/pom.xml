@@ -13,5 +13,6 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>dawn-finance-logic</module>
+		<module>dawn-finance-data</module>
 	</modules>
 </project>
