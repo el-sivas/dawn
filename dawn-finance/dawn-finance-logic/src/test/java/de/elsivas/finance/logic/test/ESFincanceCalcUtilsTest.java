@@ -11,9 +11,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.elsivas.basic.DateUtils;
-import de.elsivas.finance.data.Chart;
 import de.elsivas.finance.logic.ESFinConfig;
 import de.elsivas.finance.logic.ESFinanceCalcUtils;
+import de.elsivas.finance.model.Chart;
 
 public class ESFincanceCalcUtilsTest {
 

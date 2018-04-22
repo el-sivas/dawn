@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 import de.elsivas.basic.EsRuntimeException;
 import de.elsivas.basic.file.csv.Csv;
 import de.elsivas.basic.file.csv.CsvLine;
+import de.elsivas.finance.model.Chart;
 
 public class ChartData implements Chart {
 

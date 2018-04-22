@@ -8,7 +8,7 @@ import java.util.Date;
 
 import de.elsivas.basic.DateUtils;
 import de.elsivas.basic.EsRuntimeException;
-import de.elsivas.finance.data.Chart;
+import de.elsivas.finance.model.Chart;
 
 public class ESFinanceCalcUtils {
 

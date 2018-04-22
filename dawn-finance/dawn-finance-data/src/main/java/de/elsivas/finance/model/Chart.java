@@ -1,4 +1,4 @@
-package de.elsivas.finance.data;
+package de.elsivas.finance.model;
 
 import java.math.BigDecimal;
 import java.util.Date;
