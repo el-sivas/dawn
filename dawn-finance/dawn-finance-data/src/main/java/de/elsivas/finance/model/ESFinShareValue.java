@@ -6,20 +6,20 @@ import de.elsivas.finance.data.ChartData;
 
 public interface ESFinShareValue {
 	
-	ChartData getChartData();
+	Chart getChart();
 	
-	BigDecimal expectedEarnings();
+	BigDecimal getExpectedEarnings();
 	
-	BigDecimal currentStockPrice();
+	BigDecimal getCurrentStockPrice();
 	
-	BigDecimal bookValuePerShare();
+	BigDecimal getBookValuePerShare();
 	
-	BigDecimal umsatz();
+	BigDecimal getRevenue();
 	
-	BigDecimal cashflowProAktie();
+	BigDecimal getCashflowPerShare();
 	
-	BigDecimal eigenkapital();
+	BigDecimal getEquity();
 	
-	BigDecimal gesamtkapital();
+	BigDecimal getOverallCapital();
 
 }
