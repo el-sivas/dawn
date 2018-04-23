@@ -14,6 +14,7 @@
 	<modules>
 		<module>dawn-finance-logic</module>
 		<module>dawn-finance-data</module>
+		<module>dawn-finance-x</module>
 	</modules>
 
 	<properties>
