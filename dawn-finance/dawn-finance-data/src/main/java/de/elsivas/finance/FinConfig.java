@@ -1,4 +1,4 @@
-package de.elsivas.finance.logic.config;
+package de.elsivas.finance;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -23,6 +23,7 @@ public class FinConfig implements FinConfigurable {
 
 	public static final String DOWNLOAD_FILE_PREFIX = "DOWNLOAD_FILE_PREFIX";
 	public static final String IMPORT_FILE_PREFIX = "IMPORT_FILE_PREFIX";
+	public static final String SHARE_VALUE_DB_FILE = "SHARE_VALUE_DB_FILE";
 
 	private static boolean initialized = false;
 
@@ -34,6 +35,7 @@ public class FinConfig implements FinConfigurable {
 		defaults.put(DOWNLOAD_FILE_PREFIX, "DL");
 		defaults.put(IMPORT_FILE_PREFIX, "IM");
 		defaults.put(WORKDIR, "/tmp/fin");
+		defaults.put(SHARE_VALUE_DB_FILE, "share-value-db.csv");
 	}
 
 	public static String get(String key) {

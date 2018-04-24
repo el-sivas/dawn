@@ -1,8 +1,8 @@
 package de.elsivas.finance.x;
 
 import de.elsivas.basic.EsRuntimeException;
+import de.elsivas.finance.FinConfig;
 import de.elsivas.finance.logic.FinParser;
-import de.elsivas.finance.logic.config.FinConfig;
 import de.elsivas.finance.logic.portals.Portal;
 import de.elsivas.finance.logic.portals.onvista.FinOnvistaDataParserUtils;
 

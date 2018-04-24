@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import de.elsivas.basic.DateUtils;
-import de.elsivas.finance.logic.Wertpapier;
+import de.elsivas.finance.data.model.Wertpapier;
 
 public class FinOnvistaDownloadLinkBuilder {
 

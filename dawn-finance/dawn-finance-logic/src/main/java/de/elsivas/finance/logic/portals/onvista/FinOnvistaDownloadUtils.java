@@ -7,11 +7,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import de.elsivas.basic.ESConsoleUtils;
+import de.elsivas.finance.FinConfig;
+import de.elsivas.finance.FinConfigurable;
+import de.elsivas.finance.data.model.Wertpapier;
 import de.elsivas.finance.logic.FinDownloader;
 import de.elsivas.finance.logic.FinFilenameUtils;
-import de.elsivas.finance.logic.Wertpapier;
-import de.elsivas.finance.logic.config.FinConfig;
-import de.elsivas.finance.logic.config.FinConfigurable;
 import de.elsivas.finance.logic.portals.Portal;
 
 public class FinOnvistaDownloadUtils implements FinDownloader, FinConfigurable {

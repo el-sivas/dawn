@@ -24,6 +24,7 @@ public class EsIOUtils {
 	}
 
 	public static List<String> readFileToLines(final File file) {
+
 		final List<String> lines = new ArrayList<>();
 		try (FileReader fr = new FileReader(file)) {
 			final BufferedReader br = new BufferedReader(fr);

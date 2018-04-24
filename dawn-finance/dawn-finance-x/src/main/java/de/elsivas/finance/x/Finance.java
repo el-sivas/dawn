@@ -8,7 +8,7 @@ import org.apache.logging.log4j.core.config.Configurator;
 
 import de.elsivas.basic.EsRuntimeException;
 import de.elsivas.basic.filedao.KeyValueDao;
-import de.elsivas.finance.logic.config.FinConfig;
+import de.elsivas.finance.FinConfig;
 
 public class Finance {
 

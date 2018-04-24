@@ -9,8 +9,8 @@ import java.util.Map;
 import de.elsivas.basic.ESClassesUtils;
 import de.elsivas.basic.EsRuntimeException;
 import de.elsivas.basic.filedao.KeyValueDao;
-import de.elsivas.finance.logic.config.FinConfig;
-import de.elsivas.finance.logic.config.FinConfigurable;
+import de.elsivas.finance.FinConfig;
+import de.elsivas.finance.FinConfigurable;
 
 /**
  * Writes emtpy config file per

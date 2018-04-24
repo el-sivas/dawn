@@ -8,8 +8,8 @@ import org.apache.logging.log4j.core.config.Configurator;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.elsivas.finance.logic.Wertpapier;
-import de.elsivas.finance.logic.config.FinConfig;
+import de.elsivas.finance.FinConfig;
+import de.elsivas.finance.data.model.Wertpapier;
 import de.elsivas.finance.logic.portals.Portal;
 import de.elsivas.finance.x.FinanceXDownloader;
 

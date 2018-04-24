@@ -1,7 +1,8 @@
 package de.elsivas.finance.logic;
 
 import de.elsivas.basic.SleepUtils;
-import de.elsivas.finance.logic.config.FinConfig;
+import de.elsivas.finance.FinConfig;
+import de.elsivas.finance.data.model.Wertpapier;
 import de.elsivas.finance.logic.portals.Portal;
 
 public class FinFilenameUtils {

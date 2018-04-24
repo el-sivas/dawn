@@ -14,11 +14,11 @@ import java.util.stream.Collectors;
 import de.elsivas.basic.file.csv.Csv;
 import de.elsivas.basic.file.csv.CsvLine;
 import de.elsivas.basic.filedao.CsvFileDao;
+import de.elsivas.finance.FinConfig;
+import de.elsivas.finance.data.model.ShareValuePeriod;
+import de.elsivas.finance.data.model.Wertpapier;
 import de.elsivas.finance.logic.FinFilenameUtils;
 import de.elsivas.finance.logic.FinParser;
-import de.elsivas.finance.logic.Wertpapier;
-import de.elsivas.finance.logic.config.FinConfig;
-import de.elsivas.finance.logic.model.ShareValuePeriod;
 import de.elsivas.finance.logic.portals.Portal;
 
 public class FinOnvistaDataParserUtils implements FinParser {

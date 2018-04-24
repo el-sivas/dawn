@@ -1,8 +1,6 @@
-package de.elsivas.finance.logic.config;
+package de.elsivas.finance;
 
 import java.util.List;
-
-import de.elsivas.finance.logic.FinDownloader;
 
 public interface FinConfigurable {
 	

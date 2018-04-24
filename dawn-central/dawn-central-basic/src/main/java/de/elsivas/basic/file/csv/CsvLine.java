@@ -78,12 +78,19 @@ public class CsvLine {
 		return type.cast(value);
 	}
 
+	public <T extends Object> T getValue(Enum e, Class<T> type) {
+		return getValue(e.toString(), type);
+	}
+
+	public Date getValue(Enum e, SimpleDateFormat simpleDateFormat) {
+		return getValue(e.toString(), simpleDateFormat);
+	}
+
 	public Date getValue(String colTitle, SimpleDateFormat simpleDateFormat) {
 		try {
 			return simpleDateFormat.parse(getValue(colTitle));
 		} catch (final ParseException e) {
 			throw new EsRuntimeException("error parsing", e);
 		}
-
 	}
 }

@@ -8,7 +8,8 @@ import java.util.Date;
 import de.elsivas.basic.file.csv.Csv;
 import de.elsivas.basic.file.csv.CsvLine;
 import de.elsivas.basic.filedao.CsvFileDao;
-import de.elsivas.finance.logic.model.ShareValuePeriod;
+import de.elsivas.finance.data.model.ShareValuePeriod;
+import de.elsivas.finance.data.model.Wertpapier;
 
 public class ShareValuePeriodBuilder {
 

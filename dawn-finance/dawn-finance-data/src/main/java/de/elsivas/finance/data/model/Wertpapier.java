@@ -1,4 +1,4 @@
-package de.elsivas.finance.logic;
+package de.elsivas.finance.data.model;
 
 import java.util.Arrays;
 import java.util.List;
