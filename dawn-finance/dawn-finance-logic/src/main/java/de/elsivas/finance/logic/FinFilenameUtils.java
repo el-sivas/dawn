@@ -22,7 +22,6 @@ public class FinFilenameUtils {
 		sb.append(portal.toString());
 		sb.append(SEPARATOR);
 		sb.append(System.currentTimeMillis());
-		sb.append(SEPARATOR);
 		sb.append(DOT_CSV);
 		return sb.toString();
 
@@ -35,7 +34,6 @@ public class FinFilenameUtils {
 		sb.append(portal.toString());
 		sb.append(SEPARATOR);
 		sb.append(extractId(downloadFilename));
-		sb.append(SEPARATOR);
 		sb.append(DOT_CSV);
 		return sb.toString();
 	}

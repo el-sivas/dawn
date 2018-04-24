@@ -18,7 +18,7 @@ public class Finance {
 	private static FinanceX financeX;
 
 	public static void main(String[] args) {
-		Configurator.setLevel("de.elsivas", Level.DEBUG);
+		Configurator.setLevel("de.elsivas", Level.INFO);
 
 		if (args == null || args.length == 0) {
 			throw new IllegalArgumentException("args empty");

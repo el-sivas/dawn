@@ -1,6 +1,5 @@
 package de.elsivas.finance.logic.portals.onvista;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -8,8 +7,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import de.elsivas.basic.ESConsoleUtils;
-import de.elsivas.basic.EsRuntimeException;
-import de.elsivas.basic.SleepUtils;
 import de.elsivas.finance.logic.FinDownloader;
 import de.elsivas.finance.logic.FinFilenameUtils;
 import de.elsivas.finance.logic.Wertpapier;
@@ -25,36 +22,11 @@ public class FinOnvistaDownloadUtils implements FinDownloader, FinConfigurable {
 
 	private final static String DOWNLOAD_LIST = "download-list";
 
-	public static String downloadToFile(Wertpapier wp) {
-		final String target = "target-file";
-		downloadToFile(wp, target);
-		return target;
-	}
-
-	public static void downloadToFile(Wertpapier wp, String target) {
-		final String downloadLink = FinOnvistaDownloadLinkBuilder.buildDownloadLink(wp.getIsin());
-
-		final String workdir = FinConfig.get(FinConfig.WORKDIR);
-		if (!new File(workdir).isDirectory()) {
-			throw new EsRuntimeException("no dir: " + workdir);
-		}
-
-		final StringBuilder sb = new StringBuilder();
-		sb.append("wget -O " + workdir + "/DL-" + target + " ");
-		// sb.append("\"");
-		sb.append(downloadLink);
-		// sb.append("\"");
-
-		final String command = sb.toString();
-		LOG.info("exec: " + command);
-		ESConsoleUtils.runConsoleCommand(command);
-		SleepUtils.sleepFor(2000);
-	}
-
 	@Override
 	public void downloadAndSave() {
 		final String downloadList = FinConfig.get(DOWNLOAD_LIST);
 		for (String valueToDownload : downloadList.split(";")) {
+			LOG.info("download: " + valueToDownload);
 			StringBuilder commandBuilder = new StringBuilder();
 			commandBuilder.append("wget -O ");
 			commandBuilder.append(FinConfig.get(FinConfig.WORKDIR) + "/");
