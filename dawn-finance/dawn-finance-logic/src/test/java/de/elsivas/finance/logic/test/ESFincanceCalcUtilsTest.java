@@ -26,8 +26,8 @@ public class ESFincanceCalcUtilsTest {
 		map2.put(DateUtils.toDate(LocalDate.now().minusDays(1)), BigDecimal.valueOf(900));
 		map2.put(DateUtils.toDate(LocalDate.now().minusDays(2)), BigDecimal.valueOf(800));
 
-		Map<String, Object> config = new HashMap<>();
-		config.put(ESFinConfig.WMA_MIN, BigDecimal.valueOf(0.5));
+		Map<String, String> config = new HashMap<>();
+		config.put(ESFinConfig.WMA_MIN, String.valueOf(0.5));
 		ESFinConfig.init(config);
 		final Chart dataset = dataset(map2);
 
@@ -41,8 +41,8 @@ public class ESFincanceCalcUtilsTest {
 
 	@Test
 	public void test() {
-		Map<String, Object> config = new HashMap<>();
-		config.put(ESFinConfig.WMA_MIN, BigDecimal.valueOf(0.5));
+		Map<String, String> config = new HashMap<>();
+		config.put(ESFinConfig.WMA_MIN, String.valueOf(0.5));
 		ESFinConfig.init(config);
 		final Chart cd = dataset(map);
 

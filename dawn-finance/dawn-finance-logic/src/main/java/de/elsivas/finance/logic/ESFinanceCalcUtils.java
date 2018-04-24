@@ -28,7 +28,7 @@ public class ESFinanceCalcUtils {
 	}
 
 	public static BigDecimal calcWMA(final Chart cd, int days) {
-		final BigDecimal wmaMin = ESFinConfig.get(ESFinConfig.WMA_MIN, BigDecimal.class);
+		final BigDecimal wmaMin = BigDecimal.valueOf(Double.valueOf(ESFinConfig.get(ESFinConfig.WMA_MIN)));
 		final BigDecimal diff = BigDecimal.ONE.subtract(wmaMin);
 		final BigDecimal weightLossPerDay = diff.divide(BigDecimal.valueOf(days), DEFAULT_MC);
 

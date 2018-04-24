@@ -29,6 +29,8 @@ public class Finance {
 			throw new EsRuntimeException("invalid mode: " + mode);
 		}
 		financeX.run();
+		KeyValueDao.write(fileName, ESFinConfig.getValues());
+		
 	}
 
 }

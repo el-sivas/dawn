@@ -1,5 +1,7 @@
 package de.elsivas.finance.logic.portals.onvista;
 
-public class ESOnvistaParser {
+public class ESFInOnvistaDataParser {
+	
+	
 
 }
