@@ -4,7 +4,8 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
-import de.elsivas.finance.model.FinShareValue;
+import de.elsivas.finance.logic.model.FinShareValue;
+
 
 
 public class FinFundamentalCalcUtils {
