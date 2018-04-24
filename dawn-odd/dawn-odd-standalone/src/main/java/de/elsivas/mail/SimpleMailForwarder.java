@@ -12,8 +12,8 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 
 import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
-import de.elsivas.basic.SimpleLogFactory;
 import de.elsivas.mail.data.SimpleMailConfig;
 import de.elsivas.mail.data.SimpleMailConfigDaoUtils;
 import de.elsivas.mail.logic.SMForwardUtils;
@@ -25,9 +25,9 @@ import de.elsivas.mail.logic.SimpleMailSession;
 
 public class SimpleMailForwarder {
 
-	private static final Log LOG = SimpleLogFactory.getLog(SimpleMailForwarder.class);
+	private static final Log LOG = LogFactory.getLog(SimpleMailForwarder.class);
 
-	private static final String VERSION = "0.2";
+	private static final String VERSION = "0.3-SN";
 
 	private static final String SUB_SUCCESS = "Subscription succesful. Send a mail with subject: 'UNSUBSCRIBE' to unsubscribe.";
 
@@ -39,7 +39,10 @@ public class SimpleMailForwarder {
 
 	private static Collection<String> CTRL_SUBJECTS = Arrays.asList(SUBJECT_SUBSCRIBE, SUBJECT_UNSUBSCRIBE);
 
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
+		
+		
+		
 		final long start = System.currentTimeMillis();
 		LOG.info("SMF Version " + VERSION);
 		final String pathname = args[0];
@@ -49,15 +52,28 @@ public class SimpleMailForwarder {
 			System.exit(0);
 		}
 		final SimpleMailConfig config = SimpleMailConfigDaoUtils.load(pathname);
+		migrateRecipients(config);
 
 		try {
 			handleMessage(config);
-		} catch (SMLogicException e) {
+		} catch (final SMLogicException e) {
 			LOG.error("an error has occured", e);
 			System.exit(1);
 		}
-		SimpleMailConfigDaoUtils.save(config);
+		SimpleMailConfigDaoUtils.save(config, pathname);
 		LOG.info("all done. finish. took (ms): " + (System.currentTimeMillis() - start));
+	}
+
+	private static void migrateRecipients(final SimpleMailConfig config) {
+		final Collection<String> allReciepients = config.getAllReciepients();
+		if(allReciepients.isEmpty()) {
+			return;
+		}
+		for (final String string : allReciepients) {
+			config.addReciepient(string);
+		}
+		
+		
 	}
 
 	private static void handleMessage(final SimpleMailConfig config) throws SMLogicException {
@@ -73,7 +89,7 @@ public class SimpleMailForwarder {
 		}
 	}
 
-	private static void handleMessages(final SimpleMailSession session, SimpleMailConfig config)
+	private static void handleMessages(final SimpleMailSession session, final SimpleMailConfig config)
 			throws MessagingException, SMLogicException {
 
 		LOG.info("handle messages");
@@ -85,12 +101,12 @@ public class SimpleMailForwarder {
 		}
 	}
 
-	private static void handleMessages(final SimpleMailSession session, SimpleMailConfig config,
-			SimpleMailFolder rootFolder) throws SMLogicException {
+	private static void handleMessages(final SimpleMailSession session, final SimpleMailConfig config,
+			final SimpleMailFolder rootFolder) throws SMLogicException {
 		final Collection<Message> messages = new ArrayList<>();
 		try {
 			messages.addAll(rootFolder.getMessages());
-		} catch (MessagingException e) {
+		} catch (final MessagingException e) {
 			throw new SMLogicException(e);
 		}
 		LOG.info(messages.size() + " messages found");
@@ -99,7 +115,7 @@ public class SimpleMailForwarder {
 				.collect(Collectors.toList());
 
 		final Collection<Message> selfSendedMails = SMForwardUtils.extractSelfSendedMessages(messages,
-				config.getPrimarylistMailAddress());
+				config.getPrimarylistMailAddress(), config.getNoreplyAddress());
 
 		final Collection<Message> forwardMessages = new ArrayList<>(messages);
 		forwardMessages.removeAll(ctrlMessages);
@@ -135,26 +151,25 @@ public class SimpleMailForwarder {
 		deleteMessages(messages);
 	}
 
-	private static void handleCtrlMessages(Collection<Message> ctrlMessages, SimpleMailConfig config,
-			SimpleMailSession session) throws SMLogicException {
+	private static void handleCtrlMessages(final Collection<Message> ctrlMessages, final SimpleMailConfig config,
+			final SimpleMailSession session) throws SMLogicException {
 
 		if (ctrlMessages.isEmpty()) {
 			LOG.info("no ctrl messages to process");
 			return;
 		}
 
-		for (Message ctrlMessage : ctrlMessages) {
+		for (final Message ctrlMessage : ctrlMessages) {
 			try {
 				handleCtrlMessage(config, session, ctrlMessage);
-			} catch (MessagingException e) {
+			} catch (final MessagingException e) {
 				throw new SMLogicException(e);
 			}
 		}
-		SimpleMailConfigDaoUtils.save(config);
 	}
 
-	private static void handleCtrlMessage(SimpleMailConfig config, SimpleMailSession session, Message ctrlMessage)
-			throws MessagingException, SMLogicException {
+	private static void handleCtrlMessage(final SimpleMailConfig config, final SimpleMailSession session,
+			final Message ctrlMessage) throws MessagingException, SMLogicException {
 		final String subject = ctrlMessage.getSubject();
 		final String from = SMUtils.extractMail(ctrlMessage.getFrom()[0].toString());
 
@@ -162,21 +177,23 @@ public class SimpleMailForwarder {
 			config.addReciepient(from);
 
 			LOG.info("Subscribed: " + ctrlMessage.getFrom()[0]);
-			SMForwardUtils.sendOwn(session, "Subscribed!", SUB_SUCCESS, from);
+			SMForwardUtils.sendOwn(session, "Subscribed!", SUB_SUCCESS, from, config.getNoreplyAddress(),
+					config.getPrimarylistMailAddress());
 
 		} else if (SUBJECT_UNSUBSCRIBE.equals(subject)) {
 			config.removeRecipient(from);
 
 			LOG.info("Unsubscribed: " + ctrlMessage.getFrom()[0]);
-			SMForwardUtils.sendOwn(session, "Unsubscribed!", UNSUB_SUCCESS, from);
+			SMForwardUtils.sendOwn(session, "Unsubscribed!", UNSUB_SUCCESS, from, config.getNoreplyAddress(),
+					config.getPrimarylistMailAddress());
 
 		}
 	}
 
-	private static String subject(Message m) {
+	private static String subject(final Message m) {
 		try {
 			return m.getSubject();
-		} catch (MessagingException e) {
+		} catch (final MessagingException e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -184,52 +201,52 @@ public class SimpleMailForwarder {
 	private static void deleteMessages(final Collection<Message> processedMessages) throws SMLogicException {
 		LOG.info("cleanup messages: " + processedMessages.size());
 
-		for (Message message : processedMessages) {
+		for (final Message message : processedMessages) {
 			try {
 				message.setFlag(Flag.DELETED, true);
-			} catch (MessagingException e) {
+			} catch (final MessagingException e) {
 				throw new SMLogicException(e);
 			}
 		}
 	}
 
-	private static void copyMessages(final Collection<Message> processedMessages, SimpleMailFolder rootFolder,
-			SimpleMailFolder subfolder) throws SMLogicException {
+	private static void copyMessages(final Collection<Message> processedMessages, final SimpleMailFolder rootFolder,
+			final SimpleMailFolder subfolder) throws SMLogicException {
 
 		LOG.info("copy messages: " + processedMessages.size());
 
 		try {
 			subfolder.open(Folder.READ_WRITE);
-		} catch (MessagingException e) {
+		} catch (final MessagingException e) {
 			throw new SMLogicException(e);
 		}
 		try {
 			rootFolder.copy(processedMessages, subfolder);
-		} catch (MessagingException e) {
+		} catch (final MessagingException e) {
 			throw new SMLogicException(e);
 		}
 	}
 
-	private static void forwardMessages(Collection<Message> messages, SimpleMailSession session,
-			SimpleMailConfig config) throws SMLogicException {
+	private static void forwardMessages(final Collection<Message> messages, final SimpleMailSession session,
+			final SimpleMailConfig config) throws SMLogicException {
 
 		if (messages.isEmpty()) {
 			LOG.info("no messages to forward");
 			return;
 		}
 
-		final Collection<String> allReciepients = config.getAllReciepients();
+		final Collection<String> allReciepients = config.getRecipients();
 		if (allReciepients.isEmpty()) {
 			LOG.warn("No recipients!");
 			return;
 		}
 
-		for (Message originalMessage : messages) {
+		for (final Message originalMessage : messages) {
 			SMForwardUtils.forwardMessage(session, config, originalMessage);
 		}
 	}
 
-	private static boolean fistStart(String[] args) {
+	private static boolean fistStart(final String[] args) {
 		if (args.length < 2) {
 			return false;
 		}

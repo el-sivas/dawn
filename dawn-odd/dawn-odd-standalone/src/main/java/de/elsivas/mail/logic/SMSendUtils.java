@@ -10,22 +10,21 @@ import javax.mail.Multipart;
 import javax.mail.Transport;
 
 import org.apache.commons.logging.Log;
-
-import de.elsivas.basic.SimpleLogFactory;
+import org.apache.commons.logging.LogFactory;
 
 public class SMSendUtils {
 
-	private static final Log LOG = SimpleLogFactory.getLog(SMSendUtils.class);
+	private static final Log LOG = LogFactory.getLog(SMSendUtils.class);
 
-	public static void sendMail(SMPattern pattern, SimpleMailSession session) throws SMLogicException {
+	public static void sendMail(final SMPattern pattern, final SimpleMailSession session) throws SMLogicException {
 		try {
 			sendMailInternal(pattern, session);
-		} catch (MessagingException e) {
+		} catch (final MessagingException e) {
 			throw new SMLogicException(e);
 		}
 	}
 
-	private static void sendMailInternal(SMPattern pattern, SimpleMailSession session)
+	private static void sendMailInternal(final SMPattern pattern, final SimpleMailSession session)
 			throws SMLogicException, MessagingException {
 		
 		final Message message = session.createMessage();
@@ -48,7 +47,7 @@ public class SMSendUtils {
 		Transport.send(message);
 	}
 
-	public static String toSting(SMPattern pattern) throws SMLogicException {
+	public static String toSting(final SMPattern pattern) throws SMLogicException {
 		final StringBuilder sb = new StringBuilder();
 		sb.append("MAIL [");
 		sb.append("'" + pattern.getSubject() + "'");
@@ -69,9 +68,9 @@ public class SMSendUtils {
 		}
 	}
 
-	private static void addRecipients(final Message forwardMessage, Collection<Address> allReciepients,
-			RecipientType type) throws MessagingException {
-		for (Address recipient : allReciepients) {
+	private static void addRecipients(final Message forwardMessage, final Collection<Address> allReciepients,
+			final RecipientType type) throws MessagingException {
+		for (final Address recipient : allReciepients) {
 			forwardMessage.addRecipient(type, recipient);
 		}
 	}

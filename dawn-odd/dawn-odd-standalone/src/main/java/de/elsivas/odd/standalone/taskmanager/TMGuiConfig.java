@@ -16,13 +16,13 @@ import javax.swing.SwingConstants;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
-import de.elsivas.basic.SimpleLogFactory;
 import de.elsivas.basic.gui.BasicGuiConfig;
 
 public class TMGuiConfig implements BasicGuiConfig {
 
-	private static final Log LOG = SimpleLogFactory.getLog(TMGuiConfig.class);
+	private static final Log LOG = LogFactory.getLog(TMGuiConfig.class);
 
 	private final JPanel root = new JPanel();
 

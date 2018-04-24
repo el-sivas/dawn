@@ -16,15 +16,15 @@ import javax.swing.JOptionPane;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import de.elsivas.basic.DateUtils;
-import de.elsivas.basic.SimpleLogFactory;
 import de.elsivas.basic.SleepUtils;
 import de.elsivas.basic.gui.BasicGui;
 
 public class TaskManager {
 
-	private static final Log LOG = SimpleLogFactory.getLog(TaskManager.class);
+	private static final Log LOG = LogFactory.getLog(TaskManager.class);
 
 	private static final String VERSION = "0.4-SN";
 
