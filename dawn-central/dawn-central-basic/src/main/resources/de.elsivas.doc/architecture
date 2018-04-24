@@ -1,0 +1,6 @@
+El Sivas Architecture
+
+Beans
+	Services	always with interface, stateless
+	Utils		only static methods, stateless
+	Holder		instanceable, stateful

@@ -1,11 +1,13 @@
 package de.elsivas.odd;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import de.elsivas.odd.logic.clock.bin.BinaryClock;
 
 public class BinClockTest {
 
+	@Ignore // infinite
 	@Test
 	public void test2() {
 		BinaryClock.run();
@@ -14,6 +16,7 @@ public class BinClockTest {
 		}
 	}
 
+	@Ignore // infinite
 	@Test
 	public void test() {
 		BinaryClock.run();

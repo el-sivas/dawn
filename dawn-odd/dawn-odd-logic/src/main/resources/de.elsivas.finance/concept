@@ -1,0 +1,5 @@
+Modules
+
+calculator		calculates the values
+downloader		downloades new data
+io				reads and writes history data

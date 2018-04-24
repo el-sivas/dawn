@@ -2,12 +2,14 @@ package de.elsivas.odd;
 
 import java.time.LocalTime;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import de.elsivas.odd.logic.clock.bin.BinTime;
 
 public class BinTimeTest {
 	
+	@Ignore
 	@Test
 	public void testContinuous() throws InterruptedException {
 		while(true) {

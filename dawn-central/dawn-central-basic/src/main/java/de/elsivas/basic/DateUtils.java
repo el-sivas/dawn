@@ -2,6 +2,7 @@ package de.elsivas.basic;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.ZoneId;
@@ -21,6 +22,10 @@ public class DateUtils {
 
 	public static Date toDate(final LocalDateTime localDateTime) {
 		return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+	}
+	
+	public static Date toDate(final LocalDate localDate) {
+		return toDate(LocalDateTime.of(localDate, LocalTime.MIDNIGHT));
 	}
 
 	public static LocalDateTime toLocalDateTime(final Date date) {
