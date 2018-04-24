@@ -17,16 +17,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
-import com.mysql.cj.core.log.LogFactory;
-
-import de.elsivas.basic.SimpleLogFactory;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TMTask {
 
-	private static final Log LOG = SimpleLogFactory.getLog(TMTask.class);
+	private static final Log LOG = LogFactory.getLog(TMTask.class);
 
 	private String task;
 
@@ -53,12 +51,12 @@ public class TMTask {
 	private Set<TMTaskProperties> properties = new TreeSet<>(new Comparator<TMTaskProperties>() {
 
 		@Override
-		public int compare(TMTaskProperties o1, TMTaskProperties o2) {
+		public int compare(final TMTaskProperties o1, final TMTaskProperties o2) {
 			return o1.getKey().compareTo(o2.getKey());
 		}
 	});
 
-	public static TMTask create(String task) {
+	public static TMTask create(final String task) {
 		final TMTask tmTask = create();
 		tmTask.setTask(task);
 		return tmTask;
@@ -75,7 +73,7 @@ public class TMTask {
 		return "'" + getTask().split("\n")[0] + "'";
 	}
 
-	public void setSubTasks(Collection<TMTask> subTasks) {
+	public void setSubTasks(final Collection<TMTask> subTasks) {
 		this.subTasks = subTasks;
 	}
 
@@ -88,7 +86,7 @@ public class TMTask {
 
 	}
 
-	public void setTask(String task) {
+	public void setTask(final String task) {
 		this.task = task;
 	}
 
@@ -100,7 +98,7 @@ public class TMTask {
 		return probability != null ? probability : 0;
 	}
 
-	public void setProbability(Double probability) {
+	public void setProbability(final Double probability) {
 		this.probability = probability;
 	}
 
@@ -108,7 +106,7 @@ public class TMTask {
 		return lastOccurance;
 	}
 
-	public void setLastOccurance(Date lastOccurance) {
+	public void setLastOccurance(final Date lastOccurance) {
 		this.lastOccurance = lastOccurance;
 	}
 
@@ -116,7 +114,7 @@ public class TMTask {
 		return resource;
 	}
 
-	public void setResource(String resource) {
+	public void setResource(final String resource) {
 		this.resource = resource;
 	}
 
@@ -124,7 +122,7 @@ public class TMTask {
 		return duration != null ? duration : 0;
 	}
 
-	public void setDuration(Double duration) {
+	public void setDuration(final Double duration) {
 		this.duration = duration;
 	}
 
@@ -136,7 +134,7 @@ public class TMTask {
 		return BooleanUtils.isTrue(subtasksBeforeExecution);
 	}
 
-	public void setSubtasksBeforeExecution(Boolean subtasksBeforeExecution) {
+	public void setSubtasksBeforeExecution(final Boolean subtasksBeforeExecution) {
 		this.subtasksBeforeExecution = subtasksBeforeExecution;
 	}
 
@@ -144,7 +142,7 @@ public class TMTask {
 		return BooleanUtils.isNotFalse(reset);
 	}
 
-	public void setReset(Boolean reset) {
+	public void setReset(final Boolean reset) {
 		this.reset = reset;
 	}
 
@@ -156,7 +154,7 @@ public class TMTask {
 		return maxOccurences != null ? maxOccurences : 0;
 	}
 
-	public void setMaxOccurences(Integer maxOccurences) {
+	public void setMaxOccurences(final Integer maxOccurences) {
 		this.maxOccurences = maxOccurences;
 	}
 
@@ -164,7 +162,7 @@ public class TMTask {
 		return occurences != null ? occurences : 0;
 	}
 
-	public void setOccurences(Integer occurences) {
+	public void setOccurences(final Integer occurences) {
 		this.occurences = occurences;
 	}
 
@@ -172,18 +170,18 @@ public class TMTask {
 		return properties;
 	}
 
-	public void setProperties(Set<TMTaskProperties> properties) {
+	public void setProperties(final Set<TMTaskProperties> properties) {
 		this.properties = properties;
 	}
 
-	public void setProperty(String key, String value) {
+	public void setProperty(final String key, final String value) {
 		properties.remove(TMTaskProperties.create(key, ""));
 		properties.add(TMTaskProperties.create(key, value));
 	}
 
-	public String getPropertiy(String key) {
+	public String getPropertiy(final String key) {
 		final Map<String, String> map = new HashMap<>();
-		for (TMTaskProperties p : properties) {
+		for (final TMTaskProperties p : properties) {
 			map.put(p.getKey(), p.getValue());
 		}
 		return map.get(key);
@@ -204,7 +202,7 @@ public class TMTask {
 		return resourceAudio;
 	}
 
-	public void setResourceAudio(String resourceAudio) {
+	public void setResourceAudio(final String resourceAudio) {
 		this.resourceAudio = resourceAudio;
 	}
 }

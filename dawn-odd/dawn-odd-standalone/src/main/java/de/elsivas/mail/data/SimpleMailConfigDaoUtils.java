@@ -1,12 +1,11 @@
 package de.elsivas.mail.data;
 
 import org.apache.commons.logging.Log;
-
-import de.elsivas.basic.SimpleLogFactory;
+import org.apache.commons.logging.LogFactory;
 
 public class SimpleMailConfigDaoUtils {
 
-	private static final Log LOG = SimpleLogFactory.getLog(SimpleMailConfigDaoUtils.class);
+	private static final Log LOG = LogFactory.getLog(SimpleMailConfigDaoUtils.class);
 
 	private static SimpleMailConfigDaoUtils instance;
 	
@@ -19,11 +18,11 @@ public class SimpleMailConfigDaoUtils {
 		return dao;
 	}
 
-	public static void save(final SimpleMailConfig config) {
-		getInstance().save(config, config.getConfigFile());
+	public static void save(final SimpleMailConfig config, final String path) {
+		getInstance().save(config, path);
 	}
 
-	public static SimpleMailConfig load(String pathname) {
+	public static SimpleMailConfig load(final String pathname) {
 		return getInstance().load(pathname);
 	}	
 }

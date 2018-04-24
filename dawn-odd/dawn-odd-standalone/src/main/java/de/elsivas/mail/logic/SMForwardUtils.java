@@ -16,35 +16,33 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
 import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
-import de.elsivas.basic.SimpleLogFactory;
 import de.elsivas.mail.data.SimpleMailConfig;
 
 public class SMForwardUtils {
 
-	private static final Log LOG = SimpleLogFactory.getLog(SMForwardUtils.class);
-
-	private static final String PRIMARY_LIST_ADDRESS = "feuerwehr@sebastianlipp.de";
-
-	private static final String SECONDARY_LIST_ADDRESS = "fw-list@sebastianlipp.de";
+	private static final Log LOG = LogFactory.getLog(SMForwardUtils.class);
 
 	private static final String FFO_PREFIX = "[FFO]";
 
-	public static void forwardMessage(SimpleMailSession session, SimpleMailConfig config, Message originalMessage)
-			throws SMLogicException {
+	public static void forwardMessage(final SimpleMailSession session, final SimpleMailConfig config,
+			final Message originalMessage) throws SMLogicException {
 
-		final Collection<String> allReciepients = config.getAllReciepients();
-		for (String recipient : allReciepients) {
+		final Collection<String> allReciepients = config.getRecipients();
+		for (final String recipient : allReciepients) {
 			try {
-				sendMailToRecipient(session, originalMessage, recipient);
-			} catch (Throwable t) {
+				sendMailToRecipient(session, originalMessage, recipient, config.getNoreplyAddress(),
+						config.getPrimarylistMailAddress());
+			} catch (final Throwable t) {
 				LOG.error("error on forwarding mail to: " + recipient, t);
 			}
 		}
 
 	}
 
-	private static void sendMailToRecipient(SimpleMailSession session, Message originalMessage, String recipient)
+	private static void sendMailToRecipient(final SimpleMailSession session, final Message originalMessage,
+			final String recipient, final String noreplyAdress, final String primaryListAddress)
 			throws SMLogicException {
 		final SMPattern pattern = new SMPattern() {
 
@@ -52,7 +50,7 @@ public class SMForwardUtils {
 			public String getSubject() throws SMLogicException {
 				try {
 					return determineNewSubject(originalMessage.getSubject());
-				} catch (MessagingException e) {
+				} catch (final MessagingException e) {
 					throw new SMLogicException(e);
 				}
 			}
@@ -60,8 +58,8 @@ public class SMForwardUtils {
 			@Override
 			public Collection<Address> getRecipients() throws SMLogicException {
 				try {
-					return Arrays.asList(new InternetAddress(SECONDARY_LIST_ADDRESS));
-				} catch (AddressException e) {
+					return Arrays.asList(new InternetAddress(noreplyAdress));
+				} catch (final AddressException e) {
 					throw new SMLogicException(e);
 				}
 			}
@@ -70,7 +68,7 @@ public class SMForwardUtils {
 			public Collection<Address> getRecipientsBCC() throws SMLogicException {
 				try {
 					return SMUtils.toAdresses(Collections.singletonList(recipient));
-				} catch (AddressException e) {
+				} catch (final AddressException e) {
 					throw new SMLogicException(e);
 				}
 			}
@@ -79,7 +77,7 @@ public class SMForwardUtils {
 			public Address getFrom() throws SMLogicException {
 				try {
 					return originalMessage.getFrom()[0];
-				} catch (MessagingException e) {
+				} catch (final MessagingException e) {
 					throw new SMLogicException(e);
 				}
 			}
@@ -96,8 +94,8 @@ public class SMForwardUtils {
 			@Override
 			public Address getReplyTo() throws SMLogicException {
 				try {
-					return new InternetAddress(PRIMARY_LIST_ADDRESS);
-				} catch (AddressException e) {
+					return new InternetAddress(primaryListAddress);
+				} catch (final AddressException e) {
 					throw new SMLogicException(e);
 				}
 			}
@@ -105,8 +103,13 @@ public class SMForwardUtils {
 		SMSendUtils.sendMail(pattern, session);
 	}
 
-	public static void sendOwn(SimpleMailSession session, String subject, String text, String to)
-			throws SMLogicException {
+	public static void sendOwn(final SimpleMailSession session, final String subject, final String text,
+			final String to, final String noreply, final String primary) throws SMLogicException {
+		final boolean deactivatedOwnMails = true;
+		if (deactivatedOwnMails) {
+			return;
+		}
+
 		final SMPattern pattern = new SMPattern() {
 
 			@Override
@@ -118,7 +121,7 @@ public class SMForwardUtils {
 			public Collection<Address> getRecipients() throws SMLogicException {
 				try {
 					return Collections.singleton(new InternetAddress(to));
-				} catch (AddressException e) {
+				} catch (final AddressException e) {
 					throw new SMLogicException(e);
 				}
 			}
@@ -126,8 +129,8 @@ public class SMForwardUtils {
 			@Override
 			public Address getFrom() throws SMLogicException {
 				try {
-					return new InternetAddress(PRIMARY_LIST_ADDRESS);
-				} catch (AddressException e) {
+					return new InternetAddress(primary);
+				} catch (final AddressException e) {
 					throw new SMLogicException(e);
 				}
 			}
@@ -140,8 +143,8 @@ public class SMForwardUtils {
 			@Override
 			public Address getReplyTo() throws SMLogicException {
 				try {
-					return new InternetAddress(SECONDARY_LIST_ADDRESS);
-				} catch (AddressException e) {
+					return new InternetAddress(noreply);
+				} catch (final AddressException e) {
 					throw new SMLogicException(e);
 				}
 			}
@@ -151,19 +154,19 @@ public class SMForwardUtils {
 
 	}
 
-	public static Collection<Message> extractSelfSendedMessages(Collection<Message> messages,
-			String primarylistMailAddress) throws SMLogicException {
+	public static Collection<Message> extractSelfSendedMessages(final Collection<Message> messages,
+			final String primarylistMailAddress, final String noreply) throws SMLogicException {
 		try {
-			return extractSelfSendedMessagesInternal(messages, primarylistMailAddress);
-		} catch (MessagingException e) {
+			return extractSelfSendedMessagesInternal(messages, primarylistMailAddress, noreply);
+		} catch (final MessagingException e) {
 			throw new SMLogicException(e);
 		}
 	}
 
-	private static Collection<Message> extractSelfSendedMessagesInternal(Collection<Message> messages,
-			String primarylistMailAddress) throws MessagingException {
+	private static Collection<Message> extractSelfSendedMessagesInternal(final Collection<Message> messages,
+			final String primarylistMailAddress, final String noreply) throws MessagingException {
 		final Collection<Message> selfSendedMessages = new ArrayList<>();
-		for (Message message : messages) {
+		for (final Message message : messages) {
 
 			final Collection<String> recipientsTO = Arrays.asList(message.getRecipients(RecipientType.TO)).stream()
 					.map(e -> extractMail(e)).collect(Collectors.toList());
@@ -171,7 +174,7 @@ public class SMForwardUtils {
 			final Collection<String> replysTo = Arrays.asList(message.getReplyTo()).stream().map(e -> extractMail(e))
 					.collect(Collectors.toList());
 
-			if (recipientsTO.size() == 1 && recipientsTO.contains(SECONDARY_LIST_ADDRESS)) {
+			if (recipientsTO.size() == 1 && recipientsTO.contains(noreply)) {
 				if (replysTo.size() == 1 && replysTo.contains(primarylistMailAddress)) {
 					if (message.getSubject().startsWith(FFO_PREFIX)) {
 						selfSendedMessages.add(message);
@@ -182,17 +185,17 @@ public class SMForwardUtils {
 		return selfSendedMessages;
 	}
 
-	private static String extractMail(Address a) {
+	private static String extractMail(final Address a) {
 		try {
 			return SMUtils.extractMail(a.toString());
-		} catch (SMLogicException e) {
+		} catch (final SMLogicException e) {
 			throw new SMRuntimeException(e);
 		}
 	}
 
-	private static String determineNewSubject(String subject) {
-		StringTokenizer st = new StringTokenizer(subject, FFO_PREFIX);
-		StringBuffer sb = new StringBuffer();
+	private static String determineNewSubject(final String subject) {
+		final StringTokenizer st = new StringTokenizer(subject, FFO_PREFIX);
+		final StringBuffer sb = new StringBuffer();
 		sb.append(FFO_PREFIX + " ");
 		while (st.hasMoreElements()) {
 			sb.append(st.nextToken().trim() + " ");

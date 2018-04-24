@@ -12,8 +12,8 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 
 import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
-import de.elsivas.basic.SimpleLogFactory;
 import de.elsivas.mail.data.SimpleMailConfig;
 import de.elsivas.mail.data.SimpleMailConfigDaoUtils;
 import de.elsivas.mail.logic.SMForwardUtils;
@@ -25,7 +25,7 @@ import de.elsivas.mail.logic.SimpleMailSession;
 
 public class SimpleMailForwarder {
 
-	private static final Log LOG = SimpleLogFactory.getLog(SimpleMailForwarder.class);
+	private static final Log LOG = LogFactory.getLog(SimpleMailForwarder.class);
 
 	private static final String VERSION = "0.3-SN";
 
@@ -40,6 +40,9 @@ public class SimpleMailForwarder {
 	private static Collection<String> CTRL_SUBJECTS = Arrays.asList(SUBJECT_SUBSCRIBE, SUBJECT_UNSUBSCRIBE);
 
 	public static void main(final String[] args) {
+		
+		
+		
 		final long start = System.currentTimeMillis();
 		LOG.info("SMF Version " + VERSION);
 		final String pathname = args[0];
@@ -49,6 +52,7 @@ public class SimpleMailForwarder {
 			System.exit(0);
 		}
 		final SimpleMailConfig config = SimpleMailConfigDaoUtils.load(pathname);
+		migrateRecipients(config);
 
 		try {
 			handleMessage(config);
@@ -56,8 +60,20 @@ public class SimpleMailForwarder {
 			LOG.error("an error has occured", e);
 			System.exit(1);
 		}
-		SimpleMailConfigDaoUtils.save(config);
+		SimpleMailConfigDaoUtils.save(config, pathname);
 		LOG.info("all done. finish. took (ms): " + (System.currentTimeMillis() - start));
+	}
+
+	private static void migrateRecipients(final SimpleMailConfig config) {
+		final Collection<String> allReciepients = config.getAllReciepients();
+		if(allReciepients.isEmpty()) {
+			return;
+		}
+		for (final String string : allReciepients) {
+			config.addReciepient(string);
+		}
+		
+		
 	}
 
 	private static void handleMessage(final SimpleMailConfig config) throws SMLogicException {
@@ -99,7 +115,7 @@ public class SimpleMailForwarder {
 				.collect(Collectors.toList());
 
 		final Collection<Message> selfSendedMails = SMForwardUtils.extractSelfSendedMessages(messages,
-				config.getPrimarylistMailAddress());
+				config.getPrimarylistMailAddress(), config.getNoreplyAddress());
 
 		final Collection<Message> forwardMessages = new ArrayList<>(messages);
 		forwardMessages.removeAll(ctrlMessages);
@@ -150,11 +166,10 @@ public class SimpleMailForwarder {
 				throw new SMLogicException(e);
 			}
 		}
-		SimpleMailConfigDaoUtils.save(config);
 	}
 
-	private static void handleCtrlMessage(final SimpleMailConfig config, final SimpleMailSession session, final Message ctrlMessage)
-			throws MessagingException, SMLogicException {
+	private static void handleCtrlMessage(final SimpleMailConfig config, final SimpleMailSession session,
+			final Message ctrlMessage) throws MessagingException, SMLogicException {
 		final String subject = ctrlMessage.getSubject();
 		final String from = SMUtils.extractMail(ctrlMessage.getFrom()[0].toString());
 
@@ -162,13 +177,15 @@ public class SimpleMailForwarder {
 			config.addReciepient(from);
 
 			LOG.info("Subscribed: " + ctrlMessage.getFrom()[0]);
-			SMForwardUtils.sendOwn(session, "Subscribed!", SUB_SUCCESS, from);
+			SMForwardUtils.sendOwn(session, "Subscribed!", SUB_SUCCESS, from, config.getNoreplyAddress(),
+					config.getPrimarylistMailAddress());
 
 		} else if (SUBJECT_UNSUBSCRIBE.equals(subject)) {
 			config.removeRecipient(from);
 
 			LOG.info("Unsubscribed: " + ctrlMessage.getFrom()[0]);
-			SMForwardUtils.sendOwn(session, "Unsubscribed!", UNSUB_SUCCESS, from);
+			SMForwardUtils.sendOwn(session, "Unsubscribed!", UNSUB_SUCCESS, from, config.getNoreplyAddress(),
+					config.getPrimarylistMailAddress());
 
 		}
 	}
@@ -218,7 +235,7 @@ public class SimpleMailForwarder {
 			return;
 		}
 
-		final Collection<String> allReciepients = config.getAllReciepients();
+		final Collection<String> allReciepients = config.getRecipients();
 		if (allReciepients.isEmpty()) {
 			LOG.warn("No recipients!");
 			return;
