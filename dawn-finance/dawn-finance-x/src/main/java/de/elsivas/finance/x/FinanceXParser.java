@@ -16,7 +16,7 @@ public class FinanceXParser implements FinanceX {
 
 		switch (portal) {
 		case ONVISTA:
-			finParser = FinOnvistaDataParserUtils.instance;
+			finParser = FinOnvistaDataParserUtils.getInstance();
 			break;
 
 		default:

@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import de.elsivas.basic.EsRuntimeException;
 
 public class CsvLine {
@@ -87,8 +89,12 @@ public class CsvLine {
 	}
 
 	public Date getValue(String colTitle, SimpleDateFormat simpleDateFormat) {
+		final String value = getValue(colTitle);
+		if (StringUtils.isBlank(value)) {
+			return null;
+		}
 		try {
-			return simpleDateFormat.parse(getValue(colTitle));
+			return simpleDateFormat.parse(value);
 		} catch (final ParseException e) {
 			throw new EsRuntimeException("error parsing", e);
 		}

@@ -1,12 +1,15 @@
 package de.elsivas.finance.data.persist;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import de.elsivas.basic.file.csv.Csv;
 import de.elsivas.basic.filedao.CsvFileDao;
@@ -15,6 +18,8 @@ import de.elsivas.finance.data.model.ShareValuePeriod;
 import de.elsivas.finance.data.model.ShareValuePeriod.Value;
 
 public class ShareValuePeriodFileDao {
+
+	private static final Log LOG = LogFactory.getLog(ShareValuePeriodFileDao.class);
 
 	private static ShareValuePeriodFileDao instance;
 
@@ -35,12 +40,23 @@ public class ShareValuePeriodFileDao {
 		saveAll(all);
 	}
 
-	private void saveAll(Set<ShareValuePeriod> all) {
+	public void saveAll(Set<ShareValuePeriod> all) {
 		final Value[] values = ShareValuePeriod.Value.values();
 		final List<Value> asList = Arrays.asList(values);
 		final List<String> title = asList.stream().map(e -> e.toString()).collect(Collectors.toList());
 		final Csv csv = Csv.createEmpty(title);
-		for (ShareValuePeriod shareValuePeriod : all) {
+
+		final List<ShareValuePeriod> valids = all.stream().filter(e -> ShareValuePeriodValidator.isValid(e))
+				.collect(Collectors.toList());
+
+		final List<ShareValuePeriod> invalids = new ArrayList<>(all);
+		invalids.removeAll(valids);
+
+		if (invalids.size() > 0) {
+			LOG.error("Invalid datasets: " + invalids.size());
+		}
+
+		for (ShareValuePeriod shareValuePeriod : valids) {
 			csv.add(ShareValuePeriodSerializer.serialize(shareValuePeriod));
 		}
 

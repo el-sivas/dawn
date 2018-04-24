@@ -14,6 +14,7 @@ public class Finance {
 
 	private static final String WRITE_CONFIG = "w";
 	private static final String DOWNLOAD = "d";
+	private static final String PARSE = "p";
 	private static FinanceX financeX;
 
 	public static void main(String[] args) {
@@ -43,6 +44,9 @@ public class Finance {
 		case WRITE_CONFIG:
 			financeX = new FinanceXConfigWriter();
 			break;
+		case PARSE:
+			financeX = new FinanceXParser();
+			break;		
 		default:
 			throw new EsRuntimeException("invalid mode: " + mode);
 		}

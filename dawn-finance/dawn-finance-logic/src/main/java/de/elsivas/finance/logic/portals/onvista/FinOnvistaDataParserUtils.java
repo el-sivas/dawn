@@ -11,12 +11,16 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
+
+import de.elsivas.basic.EsRuntimeException;
 import de.elsivas.basic.file.csv.Csv;
 import de.elsivas.basic.file.csv.CsvLine;
 import de.elsivas.basic.filedao.CsvFileDao;
 import de.elsivas.finance.FinConfig;
 import de.elsivas.finance.data.model.ShareValuePeriod;
 import de.elsivas.finance.data.model.Wertpapier;
+import de.elsivas.finance.data.persist.ShareValuePeriodFileDao;
 import de.elsivas.finance.logic.FinFilenameUtils;
 import de.elsivas.finance.logic.FinParser;
 import de.elsivas.finance.logic.portals.Portal;
@@ -34,9 +38,11 @@ public class FinOnvistaDataParserUtils implements FinParser {
 
 	private static final String COL_DATUM = "Datum";
 
-	private final static String SIMPLE_DATE_FORMAT = "dd.MM.yyyy";
+	private final static String ONVISTA_SIMPLE_DATE_FORMAT = "dd.MM.yyyy";
 
-	public static FinOnvistaDataParserUtils instance;
+	private static FinOnvistaDataParserUtils instance;
+
+	private ShareValuePeriodFileDao shareValuePeriodFileDao = ShareValuePeriodFileDao.getInstance();
 
 	private FinOnvistaDataParserUtils() {
 
@@ -53,24 +59,28 @@ public class FinOnvistaDataParserUtils implements FinParser {
 	public void parseAndSave() {
 		final String workdir = FinConfig.get(FinConfig.WORKDIR);
 		final File dir = new File(workdir);
-		final String filePrefix = FinConfig.DOWNLOAD_FILE_PREFIX + "_" + Portal.ONVISTA.toString();
+		final String filePrefix = FinConfig.get(FinConfig.DOWNLOAD_FILE_PREFIX) + "_" + Portal.ONVISTA.toString();
 		final List<File> allFiles = Arrays.asList(dir.listFiles());
 		final List<File> onvistaDownloadFiles = allFiles.stream().filter(e -> e.getName().startsWith(filePrefix))
 				.collect(Collectors.toList());
 
-		final Set<ShareValuePeriod> set = new TreeSet<>(new Comparator<ShareValuePeriod>() {
-
-			@Override
-			public int compare(ShareValuePeriod o1, ShareValuePeriod o2) {
-				return o1.getDate().compareTo(o2.getDate());
-			}
-		});
+		final Set<ShareValuePeriod> set = new TreeSet<>();
 
 		for (File file : onvistaDownloadFiles) {
 			final Csv csv = CsvFileDao.read(file);
-			final CsvLine line = csv.next();
-			set.add(parse(line, FinFilenameUtils.extractWertpapier(file.getName())));
+			while (csv.hasNext()) {
+				final CsvLine line = csv.next();
+				set.add(parse(line, FinFilenameUtils.extractWertpapier(file.getName())));
+			}
 		}
+
+		if(true) {
+			throw new EsRuntimeException("das hier vom importer machen lassen");
+		}
+		final Set<ShareValuePeriod> all = shareValuePeriodFileDao.loadAll();
+		all.addAll(set);
+		shareValuePeriodFileDao.saveAll(all);
+
 	}
 
 	private ShareValuePeriod parse(final CsvLine line, final Wertpapier wertpapier) {
@@ -78,7 +88,7 @@ public class FinOnvistaDataParserUtils implements FinParser {
 
 			@Override
 			public BigDecimal getVolume() {
-				return line.getValue(COL_VOLUMEN, BigDecimal.class);
+				return BigDecimal.valueOf(parseToDouble(line.getValue(COL_VOLUMEN)));
 			}
 
 			@Override
@@ -88,28 +98,41 @@ public class FinOnvistaDataParserUtils implements FinParser {
 
 			@Override
 			public BigDecimal getLowest() {
-				return line.getValue(COL_TIEF, BigDecimal.class);
+				return BigDecimal.valueOf(parseToDouble(line.getValue(COL_TIEF)));
 			}
 
 			@Override
 			public BigDecimal getLast() {
-				return line.getValue(COL_SCHLUSS, BigDecimal.class);
+				return BigDecimal.valueOf(parseToDouble(line.getValue(COL_SCHLUSS)));
 			}
 
 			@Override
 			public BigDecimal getHighest() {
-				return line.getValue(COL_HOCH, BigDecimal.class);
+				return BigDecimal.valueOf(parseToDouble(line.getValue(COL_HOCH)));
 			}
 
 			@Override
 			public BigDecimal getFirst() {
-				return line.getValue(COL_EROEFFNUNG, BigDecimal.class);
+				return BigDecimal.valueOf(parseToDouble(line.getValue(COL_EROEFFNUNG)));
 			}
 
 			@Override
 			public Date getDate() {
-				return line.getValue(COL_DATUM, new SimpleDateFormat(SIMPLE_DATE_FORMAT));
-			}			
+				return line.getValue(COL_DATUM, new SimpleDateFormat(ONVISTA_SIMPLE_DATE_FORMAT));
+			}
+
+			/**
+			 * parst europaeische Schreibweise nach technischer,
+			 */
+			private Double parseToDouble(String s) {
+				if (StringUtils.isEmpty(s)) {
+					return 0d;
+				}
+				final String trim = s.trim();
+				final String replace = trim.replaceAll("\\.", "");
+				final String replaceAll = replace.replaceAll(",", ".");
+				return Double.valueOf(replaceAll);
+			}
 		};
 	}
 }
