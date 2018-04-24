@@ -12,7 +12,7 @@ import org.junit.Test;
 import de.elsivas.basic.DateUtils;
 import de.elsivas.basic.file.csv.Csv;
 import de.elsivas.basic.filedao.FileCsvDao;
-import de.elsivas.finance.data.ChartData;
+import de.elsivas.finance.data.FinChartData;
 import de.elsivas.finance.data.ChartDataType;
 
 public class ChartDataTest {
@@ -21,7 +21,7 @@ public class ChartDataTest {
 
 	@Test
 	public void generateRandomData() {
-		final ChartData cd = ChartData.create();
+		final FinChartData cd = FinChartData.create();
 
 		final int zeitraum = 365;
 		final double maxSchwankungAmTag = 0.05;
@@ -43,14 +43,14 @@ public class ChartDataTest {
 
 	@Test
 	public void test2() {
-		final ChartData cd = ChartData.create(FileCsvDao.read(HOME_SIVAS_TEST_FINDATA_CSV));
+		final FinChartData cd = FinChartData.create(FileCsvDao.read(HOME_SIVAS_TEST_FINDATA_CSV));
 		cd.add(new Date(), BigDecimal.valueOf(666));
 		FileCsvDao.write(HOME_SIVAS_TEST_FINDATA_CSV, cd.getRawData());
 	}
 
 	@Test
 	public void test() {
-		ChartData cd = ChartData.create();
+		FinChartData cd = FinChartData.create();
 
 		final Date date = DateUtils.toDate(LocalDate.of(2018, 3, 15));
 
@@ -61,7 +61,7 @@ public class ChartDataTest {
 		FileCsvDao.write(fileName, rawData);
 
 		final Csv read = FileCsvDao.read(fileName);
-		final ChartData readCd = ChartData.create(read);
+		final FinChartData readCd = FinChartData.create(read);
 		final BigDecimal data = readCd.getData(date);
 		System.out.println(data);
 	}

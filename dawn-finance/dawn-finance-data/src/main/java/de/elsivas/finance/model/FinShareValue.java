@@ -2,11 +2,11 @@ package de.elsivas.finance.model;
 
 import java.math.BigDecimal;
 
-import de.elsivas.finance.data.ChartData;
+import de.elsivas.finance.data.FinChartData;
 
-public interface ESFinShareValue {
+public interface FinShareValue {
 	
-	Chart getChart();
+	FinChart getChart();
 	
 	BigDecimal getExpectedEarnings();
 	

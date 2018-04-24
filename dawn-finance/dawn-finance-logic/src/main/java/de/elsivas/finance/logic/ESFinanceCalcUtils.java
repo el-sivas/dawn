@@ -8,13 +8,13 @@ import java.util.Date;
 
 import de.elsivas.basic.DateUtils;
 import de.elsivas.basic.EsRuntimeException;
-import de.elsivas.finance.model.Chart;
+import de.elsivas.finance.model.FinChart;
 
 public class ESFinanceCalcUtils {
 
 	private static final MathContext DEFAULT_MC = new MathContext(7, RoundingMode.HALF_UP);
 
-	public static BigDecimal calcSMA(Chart cd, int days) {
+	public static BigDecimal calcSMA(FinChart cd, int days) {
 		BigDecimal sum = BigDecimal.ZERO;
 		for (int i = 0; i < days; i++) {
 			final Date date = DateUtils.toDate(LocalDate.now().minusDays(i));
@@ -27,7 +27,7 @@ public class ESFinanceCalcUtils {
 		return sum.divide(BigDecimal.valueOf(days), DEFAULT_MC);
 	}
 
-	public static BigDecimal calcWMA(final Chart cd, int days) {
+	public static BigDecimal calcWMA(final FinChart cd, int days) {
 		final BigDecimal wmaMin = BigDecimal.valueOf(Double.valueOf(ESFinConfig.get(ESFinConfig.WMA_MIN)));
 		final BigDecimal diff = BigDecimal.ONE.subtract(wmaMin);
 		final BigDecimal weightLossPerDay = diff.divide(BigDecimal.valueOf(days), DEFAULT_MC);

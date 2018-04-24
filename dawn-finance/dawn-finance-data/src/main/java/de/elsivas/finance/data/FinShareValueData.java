@@ -2,12 +2,12 @@ package de.elsivas.finance.data;
 
 import java.math.BigDecimal;
 
-import de.elsivas.finance.model.Chart;
-import de.elsivas.finance.model.ESFinShareValue;
+import de.elsivas.finance.model.FinChart;
+import de.elsivas.finance.model.FinShareValue;
 
-public class ESFinShareValueData implements ESFinShareValue {
+public class FinShareValueData implements FinShareValue {
 
-	private Chart chart;
+	private FinChart chart;
 	private BigDecimal expectedEarnings;
 	private BigDecimal currentStockPrice;
 	private BigDecimal umsatz;
@@ -17,7 +17,7 @@ public class ESFinShareValueData implements ESFinShareValue {
 	private BigDecimal bookValuePerShare;
 
 	@Override
-	public Chart getChart() {
+	public FinChart getChart() {
 		return chart;
 	}
 

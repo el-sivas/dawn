@@ -19,18 +19,21 @@ public class FinanceXDownloader implements FinanceX, FinConfiguration {
 
 	private final static String PORTAL = "portal";
 
+	private final static String TARGET = "target";
+
 	@Override
 	public List<String> getConfig() {
-		return Arrays.asList(DOWNLOAD_LIST,PORTAL);
+		return Arrays.asList(DOWNLOAD_LIST, PORTAL, TARGET);
 	}
 
 	@Override
 	public void run() {
 		final List<String> downloadList = Arrays.asList(ESFinConfig.get(DOWNLOAD_LIST).split(";"));
 		final Portals portal = Portals.valueOf(ESFinConfig.get(PORTAL).toUpperCase());
+		final String targetFile = ESFinConfig.get(TARGET);
 		switch (portal) {
 		case ONVISTA:
-			downloadOnvista(downloadList);
+			downloadOnvista(downloadList, targetFile);
 			break;
 
 		default:
@@ -38,11 +41,10 @@ public class FinanceXDownloader implements FinanceX, FinConfiguration {
 		}
 	}
 
-	private void downloadOnvista(List<String> downloadList) {
+	private void downloadOnvista(List<String> downloadList, String targetFile) {
 		for (String wertpapier : downloadList) {
-			final String download = ESFinOnvistaDownloadUtils.downloadToFile(Wertpapier.valueOf(wertpapier));
-			
-		}		
+			ESFinOnvistaDownloadUtils.downloadToFile(Wertpapier.valueOf(wertpapier), targetFile);
+		}
 	}
 
 }

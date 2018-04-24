@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
-import de.elsivas.finance.model.ESFinShareValue;
+import de.elsivas.finance.model.FinShareValue;
 
 
 public class ESFinanceFundamentalCalcUtils {
@@ -14,42 +14,42 @@ public class ESFinanceFundamentalCalcUtils {
 	/**
 	 * Eigenkaptialquote
 	 */
-	public BigDecimal calcEKQ(ESFinShareValue value) {
+	public BigDecimal calcEKQ(FinShareValue value) {
 		return value.getEquity().divide(value.getOverallCapital(), DEFAULT_MATH_CONTEXT);
 	}
 
 	/**
 	 * Gesamtkapitalrendite
 	 */
-	public BigDecimal calcGKR(ESFinShareValue value) {
+	public BigDecimal calcGKR(FinShareValue value) {
 		return null;
 	}
 
 	/**
 	 * Kurs-Gewinn-Verhältnis
 	 */
-	public BigDecimal calcKGV(ESFinShareValue value) {
+	public BigDecimal calcKGV(FinShareValue value) {
 		return value.getCurrentStockPrice().divide(value.getExpectedEarnings(), DEFAULT_MATH_CONTEXT);
 	}
 
 	/**
 	 * Kurs-Cashflow-Verhältnis
 	 */
-	public BigDecimal calcKCV(ESFinShareValue value) {
+	public BigDecimal calcKCV(FinShareValue value) {
 		return value.getCurrentStockPrice().divide(value.getCashflowPerShare(), DEFAULT_MATH_CONTEXT);
 	}
 
 	/**
 	 * Kurs-Buchwert-Verhältnis
 	 */
-	public BigDecimal calcKBV(ESFinShareValue value) {
+	public BigDecimal calcKBV(FinShareValue value) {
 		return value.getCurrentStockPrice().divide(value.getBookValuePerShare(), DEFAULT_MATH_CONTEXT);
 	}
 
 	/**
 	 * Kurs-Umsatz-Verhältni
 	 */
-	public BigDecimal calcKUV(ESFinShareValue value) {
+	public BigDecimal calcKUV(FinShareValue value) {
 		return value.getCurrentStockPrice().divide(value.getRevenue(), DEFAULT_MATH_CONTEXT);
 	}
 

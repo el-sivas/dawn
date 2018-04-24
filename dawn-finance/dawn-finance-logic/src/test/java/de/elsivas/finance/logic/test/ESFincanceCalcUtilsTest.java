@@ -13,7 +13,7 @@ import org.junit.Test;
 import de.elsivas.basic.DateUtils;
 import de.elsivas.finance.logic.ESFinConfig;
 import de.elsivas.finance.logic.ESFinanceCalcUtils;
-import de.elsivas.finance.model.Chart;
+import de.elsivas.finance.model.FinChart;
 
 public class ESFincanceCalcUtilsTest {
 
@@ -29,7 +29,7 @@ public class ESFincanceCalcUtilsTest {
 		Map<String, String> config = new HashMap<>();
 		config.put(ESFinConfig.WMA_MIN, String.valueOf(0.5));
 		ESFinConfig.init(config);
-		final Chart dataset = dataset(map2);
+		final FinChart dataset = dataset(map2);
 
 		final BigDecimal sma = ESFinanceCalcUtils.calcSMA(dataset, 3);
 		Assert.assertTrue(BigDecimal.valueOf(900).equals(sma));
@@ -44,7 +44,7 @@ public class ESFincanceCalcUtilsTest {
 		Map<String, String> config = new HashMap<>();
 		config.put(ESFinConfig.WMA_MIN, String.valueOf(0.5));
 		ESFinConfig.init(config);
-		final Chart cd = dataset(map);
+		final FinChart cd = dataset(map);
 
 		final BigDecimal sma = ESFinanceCalcUtils.calcSMA(cd, 38);
 		Assert.assertTrue(BigDecimal.valueOf(1008.315).equals(sma));
@@ -53,8 +53,8 @@ public class ESFincanceCalcUtilsTest {
 		Assert.assertTrue(BigDecimal.valueOf(1006.629).equals(wma));
 	}
 
-	private Chart dataset(Map<Date, BigDecimal> cdMap) {
-		return new Chart() {
+	private FinChart dataset(Map<Date, BigDecimal> cdMap) {
+		return new FinChart() {
 
 			@Override
 			public BigDecimal getData(Date date) {

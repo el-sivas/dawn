@@ -15,15 +15,15 @@ import java.util.stream.Collectors;
 import de.elsivas.basic.EsRuntimeException;
 import de.elsivas.basic.file.csv.Csv;
 import de.elsivas.basic.file.csv.CsvLine;
-import de.elsivas.finance.model.Chart;
+import de.elsivas.finance.model.FinChart;
 
-public class ChartData implements Chart {
+public class FinChartData implements FinChart {
 
 	private static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
 
 	private Map<Date, BigDecimal> mappedData = new HashMap<Date, BigDecimal>();
 
-	private ChartData(final Csv csv) {
+	private FinChartData(final Csv csv) {
 		while (csv.hasNext()) {
 			final CsvLine line = csv.next();
 			final Date date = parse(line.getValue(ChartDataType.DATE.toString()), Date.class);
@@ -46,14 +46,14 @@ public class ChartData implements Chart {
 		return csv;
 	}
 	
-	public static ChartData create() {
+	public static FinChartData create() {
 		final List<String> titles = Arrays.asList(ChartDataType.values()).stream().map(e -> e.toString())
 				.collect(Collectors.toList());
 		final Csv csv = Csv.createEmpty(titles);
-		return ChartData.create(csv);
+		return FinChartData.create(csv);
 	}
 
-	public static ChartData create(Csv csv) {
+	public static FinChartData create(Csv csv) {
 		final List<String> colTitles = Arrays.asList(ChartDataType.values()).stream().map(e -> e.toString())
 				.collect(Collectors.toList());
 
@@ -63,7 +63,7 @@ public class ChartData implements Chart {
 				throw new EsRuntimeException("no valid col tilte: " + title);
 			}
 		}
-		return new ChartData(csv);
+		return new FinChartData(csv);
 	}
 
 	public BigDecimal getData(final Date date) {
