@@ -8,6 +8,7 @@ import java.util.Date;
 
 import de.elsivas.basic.DateUtils;
 import de.elsivas.basic.EsRuntimeException;
+import de.elsivas.finance.logic.config.FinConfig;
 import de.elsivas.finance.model.FinChart;
 
 public class FinCalcUtils {

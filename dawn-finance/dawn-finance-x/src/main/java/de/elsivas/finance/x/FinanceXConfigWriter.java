@@ -9,7 +9,8 @@ import java.util.Map;
 import de.elsivas.basic.ESClassesUtils;
 import de.elsivas.basic.EsRuntimeException;
 import de.elsivas.basic.filedao.KeyValueDao;
-import de.elsivas.finance.logic.FinConfiguration;
+import de.elsivas.finance.logic.config.FinConfig;
+import de.elsivas.finance.logic.config.FinConfigurable;
 
 /**
  * Writes emtpy config file per
@@ -30,31 +31,20 @@ public class FinanceXConfigWriter implements FinanceX {
 
 	}
 
+	@SuppressWarnings("rawtypes")
 	private void runInternal() throws InstantiationException, IllegalAccessException, ClassNotFoundException {
 		final File file = new File(OUTPUT_DIR);
 		if (!file.isDirectory()) {
 			throw new EsRuntimeException("no dir: " + OUTPUT_DIR);
 		}
 
-		final Collection<Class> cs = ESClassesUtils.findSubclassesOf(FinConfiguration.class);
+		final Collection<Class> cs = ESClassesUtils.findSubclassesOf(FinConfigurable.class);
 		for (Class c : cs) {
-			final FinConfiguration config = FinConfiguration.class.cast(c.newInstance());
+			final FinConfigurable config = FinConfigurable.class.cast(c.newInstance());
 
-			String configFileName = config.getConfigFileName();
-			if (configFileName == null) {
-				configFileName = config.getClass().getSimpleName();
+			for (String string : config.getConfig()) {
+				FinConfig.set(string, "novalue");
 			}
-
-			final String fileName = OUTPUT_DIR + "/" + configFileName + ".config.txt";
-
-			final List<String> config2 = config.getConfig();
-			Map<String, String> values = new HashMap<>();
-			for (String string : config2) {
-				values.put(string, "");
-			}
-
-			KeyValueDao.write(fileName, values);
-
 		}
 	}
 

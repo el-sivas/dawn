@@ -7,8 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import de.elsivas.basic.DateUtils;
+import de.elsivas.finance.logic.Wertpapier;
 
-public class ESFinOnvistaDownloadLinkBuilder {
+public class FinOnvistaDownloadLinkBuilder {
 
 	private static final Map<String, String> map = new HashMap<>();
 
@@ -18,6 +19,10 @@ public class ESFinOnvistaDownloadLinkBuilder {
 
 	static {
 		map.put("DE0008469008", "20735");
+	}
+
+	public static String buildDownloadLink(Wertpapier wp) {
+		return buildDownloadLink(wp.getIsin());
 	}
 
 	public static String buildDownloadLink(String isin) {
