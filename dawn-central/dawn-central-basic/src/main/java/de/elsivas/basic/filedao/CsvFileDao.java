@@ -11,9 +11,9 @@ import de.elsivas.basic.EsIOUtils;
 import de.elsivas.basic.file.csv.Csv;
 import de.elsivas.basic.file.csv.CsvLine;
 
-public class FileCsvDao {
+public class CsvFileDao {
 	
-	private static final Log LOG = LogFactory.getLog(FileCsvDao.class);
+	private static final Log LOG = LogFactory.getLog(CsvFileDao.class);
 
 	private static final String SEMICOLON = ";";
 

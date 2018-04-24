@@ -7,7 +7,7 @@ import java.math.RoundingMode;
 import de.elsivas.finance.model.FinShareValue;
 
 
-public class ESFinanceFundamentalCalcUtils {
+public class FinFundamentalCalcUtils {
 
 	private static final MathContext DEFAULT_MATH_CONTEXT = new MathContext(7, RoundingMode.HALF_UP);
 

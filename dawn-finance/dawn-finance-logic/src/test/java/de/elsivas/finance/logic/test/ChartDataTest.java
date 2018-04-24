@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import de.elsivas.basic.DateUtils;
 import de.elsivas.basic.file.csv.Csv;
-import de.elsivas.basic.filedao.FileCsvDao;
+import de.elsivas.basic.filedao.CsvFileDao;
 import de.elsivas.finance.data.FinChartData;
 import de.elsivas.finance.data.ChartDataType;
 
@@ -38,14 +38,14 @@ public class ChartDataTest {
 			final double multiplicant = 1 + (Math.random() * maxSchwankungAmTag * (Math.random() > 0.5 ? 1 : -1));
 			current = current * multiplicant;
 		}
-		FileCsvDao.write(HOME_SIVAS_TEST_FINDATA_CSV, cd.getRawData());
+		CsvFileDao.write(HOME_SIVAS_TEST_FINDATA_CSV, cd.getRawData());
 	}
 
 	@Test
 	public void test2() {
-		final FinChartData cd = FinChartData.create(FileCsvDao.read(HOME_SIVAS_TEST_FINDATA_CSV));
+		final FinChartData cd = FinChartData.create(CsvFileDao.read(HOME_SIVAS_TEST_FINDATA_CSV));
 		cd.add(new Date(), BigDecimal.valueOf(666));
-		FileCsvDao.write(HOME_SIVAS_TEST_FINDATA_CSV, cd.getRawData());
+		CsvFileDao.write(HOME_SIVAS_TEST_FINDATA_CSV, cd.getRawData());
 	}
 
 	@Test
@@ -58,9 +58,9 @@ public class ChartDataTest {
 
 		final Csv rawData = cd.getRawData();
 		final String fileName = HOME_SIVAS_TEST_FINDATA_CSV;
-		FileCsvDao.write(fileName, rawData);
+		CsvFileDao.write(fileName, rawData);
 
-		final Csv read = FileCsvDao.read(fileName);
+		final Csv read = CsvFileDao.read(fileName);
 		final FinChartData readCd = FinChartData.create(read);
 		final BigDecimal data = readCd.getData(date);
 		System.out.println(data);

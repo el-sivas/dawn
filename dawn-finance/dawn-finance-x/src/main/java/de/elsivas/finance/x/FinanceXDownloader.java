@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import de.elsivas.basic.EsRuntimeException;
-import de.elsivas.finance.logic.ESFinConfig;
+import de.elsivas.finance.logic.FinConfig;
 import de.elsivas.finance.logic.FinConfiguration;
 import de.elsivas.finance.logic.Wertpapier;
 import de.elsivas.finance.logic.portals.Portals;
@@ -28,16 +28,16 @@ public class FinanceXDownloader implements FinanceX, FinConfiguration {
 
 	@Override
 	public void run() {
-		final List<String> downloadList = Arrays.asList(ESFinConfig.get(DOWNLOAD_LIST).split(";"));
-		final Portals portal = Portals.valueOf(ESFinConfig.get(PORTAL).toUpperCase());
-		final String targetFile = ESFinConfig.get(TARGET);
+		final List<String> downloadList = Arrays.asList(FinConfig.get(DOWNLOAD_LIST).split(";"));
+		final Portals portal = Portals.valueOf(FinConfig.get(PORTAL).toUpperCase());
+		final String targetFile = FinConfig.get(TARGET);
 		switch (portal) {
 		case ONVISTA:
 			downloadOnvista(downloadList, targetFile);
 			break;
 
 		default:
-			throw new EsRuntimeException("invalid portal :" + ESFinConfig.get(PORTAL).toUpperCase());
+			throw new EsRuntimeException("invalid portal :" + FinConfig.get(PORTAL).toUpperCase());
 		}
 	}
 

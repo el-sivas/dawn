@@ -8,7 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import de.elsivas.basic.ESConsoleUtils;
 import de.elsivas.basic.EsRuntimeException;
 import de.elsivas.basic.SleepUtils;
-import de.elsivas.finance.logic.ESFinConfig;
+import de.elsivas.finance.logic.FinConfig;
 import de.elsivas.finance.logic.Wertpapier;
 
 public class ESFinOnvistaDownloadUtils {
@@ -24,7 +24,7 @@ public class ESFinOnvistaDownloadUtils {
 	public static void downloadToFile(Wertpapier wp, String target) {
 		final String downloadLink = ESFinOnvistaDownloadLinkBuilder.buildDownloadLink(wp.getIsin());
 
-		final String workdir = ESFinConfig.get(ESFinConfig.WORKDIR);
+		final String workdir = FinConfig.get(FinConfig.WORKDIR);
 		if (!new File(workdir).isDirectory()) {
 			throw new EsRuntimeException("no dir: " + workdir);
 		}

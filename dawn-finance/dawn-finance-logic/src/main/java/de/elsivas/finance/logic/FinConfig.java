@@ -7,7 +7,7 @@ import java.util.Map;
 
 import de.elsivas.basic.EsRuntimeException;
 
-public class ESFinConfig implements FinConfiguration {
+public class FinConfig implements FinConfiguration {
 
 	public static final String WORKDIR = "workdir";
 

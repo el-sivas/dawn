@@ -7,7 +7,7 @@ import org.apache.logging.log4j.core.config.Configurator;
 
 import de.elsivas.basic.EsRuntimeException;
 import de.elsivas.basic.filedao.KeyValueDao;
-import de.elsivas.finance.logic.ESFinConfig;
+import de.elsivas.finance.logic.FinConfig;
 
 public class Finance {
 
@@ -21,7 +21,7 @@ public class Finance {
 		}
 		final String mode = args[0];
 		final String fileName = args[1];
-		ESFinConfig.init(new HashMap<>(KeyValueDao.read(fileName)));
+		FinConfig.init(new HashMap<>(KeyValueDao.read(fileName)));
 
 		switch (mode) {
 		case "download":
@@ -34,7 +34,7 @@ public class Finance {
 			throw new EsRuntimeException("invalid mode: " + mode);
 		}
 		financeX.run();
-		KeyValueDao.write(fileName, ESFinConfig.getValues());
+		KeyValueDao.write(fileName, FinConfig.getValues());
 		
 	}
 

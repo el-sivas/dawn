@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import de.elsivas.basic.file.csv.Csv;
 import de.elsivas.basic.file.csv.CsvLine;
-import de.elsivas.basic.filedao.FileCsvDao;
+import de.elsivas.basic.filedao.CsvFileDao;
 
 public class CsvTest {
 	
@@ -31,7 +31,7 @@ public class CsvTest {
 		List<String> data = Arrays.asList(lineData);
 		final CsvLine csvLine = CsvLine.create(csv.getTitle(), data);
 		csv.add(csvLine);
-		FileCsvDao.write(testFilename, csv);
+		CsvFileDao.write(testFilename, csv);
 
 	}
 
@@ -42,9 +42,9 @@ public class CsvTest {
 		testCsv(csv);
 
 		final String fileName = BASE_FILE_NAME + CSV;
-		FileCsvDao.write(fileName, csv);
+		CsvFileDao.write(fileName, csv);
 
-		final Csv readCsv = FileCsvDao.read(fileName);
+		final Csv readCsv = CsvFileDao.read(fileName);
 		testCsv(readCsv);
 	}
 

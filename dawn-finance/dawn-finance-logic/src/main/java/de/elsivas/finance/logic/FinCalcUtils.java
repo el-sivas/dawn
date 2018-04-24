@@ -10,7 +10,7 @@ import de.elsivas.basic.DateUtils;
 import de.elsivas.basic.EsRuntimeException;
 import de.elsivas.finance.model.FinChart;
 
-public class ESFinanceCalcUtils {
+public class FinCalcUtils {
 
 	private static final MathContext DEFAULT_MC = new MathContext(7, RoundingMode.HALF_UP);
 
@@ -28,7 +28,7 @@ public class ESFinanceCalcUtils {
 	}
 
 	public static BigDecimal calcWMA(final FinChart cd, int days) {
-		final BigDecimal wmaMin = BigDecimal.valueOf(Double.valueOf(ESFinConfig.get(ESFinConfig.WMA_MIN)));
+		final BigDecimal wmaMin = BigDecimal.valueOf(Double.valueOf(FinConfig.get(FinConfig.WMA_MIN)));
 		final BigDecimal diff = BigDecimal.ONE.subtract(wmaMin);
 		final BigDecimal weightLossPerDay = diff.divide(BigDecimal.valueOf(days), DEFAULT_MC);
 

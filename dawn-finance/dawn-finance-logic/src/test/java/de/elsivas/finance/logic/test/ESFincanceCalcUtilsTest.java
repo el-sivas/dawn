@@ -11,8 +11,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.elsivas.basic.DateUtils;
-import de.elsivas.finance.logic.ESFinConfig;
-import de.elsivas.finance.logic.ESFinanceCalcUtils;
+import de.elsivas.finance.logic.FinConfig;
+import de.elsivas.finance.logic.FinCalcUtils;
 import de.elsivas.finance.model.FinChart;
 
 public class ESFincanceCalcUtilsTest {
@@ -27,14 +27,14 @@ public class ESFincanceCalcUtilsTest {
 		map2.put(DateUtils.toDate(LocalDate.now().minusDays(2)), BigDecimal.valueOf(800));
 
 		Map<String, String> config = new HashMap<>();
-		config.put(ESFinConfig.WMA_MIN, String.valueOf(0.5));
-		ESFinConfig.init(config);
+		config.put(FinConfig.WMA_MIN, String.valueOf(0.5));
+		FinConfig.init(config);
 		final FinChart dataset = dataset(map2);
 
-		final BigDecimal sma = ESFinanceCalcUtils.calcSMA(dataset, 3);
+		final BigDecimal sma = FinCalcUtils.calcSMA(dataset, 3);
 		Assert.assertTrue(BigDecimal.valueOf(900).equals(sma));
 
-		final BigDecimal wma = ESFinanceCalcUtils.calcWMA(dataset, 3);
+		final BigDecimal wma = FinCalcUtils.calcWMA(dataset, 3);
 		Assert.assertTrue(BigDecimal.valueOf(913.3333).equals(wma));
 
 	}
@@ -42,14 +42,14 @@ public class ESFincanceCalcUtilsTest {
 	@Test
 	public void test() {
 		Map<String, String> config = new HashMap<>();
-		config.put(ESFinConfig.WMA_MIN, String.valueOf(0.5));
-		ESFinConfig.init(config);
+		config.put(FinConfig.WMA_MIN, String.valueOf(0.5));
+		FinConfig.init(config);
 		final FinChart cd = dataset(map);
 
-		final BigDecimal sma = ESFinanceCalcUtils.calcSMA(cd, 38);
+		final BigDecimal sma = FinCalcUtils.calcSMA(cd, 38);
 		Assert.assertTrue(BigDecimal.valueOf(1008.315).equals(sma));
 
-		final BigDecimal wma = ESFinanceCalcUtils.calcWMA(cd, 38);
+		final BigDecimal wma = FinCalcUtils.calcWMA(cd, 38);
 		Assert.assertTrue(BigDecimal.valueOf(1006.629).equals(wma));
 	}
 
