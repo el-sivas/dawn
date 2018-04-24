@@ -1,23 +1,23 @@
-package de.elsivas.finance.logic.download;
+package de.elsivas.finance.logic.portals.onvista;
 
 import de.elsivas.basic.ESConsoleUtils;
-import de.elsivas.basic.EsIOUtils;
-import de.elsivas.basic.file.csv.Csv;
-import de.elsivas.basic.filedao.FileCsvDao;
 import de.elsivas.finance.logic.Wertpapier;
 
 public class ESFinOnvistaDownloadUtils {
 
 	private static final String TMP_FILE_LOCATION = "/tmp/export.csv";
 
-	public static String download(Wertpapier wp) {
-		final String downloadLink = ESFinOnvista.getDownloadLink(wp.getIsin());
+	/**
+	 * Filename where downloaded
+	 */
+	public static String downloadToFile(Wertpapier wp) {
+		final String downloadLink = ESFinOnvistaDownloadLinkBuilder.buildDownloadLink(wp.getIsin());
 		final StringBuilder sb = new StringBuilder();
 		sb.append("wget -O " + TMP_FILE_LOCATION + " ");
 		sb.append(downloadLink);
 		final String command = sb.toString();
 		ESConsoleUtils.runConsoleCommand(command);
-		return EsIOUtils.readFile(TMP_FILE_LOCATION);
+		return TMP_FILE_LOCATION;
 	}
 
 }

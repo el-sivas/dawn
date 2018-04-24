@@ -1,4 +1,4 @@
-package de.elsivas.finance.logic.download;
+package de.elsivas.finance.logic.portals.onvista;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -8,7 +8,7 @@ import java.util.Map;
 
 import de.elsivas.basic.DateUtils;
 
-public class ESFinOnvista {
+public class ESFinOnvistaDownloadLinkBuilder {
 
 	private static final Map<String, String> map = new HashMap<>();
 
@@ -20,7 +20,7 @@ public class ESFinOnvista {
 		map.put("DE0008469008", "20735");
 	}
 
-	public static String getDownloadLink(String isin) {
+	public static String buildDownloadLink(String isin) {
 		final String notationId = map.get(isin);
 		final StringBuilder sb = new StringBuilder();
 		sb.append(BASE_URL);
