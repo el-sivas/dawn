@@ -1,26 +1,28 @@
-package de.elsivas.finance.download;
+package de.elsivas.finance.x;
 
 import de.elsivas.basic.EsRuntimeException;
-import de.elsivas.finance.logic.FinDownloader;
+import de.elsivas.finance.logic.FinParser;
 import de.elsivas.finance.logic.config.FinConfig;
 import de.elsivas.finance.logic.portals.Portal;
-import de.elsivas.finance.logic.portals.onvista.FinOnvistaDownloadUtils;
-import de.elsivas.finance.x.FinanceX;
+import de.elsivas.finance.logic.portals.onvista.FinOnvistaDataParserUtils;
 
-public class FinanceXDownloader implements FinanceX {
+public class FinanceXParser implements FinanceX {
 	
-	private FinDownloader downloader;
+	private FinParser finParser;
 
 	@Override
 	public void run() {
 		final Portal portal = Portal.of(FinConfig.get(FinConfig.PORTAL));
+
 		switch (portal) {
 		case ONVISTA:
-			downloader = FinOnvistaDownloadUtils.getInstance();
+			finParser = FinOnvistaDataParserUtils.instance;
 			break;
+
 		default:
 			throw new EsRuntimeException("not supported: " + portal);
 		}
-		downloader.downloadAndSave();		
+		finParser.parseAndSave();
 	}
+
 }

@@ -1,15 +1,20 @@
 package de.elsivas.basic.file.csv;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import de.elsivas.basic.EsRuntimeException;
 
 public class CsvLine {
 
-	private List<String> title = new ArrayList<>();
+	private final List<String> title = new ArrayList<>();
 
-	private List<String> data = new ArrayList<>();
+	private final List<String> data = new ArrayList<>();
 
 	private CsvLine(final List<String> title, final List<String> data) {
 		this.title.addAll(title);
@@ -33,9 +38,18 @@ public class CsvLine {
 		return getValue(valueTitle, String.class);
 	}
 
-	public <T extends Object> T getValue(String valueTitle, Class<T> type) {
-		final int indexOf = title.indexOf(valueTitle);
-		final String value = data.get(indexOf);
+	/**
+	 *
+	 * @param colTitle
+	 * @param type
+	 *            supported: {@link String}, {@link Integer}, {@link Double},
+	 *            {@link BigDecimal}
+	 *
+	 * @return
+	 */
+	public <T extends Object> T getValue(String colTitle, Class<T> type) {
+		final int indexOf = title.indexOf(colTitle);
+		final String value = data.get(indexOf).trim();
 
 		if (String.class.equals(type)) {
 			return type.cast(value);
@@ -62,5 +76,14 @@ public class CsvLine {
 		}
 
 		return type.cast(value);
+	}
+
+	public Date getValue(String colTitle, SimpleDateFormat simpleDateFormat) {
+		try {
+			return simpleDateFormat.parse(getValue(colTitle));
+		} catch (final ParseException e) {
+			throw new EsRuntimeException("error parsing", e);
+		}
+
 	}
 }

@@ -30,7 +30,8 @@ public class FinOnvistaDownloadUtils implements FinDownloader, FinConfigurable {
 			StringBuilder commandBuilder = new StringBuilder();
 			commandBuilder.append("wget -O ");
 			commandBuilder.append(FinConfig.get(FinConfig.WORKDIR) + "/");
-			commandBuilder.append(FinFilenameUtils.generateDownloadFilename(Portal.ONVISTA));
+			commandBuilder
+					.append(FinFilenameUtils.generateDownloadFilename(Portal.ONVISTA, Wertpapier.of(valueToDownload)));
 			commandBuilder.append(" ");
 			commandBuilder.append(FinOnvistaDownloadLinkBuilder.buildDownloadLink(Wertpapier.of(valueToDownload)));
 			ESConsoleUtils.runConsoleCommand(commandBuilder.toString());

@@ -20,7 +20,10 @@ public class EsIOUtils {
 	}
 
 	public static List<String> readFileToLines(String filename) {
-		final File file = new File(filename);
+		return readFileToLines(new File(filename));
+	}
+
+	public static List<String> readFileToLines(final File file) {
 		final List<String> lines = new ArrayList<>();
 		try (FileReader fr = new FileReader(file)) {
 			final BufferedReader br = new BufferedReader(fr);
@@ -33,7 +36,7 @@ public class EsIOUtils {
 				lines.add(line);
 
 			}
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			throw new EsRuntimeException("error on read file", e);
 		}
 		return lines;
@@ -43,12 +46,12 @@ public class EsIOUtils {
 		final File file = new File(fileName);
 		try (FileWriter fw = new FileWriter(file)) {
 			try (final BufferedWriter bw = new BufferedWriter(fw)) {
-				for (String string : lines) {
+				for (final String string : lines) {
 					bw.write(string);
 					bw.newLine();
 				}
 			}
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			throw new EsRuntimeException("error on write file", e);
 		}
 	}
