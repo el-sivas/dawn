@@ -8,22 +8,22 @@ import org.apache.logging.log4j.core.config.Configurator;
 import de.elsivas.basic.protocol.Protocolant;
 import de.elsivas.finance.logic.FinProperties;
 import de.elsivas.finance.logic.FinPropertyUtils;
-import de.elsivas.finance.logic.download.FinDownloadUtils;
+import de.elsivas.finance.logic.parse.FinParseUtils;
 
-public class FinDownload {
+public class FinParse {
 
-	private static final Log LOG = LogFactory.getLog(FinDownload.class);
+	private static final Log LOG = LogFactory.getLog(FinParse.class);
 
 	private static final String VERSION = "0.1";
 
 	public static void main(String[] args) {
 		Configurator.setLevel("de.elsivas", Level.INFO);
-		LOG.info(FinDownload.class.getSimpleName());
+		LOG.info(FinParse.class.getSimpleName());
 		LOG.info("Version: " + VERSION);
 
-		final FinProperties properties = FinPropertyUtils.parseToProperties(FinDownloadUtils.getOptions(), args);
+		final FinProperties properties = FinPropertyUtils.parseToProperties(FinParseUtils.getOptions(), args);
 		final Protocolant protocolant = Protocolant.instance();
-		FinDownloadUtils.download(properties, protocolant);
+		FinParseUtils.parse(properties, protocolant);
 		LOG.info(protocolant.toProtocol());
 	}
 

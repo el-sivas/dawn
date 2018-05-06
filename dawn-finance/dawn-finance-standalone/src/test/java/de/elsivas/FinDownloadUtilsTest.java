@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.elsivas.finance.logic.FinProperties;
+import de.elsivas.finance.logic.FinPropertyUtils;
 import de.elsivas.finance.logic.download.FinDownloadUtils;
 
 public class FinDownloadUtilsTest {
@@ -20,8 +21,8 @@ public class FinDownloadUtilsTest {
 
 	@Before
 	public void init() {
-		String[] args = "-p onvista -w /tmp -d dax".split(" ");		
-		properties = FinDownloadUtils.parseArgsToProperties(args);
+		String[] args = "-p onvista -w /tmp -d dax".split(" ");
+		properties = FinPropertyUtils.parseToProperties(FinDownloadUtils.getOptions(), args);
 
 	}
 
