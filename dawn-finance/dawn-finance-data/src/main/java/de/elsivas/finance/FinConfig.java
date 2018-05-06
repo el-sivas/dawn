@@ -25,8 +25,6 @@ public class FinConfig implements FinConfigurable {
 	public static final String IMPORT_FILE_PREFIX = "IMPORT_FILE_PREFIX";
 	public static final String SHARE_VALUE_DB_FILE = "SHARE_VALUE_DB_FILE";
 
-	private static boolean initialized = false;
-
 	private static Map<String, String> map = new HashMap<>();
 
 	private static Map<String, String> defaults = new HashMap<>();
@@ -60,7 +58,6 @@ public class FinConfig implements FinConfigurable {
 	public static void init(Map<String, String> config) {
 		map.clear();
 		map.putAll(config);
-		initialized = true;
 	}
 
 	public static void set(String key, String value) {

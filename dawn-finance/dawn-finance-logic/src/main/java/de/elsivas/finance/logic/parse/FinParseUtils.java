@@ -53,7 +53,8 @@ public class FinParseUtils {
 			}
 		}
 
-		final String filename = workdir + "/IMP_" + portal.toString() + "_" + +System.currentTimeMillis() + ".csv";
+		final String filename = workdir + "/" + FinConfig.get(FinConfig.IMPORT_FILE_PREFIX) + "_" + portal.toString() + "_" + +System.currentTimeMillis()
+				+ ".csv";
 
 		SHARE_VALUE_PERIOD_FILE_DAO.saveAll(set, filename);
 	}

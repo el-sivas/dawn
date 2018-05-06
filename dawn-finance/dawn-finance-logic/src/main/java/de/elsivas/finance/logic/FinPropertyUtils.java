@@ -17,7 +17,7 @@ public class FinPropertyUtils {
 		final CommandLine cl = CliUtils.parseArgs(options, args);
 
 		final String workdir = cl.getOptionValue(FinProperties.ARG_WORKDIR);
-		final Portal portal = Portal.valueOf(cl.getOptionValue(FinProperties.ARG_PORTAL).toUpperCase());
+		final Portal portal = portal(cl);
 		final Collection<String> downloads = downloads(cl);
 
 		return new FinProperties() {
@@ -34,6 +34,14 @@ public class FinPropertyUtils {
 				return downloads;
 			}
 		};
+	}
+
+	private static Portal portal(final CommandLine cl) {
+		final String optionValue = cl.getOptionValue(FinProperties.ARG_PORTAL);
+		if(optionValue == null) {
+			return null;
+		}
+		return Portal.valueOf(optionValue.toUpperCase());
 	}
 
 	private static List<String> downloads(final CommandLine cl) {

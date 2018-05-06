@@ -36,13 +36,17 @@ public class ShareValuePeriodFileDao {
 	}
 
 	public void save(ShareValuePeriod svp) {
-		final Set<ShareValuePeriod> all = loadAll();
+		final Set<ShareValuePeriod> all = findAllFromDatabase();
 		all.add(svp);
 		saveReallyAll(all);
 	}
 
 	public void saveAll(Set<ShareValuePeriod> all, final String filename) {
-		if (new File(filename).exists()) {
+		saveAll(all, filename, false);
+	}
+
+	public void saveAll(Set<ShareValuePeriod> all, final String filename, boolean overwrite) {
+		if (new File(filename).exists() && !overwrite) {
 			throw new EsRuntimeException("file already exists:" + filename);
 		}
 		saveAllInternal(all, filename);
@@ -83,11 +87,20 @@ public class ShareValuePeriodFileDao {
 		return FinConfig.get(FinConfig.WORKDIR) + "/" + filename;
 	}
 
-	public Set<ShareValuePeriod> loadAll() {
-		final String filename = filename(FinConfig.get(FinConfig.SHARE_VALUE_DB_FILE));
+	public Set<ShareValuePeriod> findAllFromDatabase(String workdir) {
+		final String filename = workdir + "/" + FinConfig.get(FinConfig.SHARE_VALUE_DB_FILE);
 		if (!new File(filename).exists()) {
 			return new TreeSet<>();
 		}
+		return loadAll(filename);
+	}
+
+	@Deprecated // workdir only default
+	public Set<ShareValuePeriod> findAllFromDatabase() {
+		return findAllFromDatabase(FinConfig.get(FinConfig.WORKDIR));
+	}
+
+	public Set<ShareValuePeriod> loadAll(final String filename) {
 		final Csv csv = CsvFileDao.read(filename);
 
 		Set<ShareValuePeriod> all = new TreeSet<>();

@@ -34,7 +34,7 @@ public class ShareValuePeriodFileDaoTest {
 	
 	@Test
 	public void testLoad() {
-		final Set<ShareValuePeriod> loadAll = instance.loadAll();
+		final Set<ShareValuePeriod> loadAll = instance.findAllFromDatabase();
 	}
 
 	private ShareValuePeriod create() {
