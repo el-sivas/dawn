@@ -14,7 +14,7 @@ public class FinDownload {
 
 	private static final Log LOG = LogFactory.getLog(FinDownload.class);
 
-	private static final String VERSION = "0.1";
+	private static final String VERSION = "0.3-SN";
 
 	public static void main(String[] args) {
 		Configurator.setLevel("de.elsivas", Level.INFO);
