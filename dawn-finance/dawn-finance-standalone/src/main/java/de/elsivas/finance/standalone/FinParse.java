@@ -14,7 +14,7 @@ public class FinParse {
 
 	private static final Log LOG = LogFactory.getLog(FinParse.class);
 
-	private static final String VERSION = "0.2-SN";
+	private static final String VERSION = "0.3-SN";
 
 	public static void main(String[] args) {
 		Configurator.setLevel("de.elsivas", Level.INFO);
