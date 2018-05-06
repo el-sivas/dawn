@@ -4,13 +4,11 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
 import org.apache.commons.lang3.StringUtils;
 
+import de.elsivas.basic.CliUtils;
 import de.elsivas.basic.ConsoleUtils;
 import de.elsivas.basic.EsRuntimeException;
 import de.elsivas.basic.protocol.Protocolant;
@@ -63,15 +61,6 @@ public class FinDownloadUtils {
 		}
 	}
 
-	public static CommandLine parseArgs(String... args) {
-		final CommandLineParser parser = new DefaultParser();
-		try {
-			return parser.parse(getOptions(), args);
-		} catch (ParseException e) {
-			throw new EsRuntimeException("error parsing args", e);
-		}
-	}
-
 	public static Options getOptions() {
 		final Options options = new Options();
 		options.addOption(new Option(FinProperties.ARG_WORKDIR, true, "Work dir"));
@@ -81,7 +70,11 @@ public class FinDownloadUtils {
 	}
 
 	public static FinProperties parseArgsToProperties(String... args) {
-		final CommandLine cl = parseArgs(args);
+		return parseToProperties(getOptions(), args);
+	}
+
+	private static FinProperties parseToProperties(final Options options, String... args) {
+		final CommandLine cl = CliUtils.parseArgs(options, args);
 
 		final String workdir = cl.getOptionValue(FinProperties.ARG_WORKDIR);
 		final Portal portal = Portal.valueOf(cl.getOptionValue(FinProperties.ARG_PORTAL).toUpperCase());

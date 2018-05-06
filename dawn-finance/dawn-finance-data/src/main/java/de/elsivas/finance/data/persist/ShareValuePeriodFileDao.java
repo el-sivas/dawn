@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import de.elsivas.basic.EsRuntimeException;
 import de.elsivas.basic.file.csv.Csv;
 import de.elsivas.basic.filedao.CsvFileDao;
 import de.elsivas.finance.FinConfig;
@@ -37,16 +38,22 @@ public class ShareValuePeriodFileDao {
 	public void save(ShareValuePeriod svp) {
 		final Set<ShareValuePeriod> all = loadAll();
 		all.add(svp);
-		saveAll(all);
+		saveReallyAll(all);
 	}
-	
+
 	public void saveAll(Set<ShareValuePeriod> all, final String filename) {
+		if (new File(filename).exists()) {
+			throw new EsRuntimeException("file already exists:" + filename);
+		}
 		saveAllInternal(all, filename);
 	}
 
-	public void saveAll(Set<ShareValuePeriod> all) {
+	/**
+	 * Use with caution. Overwrites db-file at wrong usage!
+	 */
+	private void saveReallyAll(Set<ShareValuePeriod> reallyAll) {
 		final String filename = filename(FinConfig.get(FinConfig.SHARE_VALUE_DB_FILE));
-		saveAllInternal(all, filename);
+		saveAllInternal(reallyAll, filename);
 	}
 
 	private void saveAllInternal(Set<ShareValuePeriod> all, final String filename) {

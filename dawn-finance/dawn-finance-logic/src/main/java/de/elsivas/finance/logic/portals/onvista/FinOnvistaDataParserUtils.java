@@ -25,6 +25,7 @@ import de.elsivas.finance.logic.FinFilenameUtils;
 import de.elsivas.finance.logic.FinParser;
 import de.elsivas.finance.logic.portals.Portal;
 
+@Deprecated
 public class FinOnvistaDataParserUtils implements FinParser {
 	private static final String COL_SCHLUSS = "Schluss";
 
@@ -58,8 +59,10 @@ public class FinOnvistaDataParserUtils implements FinParser {
 	@Override
 	public void parseAndSave() {
 		final String workdir = FinConfig.get(FinConfig.WORKDIR);
+		final Portal portal = Portal.ONVISTA;
+
 		final File dir = new File(workdir);
-		final String filePrefix = FinConfig.get(FinConfig.DOWNLOAD_FILE_PREFIX) + "_" + Portal.ONVISTA.toString();
+		final String filePrefix = FinConfig.get(FinConfig.DOWNLOAD_FILE_PREFIX) + "_" + portal.toString();
 		final List<File> allFiles = Arrays.asList(dir.listFiles());
 		final List<File> onvistaDownloadFiles = allFiles.stream().filter(e -> e.getName().startsWith(filePrefix))
 				.collect(Collectors.toList());
@@ -74,7 +77,7 @@ public class FinOnvistaDataParserUtils implements FinParser {
 			}
 		}
 
-		final String filename = FinConfig.get(FinConfig.WORKDIR) + "/IMP_" + Portal.ONVISTA.toString() + "_"
+		final String filename = workdir + "/IMP_" + portal.toString() + "_"
 				+ +System.currentTimeMillis() + ".csv";
 
 		shareValuePeriodFileDao.saveAll(set, filename);

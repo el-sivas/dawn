@@ -14,6 +14,7 @@ import de.elsivas.finance.logic.FinDownloader;
 import de.elsivas.finance.logic.FinFilenameUtils;
 import de.elsivas.finance.logic.portals.Portal;
 
+@Deprecated
 public class FinOnvistaDownloadUtils implements FinDownloader, FinConfigurable {
 
 	private static final Log LOG = LogFactory.getLog(FinOnvistaDownloadUtils.class);
