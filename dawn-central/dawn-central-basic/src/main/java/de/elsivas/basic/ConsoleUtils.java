@@ -6,18 +6,15 @@ import java.io.InputStream;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-/**
- *
- * @deprecated Use ConsoleUtils instead
- *
- */
-@Deprecated
-public class ESConsoleUtils {
+public class ConsoleUtils {
 
-	private static final Log LOG = LogFactory.getLog(ESConsoleUtils.class);
+	private static final Log LOG = LogFactory.getLog(ConsoleUtils.class);
+
+	public static String determineUserHome() {
+		return System.getProperty("user.home");
+	}
 
 	public static void runConsoleCommand(final String command) {
-		ConsoleUtils.runConsoleCommand(command);
 		try {
 			runInternal(command);
 		} catch (final IOException e) {
@@ -25,8 +22,13 @@ public class ESConsoleUtils {
 		}
 	}
 
+	// TODO: error bzw. return handling. bisher geht alles auf error.
 	private static void runInternal(final String command) throws IOException {
 		final Process exec = Runtime.getRuntime().exec(command);
+		while (exec.isAlive()) {
+			LOG.debug("process alive, sleep.");
+			SleepUtils.sleepFor(50);
+		}
 
 		final String error = readInput(exec.getErrorStream());
 		final String input = readInput(exec.getInputStream());
