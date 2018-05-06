@@ -1,4 +1,4 @@
-package de.elsivas.finance.logic;
+package de.elsivas.finance.logic.calc;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
