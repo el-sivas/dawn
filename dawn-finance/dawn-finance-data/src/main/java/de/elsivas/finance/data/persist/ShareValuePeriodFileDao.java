@@ -39,8 +39,17 @@ public class ShareValuePeriodFileDao {
 		all.add(svp);
 		saveAll(all);
 	}
+	
+	public void saveAll(Set<ShareValuePeriod> all, final String filename) {
+		saveAllInternal(all, filename);
+	}
 
 	public void saveAll(Set<ShareValuePeriod> all) {
+		final String filename = filename(FinConfig.get(FinConfig.SHARE_VALUE_DB_FILE));
+		saveAllInternal(all, filename);
+	}
+
+	private void saveAllInternal(Set<ShareValuePeriod> all, final String filename) {
 		final Value[] values = ShareValuePeriod.Value.values();
 		final List<Value> asList = Arrays.asList(values);
 		final List<String> title = asList.stream().map(e -> e.toString()).collect(Collectors.toList());
@@ -60,16 +69,15 @@ public class ShareValuePeriodFileDao {
 			csv.add(ShareValuePeriodSerializer.serialize(shareValuePeriod));
 		}
 
-		CsvFileDao.write(filename(), csv);
-
+		CsvFileDao.write(filename, csv);
 	}
 
-	private String filename() {
-		return FinConfig.get(FinConfig.WORKDIR) + "/" + FinConfig.get(FinConfig.SHARE_VALUE_DB_FILE);
+	private String filename(final String filename) {
+		return FinConfig.get(FinConfig.WORKDIR) + "/" + filename;
 	}
 
 	public Set<ShareValuePeriod> loadAll() {
-		final String filename = filename();
+		final String filename = filename(FinConfig.get(FinConfig.SHARE_VALUE_DB_FILE));
 		if (!new File(filename).exists()) {
 			return new TreeSet<>();
 		}

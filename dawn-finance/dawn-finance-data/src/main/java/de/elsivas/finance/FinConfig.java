@@ -45,9 +45,7 @@ public class FinConfig implements FinConfigurable {
 	}
 
 	private static String getInternal(String key) {
-		if (!initialized) {
-			throw new EsRuntimeException("not initialized");
-		}
+
 		final String value = map.get(key);
 		if(!StringUtils.isBlank(value)) {
 			return value;

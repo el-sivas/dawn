@@ -3,6 +3,9 @@ package de.elsivas.finance.x;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.Options;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
 
@@ -28,11 +31,11 @@ public class Finance {
 			throw new IllegalArgumentException("args not valid: " + Arrays.asList(args));
 		}
 		final String mode = args[0];
-		
+
 		final String fileName;
-		if(args.length > 1) {
+		if (args.length > 1) {
 			fileName = args[1];
-			FinConfig.init(new HashMap<>(KeyValueDao.read(fileName)));			
+			FinConfig.init(new HashMap<>(KeyValueDao.read(fileName)));
 		} else {
 			fileName = "/tmp/fin/config.txt";
 		}
@@ -46,13 +49,20 @@ public class Finance {
 			break;
 		case PARSE:
 			financeX = new FinanceXParser();
-			break;		
+			break;
 		default:
 			throw new EsRuntimeException("invalid mode: " + mode);
 		}
 		financeX.run();
 		KeyValueDao.write(fileName, FinConfig.getValues());
 
+	}
+
+	private static void options() {
+		final Options options = new Options();
+		options.addOption("m", true, "set Mode").a;
+		CommandLineParser clp = new DefaultParser();
+		options.
 	}
 
 }

@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import de.elsivas.basic.ESConsoleUtils;
+import de.elsivas.basic.ConsoleUtils;
 import de.elsivas.finance.FinConfig;
 import de.elsivas.finance.FinConfigurable;
 import de.elsivas.finance.data.model.Wertpapier;
@@ -33,8 +33,9 @@ public class FinOnvistaDownloadUtils implements FinDownloader, FinConfigurable {
 			commandBuilder
 					.append(FinFilenameUtils.generateDownloadFilename(Portal.ONVISTA, Wertpapier.of(valueToDownload)));
 			commandBuilder.append(" ");
-			commandBuilder.append(FinOnvistaDownloadLinkBuilder.buildDownloadLink(Wertpapier.of(valueToDownload)));
-			ESConsoleUtils.runConsoleCommand(commandBuilder.toString());
+			commandBuilder.append(FinOnvistaDownloadLinkBuilder.instance()
+					.buildDownloadLink(Wertpapier.of(valueToDownload)));
+			ConsoleUtils.runConsoleCommand(commandBuilder.toString());
 		}
 	}
 

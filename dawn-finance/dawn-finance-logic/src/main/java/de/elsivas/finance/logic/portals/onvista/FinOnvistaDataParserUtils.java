@@ -74,12 +74,10 @@ public class FinOnvistaDataParserUtils implements FinParser {
 			}
 		}
 
-		if(true) {
-			throw new EsRuntimeException("das hier vom importer machen lassen");
-		}
-		final Set<ShareValuePeriod> all = shareValuePeriodFileDao.loadAll();
-		all.addAll(set);
-		shareValuePeriodFileDao.saveAll(all);
+		final String filename = FinConfig.get(FinConfig.WORKDIR) + "/IMP_" + Portal.ONVISTA.toString() + "_"
+				+ +System.currentTimeMillis() + ".csv";
+
+		shareValuePeriodFileDao.saveAll(set, filename);
 
 	}
 
