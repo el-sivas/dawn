@@ -18,7 +18,7 @@ import de.elsivas.finance.logic.FinProperties;
 
 public class FinImportUtils {
 
-	private static final ShareValuePeriodFileDao SHARE_VALUE_PERIOD_FILE_DAO = ShareValuePeriodFileDao.getInstance();
+	private static final ShareValuePeriodFileDao SHARE_VALUE_PERIOD_FILE_DAO = ShareValuePeriodFileDao.instance();
 
 	public static void importData(FinProperties properties, Protocolant protocolant) {
 		final String workdir = properties.getWorkdir();

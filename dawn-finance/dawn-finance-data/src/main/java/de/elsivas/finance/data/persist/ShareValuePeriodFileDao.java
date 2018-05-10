@@ -3,6 +3,7 @@ package de.elsivas.finance.data.persist;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -28,7 +29,7 @@ public class ShareValuePeriodFileDao {
 
 	}
 
-	public static ShareValuePeriodFileDao getInstance() {
+	public static ShareValuePeriodFileDao instance() {
 		if (instance == null) {
 			instance = new ShareValuePeriodFileDao();
 		}
@@ -75,8 +76,12 @@ public class ShareValuePeriodFileDao {
 		if (invalids.size() > 0) {
 			LOG.error("Invalid datasets: " + invalids.size());
 		}
+		
+		final List<ShareValuePeriod> reverted = new ArrayList<>();
+		reverted.addAll(valids);
+		Collections.reverse(reverted);
 
-		for (ShareValuePeriod shareValuePeriod : valids) {
+		for (ShareValuePeriod shareValuePeriod : reverted) {
 			csv.add(ShareValuePeriodSerializer.serialize(shareValuePeriod));
 		}
 

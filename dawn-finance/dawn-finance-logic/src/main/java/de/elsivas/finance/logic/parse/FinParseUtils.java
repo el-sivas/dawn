@@ -28,7 +28,7 @@ import de.elsivas.finance.logic.portals.Portals;
 
 public class FinParseUtils {
 
-	private static final ShareValuePeriodFileDao SHARE_VALUE_PERIOD_FILE_DAO = ShareValuePeriodFileDao.getInstance();
+	private static final ShareValuePeriodFileDao SHARE_VALUE_PERIOD_FILE_DAO = ShareValuePeriodFileDao.instance();
 
 	public static void parse(final FinProperties properties, Protocolant protocolant) {
 		final String workdir = properties.getWorkdir();

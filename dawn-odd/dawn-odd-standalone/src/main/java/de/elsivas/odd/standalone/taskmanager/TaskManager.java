@@ -81,7 +81,7 @@ public class TaskManager {
 		final int value = value(rootTask);
 		LOG.info("Value (root): " + value);
 
-		final double durationInMinutes = DateUtils.minus(LocalDateTime.now(), start) / 60.0;
+		final double durationInMinutes = DateUtils.secondsDifference(LocalDateTime.now(), start) / 60.0;
 		if (TaskConditionUtils.hasCondition(rootTask)) {
 			setNewCondition(rootTask, value, durationInMinutes);
 		}

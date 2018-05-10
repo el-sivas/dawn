@@ -9,6 +9,7 @@ public interface FinProperties {
 	String ARG_DOWNLOADS = "d";
 	String ARG_PORTAL = "p";
 	String ARG_WORKDIR = "w";
+	String ARG_VALUE = "v";
 
 	String getWorkdir();
 

@@ -10,7 +10,7 @@ import de.elsivas.basic.DateUtils;
 import de.elsivas.basic.EsRuntimeException;
 import de.elsivas.finance.FinConfig;
 import de.elsivas.finance.model.FinChart;
-
+@Deprecated
 public class FinCalcUtils {
 
 	private static final MathContext DEFAULT_MC = new MathContext(7, RoundingMode.HALF_UP);

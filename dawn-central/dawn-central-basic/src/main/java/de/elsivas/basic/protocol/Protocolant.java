@@ -1,8 +1,11 @@
 package de.elsivas.basic.protocol;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -20,7 +23,7 @@ public class Protocolant {
 
 	private static final String SDF_FORMAT = "yyyy-MM-dd_HH:mm:ss.mmm";
 
-	private static final int MAX_LENGTH = 60;
+	private static final int MAX_LENGTH = 90;
 
 	private final Map<Long, String> map = new HashMap<>();
 
@@ -32,17 +35,18 @@ public class Protocolant {
 		return new Protocolant();
 	}
 
-	public void append(final String s) {
-		synchronized (this) {
-			SleepUtils.sleepFor(1);
-			map.put(System.currentTimeMillis(), s);
-		}
+	public synchronized void append(final String s) {
+		SleepUtils.sleepFor(1);
+		map.put(System.currentTimeMillis(), s);
+
 	}
 
 	public String toProtocol() {
 		final StringBuilder sb = new StringBuilder();
 		final Set<Long> keySet = map.keySet();
-		for (final Long timestamp : keySet) {
+		final List<Long> list = new ArrayList<>(keySet);
+		Collections.sort(list);
+		for (final Long timestamp : list) {
 			final StringBuilder line = new StringBuilder();
 			line.append(timestamp(timestamp));
 			line.append(": ");
