@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>ElSivas Finance 0.1 -Configuration</title>
+</h:head>
+<h:body>
+	<h:form>
+		<div>
+			<h:link value="index" outcome="index" />
+			<h:outputText value=" | " />
+			<h:link value="download" outcome="download" />
+			<h:outputText value=" | " />
+			<h:link value="start" outcome="start" />
+			<h:outputText value=" | " />
+			<h:link value="output" outcome="output" />
+			<h:outputText value=" | " />
+			<h:link value="data" outcome="data" />
+			<h:outputText value=" | " />
+			<h:link value="config" outcome="config" />
+		</div>
+		<h:commandButton value="SAVE" action="#{configController.save}"></h:commandButton>
+
+		<hr />
+		<div>
+			<h:outputText id="basic-area" value="BASIC" />
+		</div>
+
+
+		<div>
+			<div>
+				<p:inputText value="#{configController.workdir}" size="50" />
+			</div>
+			<h:outputText value="Workdir" />
+		</div>
+		<hr />
+		<div>
+			<h:outputText id="dashboard-area" value="DASHBOARD" />
+		</div>
+
+		<div>
+			<div>
+				<p:inputText value="#{configController.dashboardDays}" size="100" />
+			</div>
+			<h:outputText id="days"
+				value="Days to analyze from newest dataset on to past" />
+		</div>
+
+
+		<div>
+			<div>
+				<p:inputText value="#{configController.analyze}" size="100" />
+			</div>
+			<h:outputText id="analyze" value="Analyze per day" />
+		</div>
+
+
+		<hr />
+		<div>
+			<h:outputText id="log-area" value="LOG" />
+		</div>
+		<div>
+			<div>
+				<p:inputTextarea rows="10" cols="100" style="font-family:courier;"
+					value="#{configController.log}" queryDelay="750" minQueryLength="4"
+					readonly="true" />
+			</div>
+			<h:outputText id="log" value="Log" />
+		</div>
+
+
+		<p:panel id="system" header="System-Info" style="margin-bottom:20px">
+			<h:panelGrid columns="2" cellpadding="10">
+				<h:outputText value="#{configController.systemInfo}" escape="false" />
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
+</h:body>
+</html>

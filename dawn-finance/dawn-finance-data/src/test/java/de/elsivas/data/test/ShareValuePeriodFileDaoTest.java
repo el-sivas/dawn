@@ -24,7 +24,7 @@ public class ShareValuePeriodFileDaoTest {
 	@Before
 	public void init() {
 		FinConfig.init(config);
-		instance = ShareValuePeriodFileDao.getInstance();
+		instance = ShareValuePeriodFileDao.instance();
 	}
 
 	@Test
@@ -34,7 +34,7 @@ public class ShareValuePeriodFileDaoTest {
 	
 	@Test
 	public void testLoad() {
-		final Set<ShareValuePeriod> loadAll = instance.loadAll();
+		final Set<ShareValuePeriod> loadAll = instance.findAllFromDatabase();
 	}
 
 	private ShareValuePeriod create() {

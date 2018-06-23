@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>ElSivas Finance 0.1</title>
+</h:head>
+<h:body>
+	<h:form>
+
+		<div>
+			<h:link value="start" outcome="start" />
+			<h:outputText value=" | " />
+			<h:link value="data" outcome="data" />
+			<h:outputText value=" | " />
+			<h:link value="config" outcome="config" />
+		</div>
+
+		<div>
+			<p:inputTextarea rows="10" cols="100" style="font-family:courier;"
+				value="#{dataController.messages}" readonly="true"
+				rendered="#{dataController.messagesOccured}" />
+		</div>
+
+		<h:commandButton value="LOAD DATA" action="#{dataController.loadData}"></h:commandButton>
+
+		<h:commandButton value="CLEAR DATA"
+			action="#{dataController.clearData}"></h:commandButton>
+
+		<h:commandButton value="UPDATE DATA"
+			action="#{dataController.updateData}"></h:commandButton>
+
+
+		<p:dataTable var="day" value="#{dataController.data}">
+
+
+			<p:column headerText="Date">
+				<h:outputText value="#{viewFormatService.format(day.date)}" />
+			</p:column>
+
+			<p:column headerText="First">
+				<h:outputText value="#{day.first}" />
+			</p:column>
+
+			<p:column headerText="Highest">
+				<h:outputText value="#{day.highest}" />
+			</p:column>
+
+			<p:column headerText="Lowest">
+				<h:outputText value="#{day.lowest}" />
+			</p:column>
+
+			<p:column headerText="Last">
+				<h:outputText value="#{day.last}" />
+			</p:column>
+
+			<p:column headerText="Value">
+				<h:outputText value="#{day.value}" />
+			</p:column>
+
+		</p:dataTable>
+	</h:form>
+</h:body>
+</html>

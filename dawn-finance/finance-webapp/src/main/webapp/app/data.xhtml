@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:body>
+
+	<ui:composition template="/template/commonLayout.xhtml">
+		<ui:define name="controller">
+			<c:set var="controller" value="#{dataController}" />
+		</ui:define>
+
+		<ui:define name="content">
+			<h:commandButton value="FIND ALL" action="#{controller.findAll}" />
+			<h:commandButton value="CLEAR ALL" action="#{controller.clearAll}" />
+			<h:commandButton value="UPDATE" action="#{controller.updateData}" />
+			
+			<p:selectOneMenu id="wertpapier" value="#{controller.wertpapier}"
+				style="width:150px">
+				<f:selectItem itemValue=""
+					noSelectionOption="true" />
+				<f:selectItems value="#{controller.wertpapiere}" />
+			</p:selectOneMenu>
+
+
+			<p:dataTable var="day" value="#{controller.data}">
+
+
+				<p:column headerText="Date">
+					<h:outputText value="#{viewFormatService.format(day.date)}" />
+				</p:column>
+
+				<p:column headerText="First">
+					<h:outputText value="#{day.first}" />
+				</p:column>
+
+				<p:column headerText="Highest">
+					<h:outputText value="#{day.highest}" />
+				</p:column>
+
+				<p:column headerText="Lowest">
+					<h:outputText value="#{day.lowest}" />
+				</p:column>
+
+				<p:column headerText="Last">
+					<h:outputText value="#{day.last}" />
+				</p:column>
+
+				<p:column headerText="Value">
+					<h:outputText value="#{day.value}" />
+				</p:column>
+
+			</p:dataTable>
+		</ui:define>
+
+	</ui:composition>
+
+</h:body>
+
+</html>

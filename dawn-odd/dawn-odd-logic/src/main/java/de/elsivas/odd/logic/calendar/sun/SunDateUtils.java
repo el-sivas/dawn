@@ -64,7 +64,7 @@ public class SunDateUtils {
 
 	private static int currentDoY0(final SunDate date) {
 		final LocalDate lastNewYearsDay = getLastNewYearsDay(date);
-		long minus = DateUtils.minus(date.localDateValue(), lastNewYearsDay);
+		long minus = DateUtils.daysDifference(date.localDateValue(), lastNewYearsDay);
 		if (minus < 0 || minus > Integer.MAX_VALUE) {
 			throw new InternalLogicException(minus + "is not valid");
 		}
