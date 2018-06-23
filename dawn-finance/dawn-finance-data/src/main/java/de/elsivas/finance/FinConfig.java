@@ -9,10 +9,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import de.elsivas.basic.EsRuntimeException;
-
 public class FinConfig implements FinConfigurable {
-	
+
 	private static final Log LOG = LogFactory.getLog(FinConfig.class);
 
 	public static final String WORKDIR = "WORKDIR";
@@ -45,14 +43,14 @@ public class FinConfig implements FinConfigurable {
 	private static String getInternal(String key) {
 
 		final String value = map.get(key);
-		if(!StringUtils.isBlank(value)) {
+		if (!StringUtils.isBlank(value)) {
 			return value;
 		}
 		final String defaultValue = defaults.get(key);
-		if(!StringUtils.isBlank(defaultValue)) {
+		if (!StringUtils.isBlank(defaultValue)) {
 			return defaultValue;
 		}
-		throw new EsRuntimeException("not configured: " + key);
+		return null;
 	}
 
 	public static void init(Map<String, String> config) {

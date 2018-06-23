@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+<h:body>
+
+	<ui:composition template="/template/commonLayout.xhtml">
+
+		<ui:define name="controller">
+			<c:set var="controller" value="#{indexController}" />
+		</ui:define>
+
+		<ui:define name="content">
+			<h1>welcome</h1>
+
+			<div>
+				<div>
+					<p:inputText value="#{controller.configFileName}" size="50"
+						readonly="#{controller.configured}" />
+				</div>
+				<h:outputText value="Config File" />
+			</div>
+
+			<h:commandButton value="CONFIGURE" action="#{controller.configure}" />
+			<h:commandButton value="DECONFIGURE"
+				action="#{controller.deconfigure}" />
+
+
+		</ui:define>
+
+	</ui:composition>
+
+</h:body>
+
+</html>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>ElSivas Finance 0.1</title>
+</h:head>
+<h:body>
+	<h:form>
+
+		<div>
+			<h:link value="index" outcome="index" />
+			<h:outputText value=" | " />
+			<h:link value="start" outcome="start" />
+			<h:outputText value=" | " />
+			<h:link value="output" outcome="output" />
+			<h:outputText value=" | " />
+			<h:link value="data" outcome="data" />
+			<h:outputText value=" | " />
+			<h:link value="config" outcome="config" />
+		</div>
+
+		<h:outputText id="dashboard" value="Dashboard" />
+		<div>
+			<h:commandButton value="REANALYZE"
+				action="#{startController.reanalyze}"></h:commandButton>
+		</div>
+		<div>
+			<p:inputText value="4-38" size="4" readonly="true"
+				style="background-color:#{startController.wma(4,38)}" />
+
+			<p:inputText value="13-38" size="4" readonly="true"
+				style="background-color:#{startController.wma(13,38)}" />
+
+			<p:inputText value="38-200" size="4" readonly="true"
+				style="background-color:#{startController.wma(38,200)}" />
+		</div>
+
+		<div>
+			<c:forEach var="idx" items="#{startController.index}">
+				<p:inputText id="d#{idx}" size="1"
+					value="#{startController.value({idx})}" readonly="true"
+					style="background-color:#{startController.color({idx})}" />
+				<p:tooltip id="toolTipTrack" for="d#{idx}" trackMouse="true">
+					<h:outputText value="#{startController.tooltip({idx})}"
+						escape="false" style="font-family:courier;" />
+				</p:tooltip>
+			</c:forEach>
+		</div>
+		<!-- 
+		<div>
+			<p:inputText id="d1" size="1" value="#{startController.value(0)}"
+				readonly="true" style="background-color:#{startController.color(0)}" />
+			<p:tooltip id="toolTipTrack" for="d1" trackMouse="true">
+				<h:outputText value="#{startController.tooltip(1)}" escape="false"
+					style="font-family:courier;" />
+			</p:tooltip>
+
+			<p:inputText size="1" value="#{startController.value(1)}"
+				readonly="true" style="background-color:#{startController.color(1)}" />
+			<p:inputText size="1" value="#{startController.value(2)}"
+				readonly="true" style="background-color:#{startController.color(2)}" />
+			<p:inputText size="1" value="#{startController.value(3)}"
+				readonly="true" style="background-color:#{startController.color(3)}" />
+			<p:inputText size="1" value="#{startController.value(4)}"
+				readonly="true" style="background-color:#{startController.color(4)}" />
+			<p:inputText size="1" value="#{startController.value(5)}"
+				readonly="true" style="background-color:#{startController.color(5)}" />
+			<p:inputText size="1" value="#{startController.value(6)}"
+				readonly="true" style="background-color:#{startController.color(6)}" />
+			<p:inputText size="1" value="#{startController.value(7)}"
+				readonly="true" style="background-color:#{startController.color(7)}" />
+			<p:inputText size="1" value="#{startController.value(8)}"
+				readonly="true" style="background-color:#{startController.color(8)}" />
+			<p:inputText size="1" value="#{startController.value(9)}"
+				readonly="true" style="background-color:#{startController.color(9)}" />
+			<p:inputText size="1" value="#{startController.value(10)}"
+				readonly="true"
+				style="background-color:#{startController.color(10)}" />
+			<p:inputText size="1" value="#{startController.value(11)}"
+				readonly="true"
+				style="background-color:#{startController.color(11)}" />
+			<p:inputText size="1" value="#{startController.value(12)}"
+				readonly="true"
+				style="background-color:#{startController.color(12)}" />
+			<p:inputText size="1" value="#{startController.value(13)}"
+				readonly="true"
+				style="background-color:#{startController.color(13)}" />
+			<p:inputText size="1" value="#{startController.value(14)}"
+				readonly="true"
+				style="background-color:#{startController.color(14)}" />
+			<p:inputText size="1" value="#{startController.value(15)}"
+				readonly="true"
+				style="background-color:#{startController.color(15)}" />
+			<p:inputText size="1" value="#{startController.value(16)}"
+				readonly="true"
+				style="background-color:#{startController.color(16)}" />
+			<p:inputText size="1" value="#{startController.value(17)}"
+				readonly="true"
+				style="background-color:#{startController.color(17)}" />
+			<p:inputText size="1" value="#{startController.value(18)}"
+				readonly="true"
+				style="background-color:#{startController.color(18)}" />
+			<p:inputText size="1" value="#{startController.value(19)}"
+				readonly="true"
+				style="background-color:#{startController.color(19)}" />
+
+		</div>
+ -->
+
+		<p:dataTable var="data" value="#{startController.analyzedData}">
+			<p:column headerText="date">
+				<h:outputText value="#{viewFormatService.format(data.date)}" />
+			</p:column>
+
+			<p:column headerText="days ago">
+				<h:outputText value="#{data.daysAgo}" />
+			</p:column>
+
+			<p:column headerText="signal">
+				<h:outputText value="#{data.signal}" />
+			</p:column>
+
+		</p:dataTable>
+
+
+	</h:form>
+</h:body>
+</html>

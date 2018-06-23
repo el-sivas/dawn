@@ -16,6 +16,8 @@
 		<module>dawn-finance-data</module>
 		<module>dawn-finance-x</module>
 		<module>dawn-finance-standalone</module>
+		<module>finance-webapp</module>
+		<module>finance-view</module>
 	</modules>
 
 	<properties>

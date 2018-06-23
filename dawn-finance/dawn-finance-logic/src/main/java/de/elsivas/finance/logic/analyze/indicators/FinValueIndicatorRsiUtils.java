@@ -6,8 +6,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.junit.runner.Result;
-
 import de.elsivas.basic.BaseCalcUtils;
 import de.elsivas.finance.data.model.ShareValuePeriod;
 
@@ -32,7 +30,7 @@ public class FinValueIndicatorRsiUtils {
 		 */
 		for (int i = 0; i < relevantTime.size(); i++) {
 			final ShareValuePeriod today = relevantTime.get(i);
-			// result.add(method2(today));
+			 result.add(method2(today));
 			result.add(startToEnd(today));
 			if (i == 0) {
 				continue;

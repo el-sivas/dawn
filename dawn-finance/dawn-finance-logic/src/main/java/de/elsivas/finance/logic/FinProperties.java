@@ -15,6 +15,9 @@ public interface FinProperties {
 
 	Portal getPortal();
 
+	/**
+	 * Values to download i.e. "DAX"
+	 */
 	Collection<String> getDownloads();
 
 }

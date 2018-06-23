@@ -29,13 +29,13 @@ public class FinValueIndicatorsUtils {
 		return list;
 	}
 
-	private List<ShareValuePeriod> asReverseList(Collection<ShareValuePeriod> all) {
+	private static List<ShareValuePeriod> asReverseList(Collection<ShareValuePeriod> all) {
 		final List<ShareValuePeriod> p = new ArrayList<>(all);
 		Collections.reverse(p);
 		return p;
 	}
 
-	public FinValueIndicators determine(ShareValuePeriod period, Collection<ShareValuePeriod> all) {
+	public static FinValueIndicators determine(ShareValuePeriod period, Collection<ShareValuePeriod> all) {
 		return new FinValueIndicators() {
 
 			@Override

@@ -102,7 +102,7 @@ public class FinSimpleAnalyzeUtils {
 		if (shareValuePeriod != null) {
 			return shareValuePeriod;
 		}
-		return getMapValue(map, localDate.minusDays(1), recursiveCount++);
+		return getMapValue(map, localDate.minusDays(1), ++recursiveCount);
 	}
 
 }

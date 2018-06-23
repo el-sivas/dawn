@@ -47,7 +47,12 @@ public class FinValueInterpretationUtils {
 		}
 	}
 
-	public static FinValueInterpretation determine(FinValueIndicators indicators, Collection<ShareValuePeriod> all,
+	public static FinValueInterpretation determine(FinValueIndicators indicators,
+			
+			// TODO das sollte hier nicht rein, für jeden Tag sollte es diese werte vorab geben
+			Collection<ShareValuePeriod> all,
+			
+			
 			Collection<FinValueIndicators> allIndicators) {
 		return new FinValueInterpretation() {
 

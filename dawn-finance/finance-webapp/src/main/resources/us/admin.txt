@@ -1,0 +1,2 @@
+1	as user, i can configure the working directory
+2	as user, i can see the AppLog messages	
