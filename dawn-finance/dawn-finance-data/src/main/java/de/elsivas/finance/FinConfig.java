@@ -9,10 +9,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import de.elsivas.basic.EsRuntimeException;
-
 public class FinConfig implements FinConfigurable {
-	
+
 	private static final Log LOG = LogFactory.getLog(FinConfig.class);
 
 	public static final String WORKDIR = "WORKDIR";
@@ -24,8 +22,6 @@ public class FinConfig implements FinConfigurable {
 	public static final String DOWNLOAD_FILE_PREFIX = "DOWNLOAD_FILE_PREFIX";
 	public static final String IMPORT_FILE_PREFIX = "IMPORT_FILE_PREFIX";
 	public static final String SHARE_VALUE_DB_FILE = "SHARE_VALUE_DB_FILE";
-
-	private static boolean initialized = false;
 
 	private static Map<String, String> map = new HashMap<>();
 
@@ -45,24 +41,21 @@ public class FinConfig implements FinConfigurable {
 	}
 
 	private static String getInternal(String key) {
-		if (!initialized) {
-			throw new EsRuntimeException("not initialized");
-		}
+
 		final String value = map.get(key);
-		if(!StringUtils.isBlank(value)) {
+		if (!StringUtils.isBlank(value)) {
 			return value;
 		}
 		final String defaultValue = defaults.get(key);
-		if(!StringUtils.isBlank(defaultValue)) {
+		if (!StringUtils.isBlank(defaultValue)) {
 			return defaultValue;
 		}
-		throw new EsRuntimeException("not configured: " + key);
+		return null;
 	}
 
 	public static void init(Map<String, String> config) {
 		map.clear();
 		map.putAll(config);
-		initialized = true;
 	}
 
 	public static void set(String key, String value) {

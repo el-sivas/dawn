@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>ElSivas Finance 0.1</title>
+</h:head>
+<h:body>
+	<h:form>
+
+		<div>
+			<h:link value="start" outcome="start" />
+			<h:outputText value=" | " />
+			<h:link value="output" outcome="output" />
+			<h:outputText value=" | " />
+			<h:link value="data" outcome="data" />
+			<h:outputText value=" | " />
+			<h:link value="config" outcome="config" />
+		</div>
+		<div>
+			<h:outputText value="BASIC" />
+		</div>
+
+
+		<p:dataTable var="data" value="#{outputController.data}">
+
+			<p:column headerText="">
+				<h:commandButton value="OPEN"
+					action="#{outputController.open(data)}" />
+			</p:column>
+			<p:column headerText="Date">
+				<h:outputText value="#{viewFormatService.format(data.date)}" />
+			</p:column>
+
+			<p:column headerText="Price">
+				<h:outputText value="#{data.price}" />
+			</p:column>
+
+
+			<p:column headerText="WMA4">
+				<h:outputText value="#{data.wma4}" />
+			</p:column>
+
+			<p:column headerText="WMA13">
+				<h:outputText value="#{data.wma13}" />
+			</p:column>
+
+			<p:column headerText="WMA38">
+				<h:outputText value="#{data.wma38}" />
+			</p:column>
+
+			<p:column headerText="WMA200">
+				<h:outputText value="#{data.wma200}" />
+			</p:column>
+
+		</p:dataTable>
+
+		<div>
+			<h:outputText value="ANALYZE" />
+		</div>
+
+
+		<p:dataTable var="data" value="#{outputController.analyzeData}">
+			<p:column headerText="">
+				<h:commandButton value="OPEN"
+					action="#{outputController.open(data)}" />
+			</p:column>
+
+			<p:column headerText="Date">
+				<h:outputText value="#{viewFormatService.format(data.date)}" />
+			</p:column>
+
+			<p:column headerText="Price">
+				<h:outputText value="#{data.price}" />
+			</p:column>
+
+			<p:column headerText="WMA4">
+				<h:outputText value="#{data.wma4}" />
+			</p:column>
+
+			<p:column headerText="WMA13">
+				<h:outputText value="#{data.wma13}" />
+			</p:column>
+
+			<p:column headerText="WMA38">
+				<h:outputText value="#{data.wma38}" />
+			</p:column>
+
+			<p:column headerText="WMA200">
+				<h:outputText value="#{data.wma200}" />
+			</p:column>
+
+		</p:dataTable>
+
+		<p:inputText value="#{outputController.newValue}" size="4" />
+
+		<h:commandButton value="CREATE"
+			action="#{outputController.createNewValue}"></h:commandButton>
+
+		<c:if test="#{outputController.value != null}">
+			<div>
+				<h:outputText value="DETAIL" />
+			</div>
+			<h:commandButton value="CLOSE" action="#{outputController.close}"></h:commandButton>
+
+			<p:inputText
+				value="#{viewFormatService.formatDate(outputController.value.date)}"
+				readonly="true" size="8">
+				<h:outputText id="value-date" value="Date:" />
+			</p:inputText>
+
+
+
+			<p:dataTable var="data" value="#{outputController.detailData}">
+
+				<p:column headerText="date">
+					<h:outputText value="#{data.date}" />
+				</p:column>
+				
+				<p:column headerText="dateNext">
+					<h:outputText value="#{data.next.date}" />
+				</p:column>
+
+				<p:column headerText="4-38">
+					<h:outputText value="#{data.wma4to38}" />
+				</p:column>
+
+				<p:column headerText="13-38">
+					<h:outputText value="#{data.wma13to38}" />
+				</p:column>
+
+				<p:column headerText="signal">
+					<h:outputText value="#{data.signal}" />
+				</p:column>
+
+			</p:dataTable>
+		</c:if>
+
+	</h:form>
+</h:body>
+</html>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>ElSivas Finance 0.1</title>
+</h:head>
+<h:body>
+	<h:form>
+		<div>
+			<h:link value="index" outcome="index" />
+			<h:outputText value=" | " />
+			<h:link value="download" outcome="download" />
+			<h:outputText value=" | " />
+			<h:link value="start" outcome="start" />
+			<h:outputText value=" | " />
+			<h:link value="output" outcome="output" />
+			<h:outputText value=" | " />
+			<h:link value="data" outcome="data" />
+			<h:outputText value=" | " />
+			<h:link value="config" outcome="config" />
+		</div>
+		
+		
+
+		<div>
+			<div>
+				<p:inputText value="#{indexController.configured}" size="50"
+					readonly="true" />
+			</div>
+			<h:outputText value="Configured" />
+		</div>
+
+		<div>
+			<div>
+				<p:inputText value="#{indexController.datasetCount}" size="50"
+					readonly="true" />
+			</div>
+			<h:outputText value="Dataset Count" />
+		</div>
+
+	</h:form>
+</h:body>
+</html>

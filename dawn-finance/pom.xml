@@ -15,10 +15,16 @@
 		<module>dawn-finance-logic</module>
 		<module>dawn-finance-data</module>
 		<module>dawn-finance-x</module>
+		<module>dawn-finance-standalone</module>
+		<module>finance-webapp</module>
+		<module>finance-view</module>
 	</modules>
 
 	<properties>
 		<dawn.central.version>0.0.1-SNAPSHOT</dawn.central.version>
+
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
 	</properties>
 
 	<dependencyManagement>
@@ -26,6 +32,11 @@
 			<dependency>
 				<groupId>de.elsivas.central</groupId>
 				<artifactId>dawn-central-basic</artifactId>
+				<version>${dawn.central.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>de.elsivas.central</groupId>
+				<artifactId>dawn-central-data</artifactId>
 				<version>${dawn.central.version}</version>
 			</dependency>
 			<dependency>

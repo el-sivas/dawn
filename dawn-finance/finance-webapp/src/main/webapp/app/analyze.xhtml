@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:body>
+
+	<ui:composition template="/template/commonLayout.xhtml">
+		<ui:define name="controller">
+			<c:set var="controller" value="#{analyzeController}" />
+		</ui:define>
+		<ui:define name="content">
+
+			<div>
+				<h:panelGrid columns="2">
+					<h:panelGroup>
+						<div>
+							<p:selectOneMenu id="wertpapier" value="#{controller.wertpapier}"
+								style="width:150px">
+								<f:selectItems value="#{controller.wertpapiere}" />
+								<f:selectItem itemValue="" noSelectionOption="true" />
+							</p:selectOneMenu>
+						</div>
+						<h:outputText value="Wertpapier" />
+					</h:panelGroup>
+					<h:panelGroup>
+						<div>
+							<script>
+								PrimeFaces.locales['de_DE'] = {
+									firstDay : 1
+								};
+							</script>
+							<p:calendar id="date" value="#{controller.date}" locale="de_DE" />
+						</div>
+						<h:outputText value="Day" />
+					</h:panelGroup>
+				</h:panelGrid>
+			</div>
+			<div>
+				<h:commandButton value="CALC" action="#{controller.calc}" />
+				<h:commandButton value="CLEAR" action="#{controller.clear}" />
+			</div>
+
+			<p:dataTable var="analyze" value="#{controller.analyzes}">
+				<p:column headerText="KPI">
+					<h:outputText value="#{analyze.kpi}" />
+				</p:column>
+				<p:column headerText="Parameters">
+					<h:outputText value="#{analyze.parameters}" />
+				</p:column>
+				<p:column headerText="Result">
+					<h:outputText value="#{analyze.result}" />
+				</p:column>
+			</p:dataTable>
+			<h:commandButton value="CREATE" action="#{controller.create}" />
+
+			<c:if test="#{controller.value != null}">
+				<hr />
+				<h:panelGrid columns="2">
+					<h:panelGroup>
+						<div>
+							<p:selectOneMenu id="kpi" value="#{controller.value.kpi}"
+								style="width:150px">
+								<f:selectItems value="#{controller.kpis}" />
+								<f:selectItem itemValue="" noSelectionOption="true" />
+							</p:selectOneMenu>
+						</div>
+						<h:outputText value="KPI" />
+					</h:panelGroup>
+					<h:panelGroup>
+						<div>
+							<p:inputText value="#{controller.value.parameters}" size="50" />
+						</div>
+						<h:outputText value="Parameters" />
+
+					</h:panelGroup>
+				</h:panelGrid>
+				<h:commandButton value="SAVE" action="#{controller.save}" />
+				<h:commandButton value="DISCARD" action="#{controller.discard}" />
+				<hr />
+
+			</c:if>
+		</ui:define>
+
+	</ui:composition>
+
+</h:body>
+
+</html>

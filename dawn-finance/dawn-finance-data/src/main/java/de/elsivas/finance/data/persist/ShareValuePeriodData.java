@@ -72,4 +72,10 @@ public class ShareValuePeriodData implements ShareValuePeriod {
 		this.last = last;
 	}
 
+	@Override
+	public String toString() {
+		return "ShareValuePeriodData [date=" + date + ", highest=" + highest + ", lowest=" + lowest + ", first=" + first
+				+ ", volume=" + volume + ", value=" + value + ", last=" + last + "]";
+	}
+
 }

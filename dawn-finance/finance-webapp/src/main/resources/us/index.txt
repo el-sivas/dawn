@@ -1,0 +1,2 @@
+1	as user, i can see if the application is configured.
+2	as user, i can see how many datasets are avaliable.

@@ -106,6 +106,13 @@
 				<artifactId>commons-cli</artifactId>
 				<version>1.4</version>
 			</dependency>
+			
+			<dependency>
+				<groupId>org.primefaces</groupId>
+				<artifactId>primefaces</artifactId>
+				<version>6.0</version>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 

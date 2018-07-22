@@ -8,25 +8,32 @@ import java.util.Map;
 
 import de.elsivas.basic.DateUtils;
 import de.elsivas.finance.data.model.Wertpapier;
+import de.elsivas.finance.logic.FinDownloadLinkBuilder;
 
-public class FinOnvistaDownloadLinkBuilder {
+public class FinOnvistaDownloadLinkBuilder implements FinDownloadLinkBuilder {
 
-	private static final Map<String, String> map = new HashMap<>();
+	private static final Map<String, String> MAP = new HashMap<>();
 
 	private static final String BASE_URL = "https://www.onvista.de/onvista/boxes/historicalquote/export.csv";
 
 	private static final String DEFAULT_SDF_FORMAT = "dd.MM.yyyy";
 
 	static {
-		map.put("DE0008469008", "20735");
+		MAP.put("DE0008469008", "20735");
+	}
+	
+	public static FinOnvistaDownloadLinkBuilder instance() {
+		return new FinOnvistaDownloadLinkBuilder();
 	}
 
-	public static String buildDownloadLink(Wertpapier wp) {
+	@Override
+	public String buildDownloadLink(Wertpapier wp) {
 		return buildDownloadLink(wp.getIsin());
 	}
 
-	public static String buildDownloadLink(String isin) {
-		final String notationId = map.get(isin);
+	@Override
+	public String buildDownloadLink(String isin) {
+		final String notationId = MAP.get(isin);
 		final StringBuilder sb = new StringBuilder();
 		sb.append(BASE_URL);
 		sb.append("?notationId=" + notationId);
